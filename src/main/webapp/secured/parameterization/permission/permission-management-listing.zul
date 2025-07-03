@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('permissionManagementListingVM') @init(permissionManagementListingVM)">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" value="Gestão de Permissões"/>
+                <button onClick="@command('addPermission')"
+                        zclass="btn btn-primary"
+                        visible="@load(not permissionManagementListingVM.popup)"
+                        label="Adicionar Permissão"/>
+            </n:div>
+            <n:div class="body">
+                <listbox id="permissionList" model="@bind(permissionManagementListingVM.permissionListModel)"
+                         sizedByContent="false">
+                    <listhead sizable="true">
+                        <listheader label="Código"/>
+                        <listheader label="Nome"/>
+                        <listheader label="Módulo"/>
+                        <listheader label="Ações"/>
+                    </listhead>
+                    <template name="model" var="permission">
+                        <listitem>
+                            <listcell label="@load(permission.code)"/>
+                            <listcell label="@load(permission.name)"/>
+                            <listcell label="@load(permission.module.name)"/>
+                            <listcell>
+                                <button onClick="@command('view', id=permission.id)"
+                                        zclass="btn btn-sm btn-info"
+                                        label="Ver"/>
+                                <button onClick="@command('edit', id=permission.id)"
+                                        zclass="btn btn-sm btn-warning"
+                                        label="Editar"/>
+                                <button onClick="@command('delete', id=permission.id)"
+                                        zclass="btn btn-sm btn-danger"
+                                        label="Apagar"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+            </n:div>
+        </div>
+    </window>
+</zk> 

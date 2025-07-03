@@ -1,0 +1,210 @@
+<zk xmlns:n="native">
+    <window viewModel="@id('immediateReceiptFormVm') @init(immediateReceiptFormVm)"
+            form="@id('immediateReceipt') @load(immediateReceiptFormVm.immediateReceipt) @save(immediateReceiptFormVm.immediateReceipt, before = 'saveOrUpdate')">
+
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(immediateReceiptFormVm.create)" value="Criar Recibo Imediato"/>
+                <label zclass="title" visible="@load(immediateReceiptFormVm.read)" value="Ver Recibo Imediato"/>
+                <label zclass="title" visible="@load(immediateReceiptFormVm.update)" value="Editar Recibo Imediato"/>
+            </n:div>
+
+            <n:div class="body">
+                <div zclass="column">
+                    <div class="row" id="divReceiptInformation">
+                        <n:div class="input-label">
+                            <label value="${labels.Number}:"/>
+                            <n:div class="row">
+                                <textbox value="@load(immediateReceipt.number)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </n:div>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="Nome do Cliente:"/>
+                            <div class="row">
+                                <textbox value="@bind(immediateReceipt.clientName)"
+                                         readonly="@load(immediateReceiptFormVm.readonly)"
+                                         onChange="@command('writeClientName',immediateReceipt=immediateReceipt )"
+                                         sclass="input"/>
+
+                                <button onClick="@command('searchClient', immediateReceipt=immediateReceipt)"
+                                        visible="@load(not immediateReceiptFormVm.read)"
+                                        zclass="btn btn-secondary"
+                                        label="${labels.Search}"/>
+                            </div>
+                        </n:div>
+                    </div>
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.PaymentMethod}:"/>
+                            <combobox model="@load(immediateReceiptFormVm.paymentMethodList)"
+                                      selectedItem="@bind(immediateReceipt.paymentMethod)"
+                                      readonly="@load(immediateReceiptFormVm.readonly)"
+                                      buttonVisible="@load(immediateReceiptFormVm.buttonVisible)"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem label="${each.name}"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.ProofNumber}:"/>
+                            <textbox value="@bind(immediateReceipt.proofNumber)"
+                                     readonly="@load(immediateReceiptFormVm.readonly)"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <n:div class="input-label">
+                                <label value="${labels.PaymentDate}:"/>
+                                <datebox valueInLocalDate="@load(immediateReceipt.date)"
+                                         readonly="@load(immediateReceiptFormVm.readonly)"
+                                         buttonVisible="@load(immediateReceiptFormVm.buttonVisible)"/>
+                            </n:div>
+                        </n:div>
+
+                        <n:div class="input-label">
+                        </n:div>
+                    </n:div>
+
+                    <div zclass="row">
+                        <n:br/>
+                        <n:hr/>
+                        <n:br/>
+                    </div>
+
+                    <div zclass="row">
+                        <div style="font-size: 1.2rem; font-weight:bold;">Criar Despesa</div>
+                    </div>
+
+                    <div class="row">
+                        <n:div class="input-label" style="flex: 1;">
+                            <label value="${labels.Service}:"/>
+                            <n:div class="row">
+                                <textbox value="@bind(immediateReceiptFormVm.immediateReceiptItem.serviceName)"
+                                         readonly="@load(immediateReceiptFormVm.readonly)"
+                                         onChange="@command('writeServiceName', immediateReceiptItem=immediateReceiptFormVm.immediateReceiptItem)"
+                                         sclass="input"/>
+
+                                <button onClick="@command('searchService',immediateReceiptItem=immediateReceiptFormVm.immediateReceiptItem )"
+                                        zclass="btn btn-secondary"
+                                        visible="@load(immediateReceiptFormVm.create)"
+                                        label="${labels.Search}"/>
+                            </n:div>
+                        </n:div>
+
+                        <div visible="@load(immediateReceiptFormVm.create)"
+                             style="display: flex; flex-direction: column">
+                            <label style="white-space: nowrap">Aplicar preço de Sócio?</label>
+                            <checkbox
+                                    onCheck="@command('applyMemberPrice', immediateReceiptItem=immediateReceiptFormVm.immediateReceiptItem)"
+                                    value="@bind(immediateReceiptFormVm.applyMemberPrice)"
+                                    mold="switch"
+                                    disabled="@bind(immediateReceiptFormVm.disabled)"/>
+                        </div>
+
+                        <div style="display: flex; gap: .5rem; flex:1; ">
+                            <n:div class="input-label">
+                                <label value="${labels.Value}:"/>
+                                <doublebox value="@bind(immediateReceiptFormVm.immediateReceiptItem.value)"
+                                           readonly="@bind(immediateReceiptFormVm.readonly)"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="${labels.Quantity}:"/>
+                                <intbox value="@bind(immediateReceiptFormVm.immediateReceiptItem.quantity)"
+                                        readonly="@load(immediateReceiptFormVm.readonly)"/>
+                            </n:div>
+                        </div>
+                    </div>
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Details}:"/>
+                            <textbox value="@bind(immediateReceiptFormVm.immediateReceiptItem.details)"
+                                     readonly="@load(immediateReceiptFormVm.readonly)"
+                                     rows="2"/>
+                        </n:div>
+                    </n:div>
+
+                    <div class="row">
+                        <button onClick="@command('addImmediateReceiptItem', immediateReceipt=immediateReceipt)"
+                                visible="@load(immediateReceiptFormVm.create)"
+                                zclass="btn btn-primary"
+                                label="Adicionar Despesa"/>
+                        <button onClick="@command('clearImmediateReceiptItemFields')" zclass="btn btn-danger"
+                                label="Limpar Formulário"/>
+                    </div>
+                </div>
+
+                <div zclass="row">
+                    <n:br/>
+                    <n:hr/>
+                    <n:br/>
+                </div>
+
+                <div zclass="row">
+                    <div style="font-size: 1.3rem; font-weight: bold">Lista de Despesas</div>
+                </div>
+
+                <n:div class="row">
+                    <listbox model="@load(immediateReceipt.immediateReceiptItemList)">
+                        <listhead>
+                            <listheader label="${labels.Service}"/>
+                            <listheader label="${labels.Unity_Value}"/>
+                            <listheader label="${labels.Quantity}"/>
+                            <listheader label="${labels.Total_Value}"/>
+                            <listheader label="${labels.Actions}" hflex="min"
+                                        visible="@load(immediateReceiptFormVm.create)"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem>
+                                <listcell label="@bind(each.serviceName)"/>
+                                <listcell label="@bind(each.value) @converter(doubleToCurrencyConverter)"/>
+                                <listcell label="@bind(each.quantity)"/>
+                                <listcell label="@bind(each.total) @converter(doubleToCurrencyConverter)"/>
+                                <listcell visible="@load(immediateReceiptFormVm.create)">
+                                    <button onClick="@command('deleteImmediateReceiptItem', immediateReceipt=immediateReceipt, immediateReceiptItem=each)"
+                                            zclass="btn btn-danger button button-img pointer" label="Apagar"/>
+                                </listcell>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+
+                    </n:div>
+                    <n:div class="input-label">
+
+                    </n:div>
+                    <n:div class="input-label">
+
+                    </n:div>
+                    <n:div class="input-label">
+                        <label value="${labels.Total}:"/>
+                        <textbox value="@load(immediateReceipt.total)" readonly="true"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div>
+                    <button onClick="@command('print', immediateReceipt=immediateReceipt)"
+                            visible="@load(immediateReceiptFormVm.read)"
+                            zclass="btn btn-primary" label="${labels.Print}"/>
+
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@bind(immediateReceiptFormVm.create)"
+                            label="Registrar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

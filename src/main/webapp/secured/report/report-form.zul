@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('reportFormVM') @init(reportFormVM)"
+            form="@id('report') @load(reportFormVM.report) @save(reportFormVM.report, before='saveOrUpdate')">
+        <div class="page form">
+
+            <n:div class="header">
+                <label zclass="title" value="Criar Denúncia" visible="@load(reportFormVM.create)"/>
+                <label zclass="title" value="Ver Denúncia" visible="@load(reportFormVM.read)"/>
+                <label zclass="title" value="Actualizar Denúncia" visible="@load(reportFormVM.update)"/>
+            </n:div>
+
+            <n:div class="body inputs">
+
+                <div style="height: 100px; overflow-x: auto; display: flex; gap: 1rem;" id="divImagens">
+                </div>
+
+                <n:div class="form-group">
+                    <label value="Nome da Denúncia"/>
+                    <textbox value="@bind(report.name)" readonly="@load(reportFormVM.read)" sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Descrição"/>
+                    <textbox value="@bind(report.description)" multiline="true" rows="3" readonly="@load(reportFormVM.read)" sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Tipo de Denúncia"/>
+                    <combobox
+                            model="@load(reportFormVM.reportTypeList)"
+                            selectedItem="@bind(reportFormVM.selectedReportType)"
+                            disabled="@load(reportFormVM.read)"
+                            readonly="@load(reportFormVM.read)"
+                            placeholder="Selecione o tipo...">
+                        <template name="model" var="reportType">
+                            <comboitem label="@load(reportType.name)" value="@load(reportType)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Status"/>
+                    <combobox model="@load(reportFormVM.statusList)"
+                              selectedItem="@bind(reportFormVM.selectedStatus)"
+                              disabled="@load(reportFormVM.read)"
+                              placeholder="Selecione o status...">
+                        <template name="model" var="status">
+                            <comboitem label="@load(status.label)" value="@load(status)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Telefones (separados por vírgula)"/>
+                    <textbox
+                            value="@bind(reportFormVM.phoneNumbersString)"
+                            rows="3"
+                            multiline="true"
+                            sclass="form-control"
+                            readonly="@load(reportFormVM.read)"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Email"/>
+                    <textbox value="@bind(report.email)" sclass="input form-control" readonly="@load(reportFormVM.read)"/>
+                </n:div>
+
+                <n:div sclass="form-group" style="border: 1px solid #ccc; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <label value="Localização" style="font-weight: bold; margin-bottom: 0.5rem; display: block;"/>
+
+                    <n:div style="display: flex; gap: 1rem; align-items: center;">
+                        <n:div style="flex: 1;">
+                            <label value="Latitude"/>
+                            <doublebox value="@bind(report.location.latitude)"
+                                       format="##########.#######"
+                                       readonly="@load(reportFormVM.read)"
+                                       sclass="input form-control"/>
+                        </n:div>
+
+                        <n:div style="flex: 1;">
+                            <label value="Longitude"/>
+                            <doublebox value="@bind(report.location.longitude)"
+                                       format="##########.#######"
+                                       readonly="@load(reportFormVM.read)"
+                                       sclass="input form-control"/>
+                        </n:div>
+                    </n:div>
+
+                    <n:div style="margin-top: 1rem;">
+                        <label value="Descrição da Localização"/>
+                        <textbox value="@bind(report.location.description)"
+                                 multiline="true" rows="3"
+                                 readonly="@load(reportFormVM.read)"
+                                 sclass="input form-control"/>
+                    </n:div>
+                </n:div>
+
+
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary" visible="@load(reportFormVM.create)" label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary" visible="@load(reportFormVM.update)" label="Actualizar"/>
+                </div>
+            </n:div>
+
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <title>chevron-left</title>
+    <g fill="#FFFFFF">
+        <polyline points="11.5 15.25 5.25 9 11.5 2.75" fill="none" stroke="#FFFFFF" stroke-linecap="round"
+                  stroke-linejoin="round" stroke-width="1.5"></polyline>
+    </g>
+</svg>

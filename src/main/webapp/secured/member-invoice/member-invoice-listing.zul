@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('memberInvoiceListingVm') @init(memberInvoiceListingVm)">
+        <div class="page">
+            <div zclass="header">
+                <label zclass="title" value="Lista de Facturas"/>
+                <button onClick="@global-command('navigate', page = 'MEMBER_INVOICE_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not memberInvoiceListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <div class="input-label">
+                            <label value="${labels.Criteria}:"/>
+                            <div sclass="row">
+                                <textbox sclass="input" value="@bind(memberInvoiceListingVm.searchTerm)"
+                                         onChange="@command('search')" instant="true"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary"
+                                        label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label">
+                        </div>
+                    </div>
+                </div>
+
+                <listbox model="@bind(memberInvoiceListingVm.memberInvoiceListModel)">
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Number}" hflex="min"/>
+                        <listheader label="${labels.Member_Name}"/>
+                        <listheader label="${labels.Payment_Period}"/>
+                        <listheader label="${labels.Date}" hflex="min"/>
+                        <listheader label="${labels.Total}" hflex="min"/>
+                        <listheader label="${labels.State}" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell>
+                                <div zclass="row">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('viewMemberInvoice', id=row.id)"
+                                            zclass="btn btn-secondary button button-img pointer" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            visible="@bind(row.pending || (row.is_last and row.cancelled))"
+                                            onClick="@command('delete', row=row)"
+                                            zclass="btn btn-danger button button-img pointer" label="Apagar"/>
+
+                                    <button tooltiptext="${labels.Print}"
+                                            onClick="@command('printMemberInvoice', id=row.id)"
+                                            zclass="btn btn-warning button button-img pointer" label="Imprimir"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.number)"/>
+                            <listcell label="@load(row.member_number_and_name)"/>
+                            <listcell label="@load(row) @converter(mapToPeriodConverter)"/>
+                            <listcell label="@load(row.date) @converter(dateFormatterConverter)"/>
+                            <listcell label="@load(row.total) @converter(doubleToCurrencyConverter)"/>
+                            <listcell>
+                                <html content="@load(row.payment_status_id) @converter(paymentStatusConverter)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+            </div>
+
+            <div zclass="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+            </div>
+        </div>
+    </window>
+</zk>

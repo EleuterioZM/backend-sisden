@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('clientFormVm') @init(clientFormVm)"
+            form="@id('client') @load(clientFormVm.client) @save(clientFormVm.client, before = 'saveOrUpdate' )">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(clientFormVm.create)" value="Criar Cliente"/>
+                <label zclass="title" visible="@load(clientFormVm.read)" value="Ver Cliente"/>
+                <label zclass="title" visible="@load(clientFormVm.update)" value="Editar Cliente"/>
+            </n:div>
+            <n:div class="body">
+
+                <n:div class="column">
+                    <n:div class="row">
+                        <h:div class="input-label">
+                            <label value="${labels.Client_Type}:"/>
+                            <combobox model="@bind(clientFormVm.clientTypeList)"
+                                      selectedItem="@bind(client.clientType)"
+                                      readonly="@load(clientFormVm.readOrUpdate)"
+                                      onSelect="@command('onSelectClientType', client=client)"
+                                      buttonVisible="@load(clientFormVm.create)"
+                                      sclass="input">
+                                <template name="model" var="clientType">
+                                    <comboitem value="@bind(clientType)" label="@bind(clientType.name)"/>
+                                </template>
+                            </combobox>
+                        </h:div>
+
+                        <div zclass="input-label" visible="@load(client.isMember)">
+                            <label value="${labels.Member_Name}:"/>
+                            <div zclass="row">
+                                <textbox value="@load(client.member.numberAndName)"
+                                         readonly="true"
+                                         sclass="input"/>
+
+                                <button onClick="@command('selectMember', client=client)"
+                                        visible="@load(clientFormVm.create)"
+                                        label="${labels.Select_Member}"
+                                        zclass="btn btn-primary button button-img pointer"/>
+
+                                <button onClick="@command('viewMember', member=client.member)"
+                                        disabled="@load(empty client.member)"
+                                        zclass="btn btn-secondary button button-img pointer" label="Ver"/>
+                            </div>
+                        </div>
+
+                        <div visible="@load(not client.isMember)" class="input-label"/>
+                        <n:div class="input-label"/>
+                    </n:div>
+
+                    <div zclass="row">
+                        <n:div class="input-label">
+                            <label value="Nome:"/>
+                            <textbox value="@bind(client.name)"
+                                     readonly="@load(clientFormVm.read)"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="NUIT:"/>
+                            <textbox value="@bind(client.nuit)"
+                                     readonly="@load(clientFormVm.read)"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="Email:"/>
+                            <textbox value="@bind(client.email)"
+                                     readonly="@load(clientFormVm.read)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label"/>
+
+                    </div>
+
+                    <div zclass="row">
+                        <n:div class="input-label">
+                            <label value="Telefone 1:"/>
+                            <textbox value="@bind(client.phone1)"
+                                     readonly="@load(clientFormVm.read)"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="Telefone 2:"/>
+                            <textbox value="@bind(client.phone2)"
+                                     readonly="@load(clientFormVm.read)"
+                                     sclass="input"/>
+                        </n:div>
+
+
+                        <n:div class="input-label">
+                            <label value="Endereço:"/>
+                            <textbox value="@bind(client.address)"
+                                     readonly="@load(clientFormVm.read)"
+                                     rows="4"
+                                     multiline="true"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label"/>
+                    </div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-primary"
+                        visible="@load(clientFormVm.create)"
+                        label="Registar"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-primary"
+                        visible="@load(clientFormVm.update)"
+                        label="Actualizar"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

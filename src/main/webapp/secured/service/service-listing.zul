@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('serviceListingVm') @init(serviceListingVm)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Serviços" visible="@load(not serviceListingVm.selection)"/>
+                <label zclass="title" value="Seleccione o serviço" visible="@load(serviceListingVm.selection)"/>
+                <button onClick="@global-command('navigate', page = 'SERVICE_FORM')"
+                        visible="@bind(not serviceListingVm.selection)"
+                        zclass="btn btn-primary"
+                        label="${labels.Create}"/>
+            </div>
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+
+                                <textbox sclass="input" instant="true" value="@bind(serviceListingVm.searchTerm)"
+                                         onChange="@command('search')"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox id="listboxMember" model="@load(serviceListingVm.serviceListModel)"
+                         selectedItems="@bind(serviceListingVm.selectedServiceList)"
+                         checkmark="@load(serviceListingVm.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"
+                                    visible="@load(not serviceListingVm.multipleSelection)"/>
+                        <listheader label="Nome"/>
+                        <listheader label="Tipo"/>
+                        <listheader label="Preço"/>
+                        <listheader label="Sócio paga?" hflex="min"/>
+                        <listheader label="Preço de Sócio"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not serviceListingVm.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('view', id=row.id)"
+                                            visible="@load(not serviceListingVm.singleSelection)"
+                                            zclass="btn btn-secondary" label="Ver">
+                                    </button>
+
+                                    <button onClick="@command('edit', id=row.id)"
+                                            visible="@load(not serviceListingVm.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar">
+                                    </button>
+
+                                    <button onClick="@command('delete', id=row)"
+                                            visible="@load(not serviceListingVm.singleSelection)"
+                                            zclass="btn btn-danger" label="Apagar">
+                                    </button>
+
+                                    <button onClick="@command('select', row=row)"
+                                            visible="@load(serviceListingVm.singleSelection)"
+                                            zclass="btn btn-primary"
+                                            label="${labels.Select}"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.service_type_name)"/>
+                            <listcell label="@load(row.price) @converter(doubleToCurrencyConverter)"/>
+                            <listcell label="@load(row.charge_member) @converter(booleanConverter)"/>
+                            <listcell label="@load(row.member_price) @converter(doubleToCurrencyConverter)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+                    <button onClick="@command('select')"
+                            visible="@load(serviceListingVm.selection)"
+                            zclass="btn btn-primary"
+                            label="@load(c:cat3('Seleccionar ', serviceListingVm.selectedServiceList.size(), ' serviços'))"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

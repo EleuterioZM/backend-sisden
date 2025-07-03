@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('memberInvoiceFormVm') @init(memberInvoiceFormVm)"
+            form="@id('memberInvoice') @load(memberInvoiceFormVm.memberInvoice) @save(memberInvoiceFormVm.memberInvoice, before = 'saveOrUpdate')">
+        <div class="page">
+            <div zclass="header">
+                <label zclass="title" value="Facturar pagamento de Joia, Quota e Aluguer de Espaço"
+                       visible="@load(memberInvoiceFormVm.create)"/>
+                <label zclass="title" value="Ver Factura" visible="@load(memberInvoiceFormVm.read)"/>
+            </div>
+
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <div zclass="input-label">
+                            <label value="${labels.Member_Name}:"/>
+                            <div zclass="row">
+                                <textbox value="@bind(memberInvoice.member.numberAndName)"
+                                         readonly="true"
+                                         sclass="input"/>
+
+                                <button onClick="@command('selectMember', memberInvoice=memberInvoice)"
+                                        visible="@load(memberInvoiceFormVm.create)"
+                                        label="${labels.Select_Member}"
+                                        zclass="btn btn-primary button button-img pointer"/>
+
+                                <button onClick="@command('viewMember', memberInvoice=memberInvoice)"
+                                        disabled="@load(empty memberInvoice.member)"
+                                        zclass="btn btn-secondary button button-img pointer" label="Ver"/>
+                            </div>
+                        </div>
+
+                        <div zclass="row-expand">
+                            <h:div class="input-label flex-1">
+                                <label value="${labels.process_number}:"/>
+                                <textbox value="@bind(memberInvoice.member.processNumber)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </h:div>
+                            <h:div class="input-label flex-1">
+                                <label value="${labels.Number}:"/>
+                                <textbox value="@bind(memberInvoice.member.number)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </h:div>
+
+
+                            <h:div class="input-label flex-2">
+                                <label value="${labels.Member_Type}:"/>
+                                <textbox value="@bind(memberInvoice.member.memberType.name)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </h:div>
+                        </div>
+                    </div>
+
+                    <div zclass="row" visible="@load(memberInvoiceFormVm.read)">
+                        <n:div class="input-label">
+                            <label value="${labels.Number}:"/>
+                            <textbox value="@bind(memberInvoice.number)"
+                                     visible="@load(memberInvoiceFormVm.read)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Date_and_Time}:"/>
+                            <datebox valueInLocalDate="@bind(memberInvoice.date)"
+                                     visible="@load(memberInvoiceFormVm.read)"
+                                     readonly="true"
+                                     buttonVisible="false"
+                                     format="dd/MM/yyyy"
+                                     sclass="input"/>
+                        </n:div>
+                    </div>
+
+                    <div zclass="row">
+                        <h:br/>
+                        <h:hr/>
+                        <h:br/>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 1.2rem; font-weight: bold;">Ordens de Pagamento</label>
+                    </div>
+
+                    <div zclass="row">
+                        <label value="Período:"/>
+                        <textbox value="@bind(memberInvoice.period)"
+                                 id="textboxMemberInvoicePeriod"
+                                 readonly="true"
+                                 sclass="input"/>
+                        <div>
+                        </div>
+                        <div zclass="column">
+                            <button onClick="@command('addPaymentOrders', memberInvoice=memberInvoice)"
+                                    disabled="@load(memberInvoiceFormVm.read || empty memberInvoice.member)"
+                                    zclass="btn btn-primary" label="Adicionar ordem de pagamento">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <listbox model="@bind(memberInvoice.paymentOrderList)">
+                    <listhead>
+                        <listheader label="Tipo"/>
+                        <listheader label="Nome da Embarcação"/>
+                        <listheader label="Ano - Mês"/>
+                        <listheader label="Valor"/>
+                        <listheader label="Desconto"/>
+                        <listheader label="Perdão"/>
+                        <listheader label="Subtotal"/>
+                        <listheader label="Multa" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="paymentOrder">
+                        <listitem value="@load(paymentOrder)"
+                                  sclass="@load(paymentOrder.isPenalty ? 'panalty' : '')">
+                            <listcell label="@load(paymentOrder.fee.name)"/>
+                            <listcell label="@load(paymentOrder.boat.numberAndName)"/>
+                            <listcell label="@load(paymentOrder.date) @converter(dateToMonthYearConverter)"/>
+                            <listcell label="@load(paymentOrder.rawValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell
+                                    label="@load(paymentOrder.discountValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell
+                                    label="@load(paymentOrder.fineForgivenessValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell label="@load(paymentOrder.value) @converter(doubleToCurrencyConverter)"/>
+                            <listcell>
+                                <html content="@load(paymentOrder.isPenalty) @converter(isPenaltyConverter)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+
+                    <listfoot>
+                        <listfooter label="Total:" span="6" style="text-align: end"/>
+                        <listfooter span="2"
+                                    label="@bind(memberInvoice.total) @converter(doubleToCurrencyConverter)"/>
+                    </listfoot>
+                </listbox>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="Comentários e Notas:"/>
+                        <textbox value="@bind(memberInvoice.commentsAndNotes)"
+                                 readonly="@load(memberInvoiceFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </div>
+
+
+            <h:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+
+                <div zclass="row">
+                    <button onClick="@command('printMemberInvoice', memberInvoice=memberInvoice)"
+                            zclass="btn btn-warning"
+                            visible="@load(memberInvoiceFormVm.read)"
+                            label="${labels.Print}"/>
+
+                    <button onClick="@command('payMemberInvoice', memberInvoice=memberInvoice)"
+                            zclass="btn btn-primary"
+                            visible="@load(memberInvoiceFormVm.read and memberInvoice.pending)"
+                            label="${labels.Pay}"/>
+
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            disabled="@load(empty memberInvoice.paymentOrderList)"
+                            visible="@load(memberInvoiceFormVm.create)"
+                            label="Registar"/>
+
+                    <button onClick="@command('viewMemberReceipt', memberInvoice=memberInvoice)"
+                            zclass="btn btn-primary"
+                            visible="@load(memberInvoice.paid)"
+                            label="${labels.View_Receipt}"/>
+                </div>
+            </h:div>
+        </div>
+    </window>
+</zk>

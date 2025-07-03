@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('searchHouseholdVsMemberVM') @init(searchHouseholdVsMemberVM)">
+        <div class="page"
+        >
+            <n:div class="header">
+                <label zclass="title">Pesquisar Agregado e Sócio</label>
+                <button onClick="@command('navigate', page = 'MEMBER_FORM')"
+                        visible="false"
+                        zclass="btn btn-primary"
+                        label="${labels.Create}"/>
+            </n:div>
+            <n:div class="body">
+                <n:div class="inputs">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Search_Term}:"/>
+                            <textbox sclass="input"
+                                     value="@bind(searchHouseholdVsMemberVM.searchTerm)"
+                                     onChange="@command('search')" instant="true"/>
+                        </n:div>
+                    </n:div>
+                    <n:div class="footer">
+                        <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                    </n:div>
+                </n:div>
+                <n:div class="body">
+                    <listbox model="@bind(searchHouseholdVsMemberVM.abstractPLM)" pageSize="10">
+                        <listhead sizable="true">
+                            <listheader label="N&#186; de Reg. do Sócio" hflex="min"/>
+                            <listheader label="Nome do Sócio"/>
+
+                            <listheader label="Nome do Agregado" hflex="min"/>
+                            <listheader label="Tipo" hflex="min"/>
+                            <listheader label="Genero" hflex="min"/>
+                            <listheader label="Data de nascimento (idade)" hflex="min"/>
+                        </listhead>
+                        <template name="model" var="row">
+                            <listitem value="@load(dto)">
+                                <listcell label="@load(dto.number)"/>
+                                <listcell>
+                                    <div style="display: flex; justify-content: space-between; width: 100%">
+                                        <label value="@load(dto.memberName)"/>
+                                        <n:div style="display: flex; gap: .5rem">
+                                            <div onClick="@command('viewMember', dto=dto)"
+                                                 zclass="btn btn-secondary button button-img pointer">
+                                                <label value="Ver"/>
+                                            </div>
+
+                                            <div onClick="@command('editMember', dto=dto)" visible="false"
+                                                 zclass="btn btn-primary button button-img pointer">
+                                                <label value="Editar"/>
+                                            </div>
+
+                                            <div onClick="@command('deleteMember', dto=dto)" visible="false"
+                                                 zclass="btn btn-danger button button-img pointer">
+                                                <label value="Apagar"/>
+                                            </div>
+                                        </n:div>
+                                    </div>
+                                </listcell>
+
+                                <listcell>
+                                    <div style="display: flex; justify-content: space-between; width: 100%">
+                                        <label value="@load(dto.name)"/>
+                                        <div style="margin-left: 8px; display: flex; gap: 4px">
+                                            <div onClick="@command('viewHousehold', dto=dto)"
+                                                 zclass="btn btn-secondary button button-img pointer">
+                                                <label value="Ver"/>
+                                            </div>
+
+                                            <div onClick="@command('editHousehold', dto=dto)"
+                                                 zclass="btn btn-primary button button-img pointer">
+                                                <label value="Editar"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </listcell>
+                                <listcell label="@load(dto.typeLabel)"/>
+                                <listcell label="@load(dto.genderLabel)"/>
+                                <listcell label="@load(dto.birthdate)"/>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="false"
+                        zclass="btn btn-primary"
+                        label="${labels.Select}"/>
+            </n:div>
+        </div>
+
+        <menupopup id="memberListPopup">
+            <menuitem label="Ver/Editar Agregado Familiar"/>
+        </menupopup>
+    </window>
+</zk>

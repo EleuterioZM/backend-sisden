@@ -1,0 +1,474 @@
+body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-size: .9rem;
+}
+
+.z-page {
+    width: 100%;
+    height: 100%;
+}
+
+.z-window {
+    padding: 0;
+    background-color: transparent;
+    border-radius: .5rem;
+}
+
+.z-window-content {
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    border-radius: .5rem;
+    /*height: 100%;*/
+}
+
+.z-window-modal {
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    max-height: 95vh !important;
+    transform: translate3d(-50%, -50%, 0) !important;
+    /*height: 100%;*/
+}
+
+.c-page .z-tabpanel {
+    overflow-y: auto !important;
+}
+
+
+.z-messagebox-window {
+    background-color: #fff;
+}
+
+.z-label, .z-radio-content, .z-checkbox-content, .z-loading {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+/*.z-tabpanel-content{*/
+/*    height: fit-content !important;*/
+/*}*/
+
+/*.z-tabbox, .z-tabbox-accordion{*/
+/*    height: fit-content !important;*/
+/*}*/
+
+.z-tab-text {
+    text-overflow: ellipsis;
+    white-space: initial !important;
+}
+
+
+.z-tabbox {
+    position: relative;
+    overflow: initial !important;
+    background: #FFFFFF;
+    border: none;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
+    -o-border-radius: 0.25rem;
+    -ms-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    width: 100% !important;
+    max-height: 100% !important;
+    height: 100% !important;
+}
+
+.z-tabpanel-content {
+    padding: 0.5rem;
+}
+
+.z-listbox {
+    border-radius: 0.25rem;
+}
+
+.z-listheader-content, .z-listgroup-content, .z-listgroupfoot-content, .z-listfooter-content {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 600;
+    font-style: normal;
+    color: rgba(0, 0, 0, 0.9);
+    line-height: 1.3em;
+    overflow: hidden;
+    padding: 0.5rem;
+}
+
+.z-listbox-header {
+    width: 100%;
+    background: #f4f6fa;
+    position: relative;
+    overflow: hidden;
+}
+
+.z-listheader {
+    border-left: 1px solid #f4f6fa;
+    border-bottom: 1px solid #f4f6fa;
+    padding: 0;
+    background: #f4f6fa;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.z-listcell-content {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: normal;
+    font-style: normal;
+    color: rgba(0, 0, 0, 0.9);
+    line-height: 1.3em;
+    overflow: hidden;
+    padding: .25rem .25rem;
+    display: flex;
+    align-items: center;
+    min-height: 0;
+}
+
+.z-listbox .z-listbox-header .z-listhead .z-listheader.z-listheader-hover * {
+    color: #1ab7ea;
+}
+
+.z-listheader-sort .z-listheader-sorticon {
+    color: rgba(0, 0, 0, 0.9);
+}
+
+
+.z-listcell:nth-child(even) {
+    border-left: 1px solid #D9D9D9;
+    border-right: 1px solid #D9D9D9;
+}
+
+/*Loading*/
+.z-loading {
+    display: flex;
+    left: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background-color: rgba(255, 255, 255, .3);
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+}
+
+.z-loading-indicator {
+    padding: .75rem .5rem;
+    text-align: center;
+    border-radius: .25rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.z-loading-indicator, .z-apply-loading-indicator {
+    color: rgba(0, 0, 0, 0.57);
+    /* background: #FFFFFF; */
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.z-loading-icon {
+    background: transparent url('./../svg/circle.svg') no-repeat center center;
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    display: block;
+    vertical-align: top;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -36px;
+    margin-bottom: 8px;
+}
+
+/*inputs*/
+.c-page .z-textbox-invalid, .z-decimalbox-invalid, .z-intbox-invalid, .z-longbox-invalid, .z-doublebox-invalid {
+    border-color: #FF4051;
+    color: inherit;
+    background-color: #ffffff;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(255, 205, 208);
+}
+
+.c-page .z-combobox-invalid {
+    border-color: #FF4051;
+    color: inherit;
+    background-color: #ffffff;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(255, 205, 208);
+}
+
+/*.c-page .z-datebox {*/
+/*    height: 2.125rem;*/
+/*    font-size: 1rem;*/
+/*    line-height: normal;*/
+/*    white-space: nowrap;*/
+/*    position: relative;*/
+/*    display: inline-block;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.c-page .z-combobox {*/
+/*     display: inline-block;*/
+/*    height: 2.125rem;*/
+/*    font-size: 1rem;*/
+/*    line-height: normal;*/
+/*    white-space: nowrap;*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*}*/
+
+/*.c-page .z-combobox-input, .z-datebox-input {*/
+/*    display: inline-block;*/
+/*    width: 100%;*/
+/*    padding: 0.4375rem 0.75rem;*/
+/*    font-size: 0.875rem;*/
+/*    font-weight: 400;*/
+/*    line-height: 1.4285714286;*/
+/*    color: inherit;*/
+/*    background-color: #ffffff;*/
+/*    background-clip: padding-box;*/
+/*    !*border: 1px solid #d9dbde;*!*/
+/*    -webkit-appearance: none;*/
+/*    -moz-appearance: none;*/
+/*    appearance: none;*/
+/*    border-radius: 0.25rem;*/
+/*    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;*/
+/*}*/
+
+/*.c-page .z-combobox-input:focus,*/
+/*.c-page .z-datebox-input:focus {*/
+/*    color: inherit;*/
+/*    background-color: #ffffff;*/
+/*    border-color: #90b5e2;*/
+/*    outline: 0;*/
+/*    box-shadow: 0 0 0 0.25rem rgba(32, 107, 196, 0.25);*/
+/*}*/
+
+.z-listitem.z-listitem-selected > .z-listcell {
+    background: #d6e7f3;
+}
+
+.z-listitem.z-listitem-selected:hover > .z-listcell {
+    background: #d6e7f3;
+}
+
+.z-listitem.z-listitem-selected.z-listitem-focus:hover > .z-listcell {
+    background: #d6e7f3;
+}
+
+.z-listhead-bar {
+    background: #f4f6fa;
+    border-left: none;
+    border-bottom: none;
+}
+
+.c-page textarea.z-textbox {
+    padding: .25rem;
+}
+
+/*menu*/
+.main-top-header .z-menubar {
+    display: block;
+    border: none;
+    padding: 0.25rem;
+    position: relative;
+    background: #FFFFFF;
+
+}
+
+.main-top-header .z-menuitem-image {
+    display: none !important;
+}
+
+.main-top-header .z-menu-text, .z-menuitem-text, .z-menu-text, .z-menuitem-text {
+    font-family: "Open Sans", sans-serif;
+    font-size: inherit;
+    font-weight: normal;
+    display: grid;
+    /*place-items: center;*/
+}
+
+.main-top-header .z-menupopup .z-menu-image, .z-menupopup .z-menuitem-image {
+    display: none;
+}
+
+.main-top-header .z-menu-content:active, .z-menuitem-content:active {
+    color: #FFFFFF;
+    background-color: #8ecdf9 !important;
+}
+
+.main-top-header .z-menu-selected > .z-menu-content {
+    color: #FFFFFF;
+    background-color: #8ecdf9 !important;
+}
+
+.main-top-header .z-menubar-vertical ul {
+    display: block;
+}
+
+.z-menupopup .z-menu-image, .z-menupopup .z-menuitem-image {
+    min-width: 20px;
+    min-height: 20px;
+    line-height: normal;
+    background-repeat: no-repeat;
+    margin-right: 0.25rem;
+    display: none;
+}
+
+.c-page .z-menupopup-shadow, .z-menu-palette-popup, .z-menu-picker-popup, .z-menu-content-popup {
+    -webkit-box-shadow: 0 0.188rem 0.375rem 0 rgba(0, 0, 0, .16), 00.125rem 0.25rem 0 rgba(0, 0, 0, .24);
+    -moz-box-shadow: 0 0.188rem 0.375rem 0 rgba(0, 0, 0, 0.16), 00.125rem 0.25rem 0 rgba(0, 0, 0, 0.24);
+    -o-box-shadow: 0 0.188rem 0.375rem 0 rgba(0, 0, 0, 0.16), 00.125rem 0.25rem 0 rgba(0, 0, 0, 0.24);
+    -ms-box-shadow: 0 0.188rem 0.375rem 0 rgba(0, 0, 0, 0.16), 00.125rem 0.25rem 0 rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 0.375rem 0.375rem rgba(0, 0, 0, 0.10), 00.125rem 0.25rem 0 rgba(0, 0, 0, 0.24);
+}
+
+
+/*Notifications*/
+.z-notification.z-notification-warning.z-notification-open {
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    max-height: 95vh !important;
+    transform: translate3d(-50%, -50%, 0) !important;
+}
+
+.z-notification .z-notification-content {
+    width: calc(71.25rem / 2);
+}
+
+.z-auxheader-content {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+    color: #000;
+    padding: 0.25rem .5rem;
+    line-height: 1.5rem;
+    overflow: hidden;
+}
+
+.z-row .z-row-inner, .z-row .z-cell {
+    border-top: none;
+}
+
+/*TEXTBOX*/
+.button, button {
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 1.75rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    cursor: pointer;
+}
+
+.button-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1rem;
+    cursor: pointer;
+}
+
+.pointer * {
+    cursor: pointer !important;
+}
+
+.z-checkbox input[type="checkbox"] {
+    margin: 0;
+}
+
+input.z-textbox, .z-decimalbox, .z-intbox, .z-longbox, .z-doublebox, .z-combobox-input, .z-datebox-input, .z-combobox {
+    font-size: 14px !important;
+    height: 28px !important;
+}
+
+textarea.z-textbox {
+    padding: .25rem;
+    height: auto;
+}
+
+
+.z-paging {
+    height: initial !important;
+}
+
+.z-paging, .z-paging-os {
+    padding: 0 4px !important;
+}
+
+.z-paging-info {
+    padding: 0 !important;
+}
+
+[role=button] {
+    cursor: pointer;
+    height: 28px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 !important;
+}
+
+.z-datebox-button.z-datebox-disabled,
+.z-combobox-button.z-combobox-disabled {
+    display: none !important;
+}
+
+
+.z-tabpanel {
+    border-top: 1px solid #D9D9D9;
+    padding: .5rem 0 0;
+    zoom: 1;
+    color: rgba(0, 0, 0, 0.9);
+}
+
+.z-tab {
+    font-size: .9rem !important;
+}
+
+.z-tabs-content {
+    display: flex;
+    min-height: 28px !important;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 0;
+    padding-left: 0;
+    padding-top: 0;
+    list-style: none outside none;
+    zoom: 1;
+    clear: both;
+}
+
+.z-tabs {
+    min-height: 28px !important;
+}
+
+.z-checkbox-switch > .z-checkbox-mold {
+    height: 28px !important;
+}
+
+.panalty .z-listcell, .red-row .z-listcell {
+    background: #ffe0e0 !important;
+}
+
+.paid .z-listcell, .green-row .z-listcell {
+    background: rgba(228, 248, 240, 0.7) !important;
+}
+
+.blue-row .z-listcell {
+    background: #d1ecf1 !important;
+}
+

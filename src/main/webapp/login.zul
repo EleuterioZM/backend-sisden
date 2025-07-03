@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?page title="Autenticação | SisClube" ?>
+<?meta http-equiv="Content-Type" content="text/html; charset=utf-8"?>
+<?meta name="viewport" content="width=device-width, initial-scale=1" ?>
+<?link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" ?>
+
+<!--STYLES-->
+<?style href="/assets/css/bootstrap.css"?>
+<?style href="/assets/css/zk-reset.css"?>
+<?style href="/assets/css/style.css"?>
+
+<!--TAGLIB auxiliares-->
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<!--Variable resolvers-->
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window sclass="d-flex justify-content-center align-items-center h-100 w-100">
+        <n:div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+            <h:div
+                    style="margin-bottom: .5rem; display: flex; justify-content: center; align-items: center; flex-direction: column">
+                <h:img src="/assets/images/cmd-logo.png" style="width: 150px; margin-bottom: 2rem"/>
+                <h:h1 style="font-size: 1.2rem">Clube Marítimo de Desportos</h:h1>
+                <h:h2 style="font-style: italic; font-size: 0.8rem">SisClube</h:h2>
+            </h:div>
+
+            <n:div style="margin-bottom: .5rem">
+                <h:h1 class="text-center" style="font-size: 1.0rem">Autenticação</h:h1>
+                <h:p class="text-center" style="font-style: italic; font-size: 0.9rem">
+                    Autentique-se para começar a utilizar o sistema!
+                </h:p>
+            </n:div>
+
+            <n:form style="max-width: 800px " method="POST" action="login">
+
+
+                <n:div style="margin-bottom: .5rem">
+                    <label zclass="form-label">Nome de Utilizador ou Email:</label>
+                    <textbox submitByEnter="true" sclass="input" name="usernameOrEmail"
+                             placeholder="Nome de Utilizador ou Email"/>
+                </n:div>
+                <n:div style="margin-bottom: .5rem">
+                    <label zclass="form-label">Senha:</label>
+                    <textbox type="password" name="password" submitByEnter="true"
+                             sclass="input"
+                             placeholder="${labels.Password}"/>
+                </n:div>
+
+                <n:div style="margin-top: 1rem; display: flex; justify-content: center">
+                    <button type="submit" zclass="btn btn-primary">Entrar</button>
+                </n:div>
+            </n:form>
+        </n:div>
+    </window>
+</zk>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('reportTypeListingVM') @init(reportTypeListingVM)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Tipos de Denúncias"
+                       visible="@load(not reportTypeListingVM.selection)"/>
+                <label zclass="title" value="Seleccione o tipo de Denuncia" visible="@load(reportTypeListingVM.selection)"/>
+
+
+                <button onClick="@global-command('navigate', page = 'REPORT_TYPE_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not modalityListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+
+                                <textbox sclass="input" instant="true" value="@bind(reportTypeListingVM.searchTerm)" onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox id="listboxReportType" model="@load(reportTypeListingVM.reportTypeListModel)"
+                         checkmark="@load(memberInactiveListingVm.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min" visible="@load(not reportTypeListingVM.multipleSelection)"/>
+                        <listheader label="${labels.Name}"/>
+                        <listheader label="Instituição"/>
+                        <listheader label="${labels.Date}"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not reportTypeListingVM.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('edit', id=row.id)"
+                                            visible="@load(not reportTypeListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar"/>
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+                                    <button onClick="@command('select', id=row.id)"
+                                            visible="@load(reportTypeListingVM.singleSelection)"
+                                            zclass="btn btn-primary"
+                                            label="${labels.Select}"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.instituition_name)"/>
+                            <listcell label="@load(row.created_at)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+                    <button onClick="@command('select')"
+                            visible="@load(memberInactiveListingVm.selection)"
+                            zclass="btn btn-primary"
+                            label="@load(c:cat3('Seleccionar ', boatListingVm.selectedBoatList.size(), ' sócios'))"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

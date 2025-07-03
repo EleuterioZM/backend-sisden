@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('userListingVM') @init(userListingVM)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Utilizadores"
+                       visible="@load(not userListingVM.selection)"/>
+                <label zclass="title" value="Seleccione o Utilizador" visible="@load(userListingVM.selection)"/>
+
+                <button onClick="@global-command('navigate', page = 'USER_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not userListingVM.selection)"
+                        label="Criar"/>
+            </div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true"
+                                         value="@bind(userListingVM.searchTerm)"
+                                         onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="Pesquisar"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <listbox id="listboxUser" model="@load(userListingVM.userListModel)"
+                         checkmark="@load(userListingVM.multipleSelection)">
+                    <listhead>
+                        <listheader label="Ações" hflex="min"
+                                    visible="@load(not userListingVM.multipleSelection)"/>
+                        <listheader label="Nome de Utilizador"/>
+                        <listheader label="Data de Registo"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not userListingVM.multipleSelection)">
+                                <div zclass="row" style="display: flex; gap: 0.5rem;">
+                                    <button onClick="@command('edit', id=row.id)"
+                                            visible="@load(not userListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar"/>
+
+                                    <button tooltiptext="Apagar"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+
+                                    <button onClick="@command('view', id=row.id)"
+                                            visible="@load(not userListingVM.singleSelection)"
+                                            zclass="btn btn-info" label="Visualizar"/>
+
+                                    <button onClick="@command('select', id=row.id)"
+                                            visible="@load(userListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="Seleccionar"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.username)"/>
+                            <listcell label="@load(row.created_at)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

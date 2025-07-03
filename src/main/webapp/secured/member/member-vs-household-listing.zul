@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('memberVsHouseholdListingVm') @init(memberVsHouseholdListingVm)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Sócios Ausentes"
+                       visible="@load(not memberVsHouseholdListingVm.selection)"/>
+                <label zclass="title" value="Seleccione o sócio" visible="@load(memberVsHouseholdListingVm.selection)"/>
+            </div>
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox id="listboxMember" model="@load(memberVsHouseholdListingVm.memberVsHouseholdListModel)">
+                    <listhead>
+                        <listheader label="N&#186; de Processo" hflex="min"/>
+                        <listheader label="N&#186; do Sócio" hflex="min"/>
+                        <listheader label="${labels.Name}"/>
+                        <listheader label="Nome do Agregado"/>
+                        <listheader label="${labels.Gender}" hflex="min"/>
+                        <listheader label="Data de Nascimento (Idade)" hflex="min"/>
+                        <listheader label="Tipo" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell label="@load(row.process_number)"/>
+                            <listcell label="@load(row.number)"/>
+                            <listcell>
+                                <div zclass="row">
+                                    <button onClick="@command('viewMember', id=row.id)"
+                                            visible="@load(not memberVsHouseholdListingVm.singleSelection)"
+                                            zclass="btn btn-secondary" label="Ver"/>
+                                    <label value="@load(row.name)"/>
+                                </div>
+                            </listcell>
+                            <listcell>
+                                <div zclass="row">
+                                    <button onClick="@command('viewHousehold', id=row.household_id)"
+                                            visible="@load(not memberVsHouseholdListingVm.singleSelection)"
+                                            zclass="btn btn-secondary" label="Ver"/>
+                                    <label value="@load(row.household_name)"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.household_gender)"/>
+                            <listcell label="@load(row.household_birthdate) @converter(dateWithAgeConverter)"/>
+                            <listcell label="@load(row.household_type)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+                    <button onClick="@command('select')"
+                            visible="@load(memberVsHouseholdListingVm.selection)"
+                            zclass="btn btn-primary"
+                            label="@load(c:cat3('Seleccionar ', boatListingVm.selectedBoatList.size(), ' sócios'))"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

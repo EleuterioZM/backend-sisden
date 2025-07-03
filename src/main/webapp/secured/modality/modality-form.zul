@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('modalityFormVm') @init(modalityFormVm)"
+            form="@id('modality') @load(modalityFormVm.modality) @save(modalityFormVm.modality, before = 'saveOrUpdate')">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Criar Modalidade" visible="@load(modalityFormVm.create)"/>
+                <label zclass="title" value="Ver Modalidade" visible="@load(modalityFormVm.read)"/>
+                <label zclass="title" value="Actualizar Modalidade" visible="@load(modalityFormVm.update)"/>
+            </n:div>
+            <n:div class="body inputs">
+                <n:div class="grid-form-3">
+                    <label value="${labels.Code}:"/>
+                    <label value="${labels.Name}:"/>
+                    <label value=""/>
+
+                    <textbox value="@bind(modality.code)"
+                             readonly="@load(modalityFormVm.read)"
+                             sclass="input"/>
+
+                    <textbox value="@bind(modality.name)"
+                             readonly="@load(modalityFormVm.read)"
+                             sclass="input"/>
+                    <div/>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(modality.description)"
+                                 readonly="@load(modalityFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(modalityFormVm.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(modalityFormVm.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

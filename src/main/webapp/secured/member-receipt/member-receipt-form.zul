@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('memberReceiptFormVm') @init(memberReceiptFormVm)"
+            form="@id('memberReceipt') @load(memberReceiptFormVm.memberReceipt) @save(memberReceiptFormVm.memberReceipt, before = 'pay' )">
+        <div zclass="page form">
+            <div zclass="header">
+                <label zclass="title" value="Pagar Factura de Sócio"
+                       visible="@load(memberReceipt.memberInvoice.pending)"/>
+                <label zclass="title" value="Ver Recibo de Sócio" visible="@load(memberReceipt.memberInvoice.paid)"/>
+            </div>
+
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <div zclass="input-label">
+                            <label value="${labels.Member_Name}:"/>
+                            <div zclass="row">
+                                <textbox value="@bind(memberReceipt.memberInvoice.member.numberAndName)"
+                                         readonly="true"
+                                         sclass="input"/>
+
+                                <button onClick="@command('viewMember', memberReceipt=memberReceipt)"
+                                        disabled="@load(empty memberReceipt.memberInvoice.member)"
+                                        zclass="btn btn-secondary button button-img pointer" label="Ver"/>
+                            </div>
+                        </div>
+
+                        <div zclass="row-expand">
+                            <h:div class="input-label flex-1">
+                                <label value="${labels.process_number}:"/>
+                                <textbox value="@bind(memberReceipt.memberInvoice.member.processNumber)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </h:div>
+                            <h:div class="input-label flex-1">
+                                <label value="${labels.Number}:"/>
+                                <textbox value="@bind(memberReceipt.memberInvoice.member.number)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </h:div>
+
+
+                            <h:div class="input-label flex-2">
+                                <label value="${labels.Member_Type}:"/>
+                                <textbox value="@bind(memberReceipt.memberInvoice.member.memberType.name)"
+                                         readonly="true"
+                                         sclass="input"/>
+                            </h:div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Number}:"/>
+                            <textbox value="@bind(memberReceipt.number)"
+                                     visible="@load(memberReceiptFormVm.read)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Date_and_Time}:"/>
+                            <datebox valueInLocalDate="@bind(memberReceipt.date)"
+                                     visible="@load(memberReceiptFormVm.read)"
+                                     readonly="true"
+                                     buttonVisible="false"
+                                     format="dd/MM/yyyy"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Invoice_Number}:"/>
+                            <textbox value="@bind(memberReceipt.memberInvoice.number)"
+                                     visible="@load(memberReceiptFormVm.read)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <h:div class="input-label">
+                        </h:div>
+                    </div>
+
+                    <div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Payment_Method}:"/>
+                            <combobox model="@bind(memberReceiptFormVm.paymentMethodList)"
+                                      selectedItem="@bind(memberReceipt.paymentMethod) "
+                                      onChange="@command('onChangePaymentMethod', memberReceipt=memberReceipt)"
+                                      readonly="@load(memberReceiptFormVm.read)"
+                                      buttonVisible="@load(memberReceiptFormVm.buttonVisible)"
+                                      sclass="input">
+                                <template name="model" var="paymentMethod">
+                                    <comboitem value="@bind(paymentMethod)" label="@bind(paymentMethod.name)"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Proof_Number}:"/>
+                            <textbox value="@bind(memberReceipt.proofNumber)"
+                                     readonly="@load(not memberReceipt.paymentMethod.hasProofNumber || memberReceiptFormVm.read)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                        </n:div>
+                        <n:div class="input-label">
+                        </n:div>
+                    </div>
+
+                    <div zclass="row">
+                        <h:br/>
+                        <h:hr/>
+                        <h:br/>
+                    </div>
+
+                    <div>
+                        <label style="font-size: 1.2rem; font-weight: bold;">Ordens de Pagamento</label>
+                    </div>
+
+                    <div zclass="row">
+                        <n:div class="input-label">
+                            <label value="Período:"/>
+                            <textbox value="@bind(memberReceipt.memberInvoice.period)"
+                                     id="textboxMemberInvoicePeriod"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                        </n:div>
+                        <n:div class="input-label">
+                        </n:div>
+                        <n:div class="input-label">
+                        </n:div>
+                    </div>
+
+                </div>
+
+                <listbox model="@bind(memberReceipt.memberInvoice.paymentOrderList)">
+                    <listhead sizable="true">
+                        <listheader label="Tipo"/>
+                        <listheader label="Nome da Embarcação"/>
+                        <listheader label="Ano - Mês"/>
+                        <listheader label="Valor"/>
+                        <listheader label="Desconto"/>
+                        <listheader label="Perdão"/>
+                        <listheader label="Subtotal"/>
+                        <listheader label="É multa?" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="paymentOrder">
+                        <listitem value="@load(paymentOrder)" sclass="@load(paymentOrder.isPenalty ? 'panalty' : '')">
+                            <listcell label="@load(paymentOrder.fee.name)"/>
+                            <listcell label="@load(paymentOrder.boat.numberAndName)"/>
+                            <listcell label="@load(paymentOrder.date) @converter(dateToMonthYearConverter)"/>
+                            <listcell label="@load(paymentOrder.rawValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell label="@load(paymentOrder.discountValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell
+                                    label="@load(paymentOrder.fineForgivenessValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell label="@load(paymentOrder.value) @converter(doubleToCurrencyConverter)"/>
+                            <listcell>
+                                <html content="@load(paymentOrder.isPenalty) @converter(isPenaltyConverter)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+
+                    <listfoot>
+                        <listfooter label="Total:" span="6" style="text-align: end"/>
+                        <listfooter span="2"
+                                    label="@load(memberReceipt.memberInvoice.total) @converter(doubleToCurrencyConverter)"/>
+                    </listfoot>
+                </listbox>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="Comentários e Notas:"/>
+                        <textbox value="@bind(memberReceipt.commentsAndNotes)"
+                                 readonly="@load(memberReceiptFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </div>
+
+            <div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+
+                <div>
+                    <button onClick="@command('print', memberReceipt=memberReceipt)"
+                            zclass="btn btn-warning"
+                            visible="@load(memberReceiptFormVm.read)"
+                            label="${labels.Print}"/>
+
+                    <button onClick="@command('pay', memberReceipt=memberReceipt)"
+                            zclass="btn btn-primary"
+                            visible="@load(memberReceipt.memberInvoice.pending)"
+                            label="Confirmar Pagamento"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

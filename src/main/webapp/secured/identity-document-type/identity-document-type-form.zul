@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('identityDocumentTypeFormVm') @init(identityDocumentTypeFormVm)"
+            form="@id('identityDocumentType') @load(identityDocumentTypeFormVm.identityDocumentType) @save(identityDocumentTypeFormVm.identityDocumentType, before = 'saveOrUpdate')">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Criar Documento de Identificação"
+                       visible="@load(identityDocumentTypeFormVm.create)"/>
+                <label zclass="title" value="Ver Documento de Identificação"
+                       visible="@load(identityDocumentTypeFormVm.read)"/>
+                <label zclass="title" value="Actualizar Tipo de Documento de Identificação"
+                       visible="@load(identityDocumentTypeFormVm.update)"/>
+            </n:div>
+            <n:div class="body inputs">
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Name}:"/>
+                        <textbox value="@bind(identityDocumentType.name)"
+                                 readonly="@load(identityDocumentTypeFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="TIpo de Denominação:"/>
+                        <combobox
+                                model="@load(identityDocumentTypeFormVm.identityDocumentTypeDenominationList)"
+                                selectedItem="@load(identityDocumentType.identityDocumentTypeDenomination)"
+                                readonly="@load(identityDocumentTypeFormVm.readonly)"
+                                buttonVisible="@load(identityDocumentTypeFormVm.buttonVisible)"
+                                sclass="input">
+                            <template name="model" var="item">
+                                <comboitem label="@load(item.name)" value="@load(item)"/>
+                            </template>
+                        </combobox>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Abreviado:"/>
+                        <textbox value="@bind(identityDocumentType.abbreviation)"
+                                 readonly="@load(identityDocumentTypeFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(identityDocumentType.description)"
+                                 readonly="@load(identityDocumentTypeFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(identityDocumentTypeFormVm.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(identityDocumentTypeFormVm.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

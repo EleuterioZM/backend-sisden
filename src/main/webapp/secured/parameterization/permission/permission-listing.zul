@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('permissionListingVM') @init(permissionListingVM)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Permissões por Instituição"/>
+                <button onClick="@command('addPermission')"
+                        zclass="btn btn-primary"
+                        label="Adicionar Permissão"/>
+            </div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Instituição:"/>
+                            <combobox model="@load(permissionListingVM.instituitionList)"
+                                      selectedItem="@bind(permissionListingVM.selectedInstituition)"
+                                      onSelect="@command('filterByInstituition')"
+                                      readonly="true">
+                                <template name="model" var="inst">
+                                    <comboitem label="@load(inst.name)" value="@load(inst)"/>
+                                </template>
+                            </combobox>
+                        </div>
+                    </div>
+                </div>
+
+                <listbox id="listboxPermissions" model="@load(permissionListingVM.permissionListModel)" checkmark="true">
+                    <listhead>
+                        <listheader label="Usuário"/>
+                        <listheader label="Grupo"/>
+                        <listheader label="Permissão"/>
+                        <listheader label="Ações"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell label="@load(row.user.username)"/>
+                            <listcell label="@load(row.userGroup.name)"/>
+                            <listcell label="@load(row.permission.name)"/>
+                            <listcell>
+                                <button onClick="@command('edit', id=row.id)" zclass="btn btn-primary" label="Editar"/>
+                                <button onClick="@command('delete', id=row.id)" zclass="btn btn-danger" label="Remover"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk> 

@@ -1,0 +1,98 @@
+<zk xmlns:n="native">
+    <window id="windowDiscountForm" viewModel="@id('discountFormVm') @init(discountFormVm)"
+            form="@id('discount') @load(discountFormVm.discount) @save(discountFormVm.discount, before='saveOrUpdate')">
+
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(discountFormVm.create)" value="Criar Desconto"/>
+                <label zclass="title" visible="@load(discountFormVm.update)" value="Actualizar Desconto"/>
+                <label zclass="title" visible="@load(discountFormVm.read)" value="Ver Desconto"/>
+            </n:div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Seleccione a taxa:"/>
+                            <combobox model="@load(discountFormVm.feeList)" selectedItem="@bind(discount.fee)"
+                                      buttonVisible="@load(discountFormVm.buttonVisible)"
+                                      readonly="@load(discountFormVm.readonly)">
+                                <template name="model" var="row">
+                                    <comboitem label="@load(row.name)"/>
+                                </template>
+                            </combobox>
+                        </div>
+
+                        <div class="input-label">
+                            <label value="Tipo de Valor:"/>
+                            <combobox model="@load(discountFormVm.valueTypeList)"
+                                      selectedItem="@bind(discount.valueType)"
+                                      buttonVisible="@load(discountFormVm.buttonVisible)"
+                                      readonly="@load(discountFormVm.readonly)">
+                                <template name="model" var="row">
+                                    <comboitem label="@load(row.name)"/>
+                                </template>
+                            </combobox>
+                        </div>
+
+                        <n:div class="input-label">
+                            <label value="Valor:"/>
+                            <doublebox readonly="@load(discountFormVm.readonly)" value="@bind(discount.value)"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                        </n:div>
+                    </div>
+
+                    <div class="row">
+                        <div zclass="input-label" style="flex: 1"
+                             visible="@load(not (discount.fee eq feeBoatSpaceRenting))"/>
+                        <div zclass="input-label" style="flex: 1" visible="@load(discount.fee eq feeBoatSpaceRenting)">
+                            <label value="${labels.Boat}:"/>
+                            <div zclass="row">
+                                <combobox model="@bind(discountFormVm.boatList)"
+                                          selectedItem="@bind(discount.boat)"
+                                          readonly="@load(discountFormVm.readonly)"
+                                          buttonVisible="@load(discountFormVm.buttonVisible)"
+                                          sclass="input">
+                                    <template name="model" var="boat">
+                                        <comboitem value="@bind(boat)" label="@bind(boat.numberAndName)"/>
+                                    </template>
+                                </combobox>
+                                <button onClick="@command('viewBoat', boat=discount.boat)"
+                                        disabled="@load(empty discount.boat)"
+                                        zclass="btn btn-secondary"
+                                        label="${labels.View}"/>
+                            </div>
+                        </div>
+
+                        <div zclass="row" style="flex: 1">
+                            <n:div class="input-label">
+                                <label value="${labels.StartDate}:"/>
+                                <datebox valueInLocalDate="@bind(discount.startDate)"
+                                         readonly="@load(discountFormVm.readonly)"
+                                         buttonVisible="@load(discountFormVm.buttonVisible)"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="${labels.EndDate}:"/>
+                                <datebox valueInLocalDate="@bind(discount.endDate)"
+                                         readonly="@load(discountFormVm.readonly)"
+                                         buttonVisible="@load(discountFormVm.buttonVisible)"/>
+                            </n:div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div zclass="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(discountFormVm.create)" label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(discountFormVm.update)" label="Actualizar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

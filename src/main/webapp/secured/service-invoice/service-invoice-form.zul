@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window
+            viewModel="@id('serviceInvoiceFormVm') @init(serviceInvoiceFormVm)"
+            form="@id('serviceInvoice') @load(serviceInvoiceFormVm.serviceInvoice) @save(serviceInvoiceFormVm.serviceInvoice, before = 'saveOrUpdate' )">
+        <div zclass="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(serviceInvoiceFormVm.create)" value="Criar Factura"/>
+                <label zclass="title" visible="@load(serviceInvoiceFormVm.read)" value="Ver Factura"/>
+                <label zclass="title" visible="@load(serviceInvoiceFormVm.update)" value="Editar Factura"/>
+            </n:div>
+            <n:div class="body inputs">
+                <div class="row" visible="@load(serviceInvoiceFormVm.read)">
+                    <n:div class="input-label">
+                        <label value="${labels.Number}:"/>
+                        <textbox value="@bind(serviceInvoice.number)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.State}:"/>
+                        <textbox value="@bind(serviceInvoice.paymentStatus.name)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </n:div>
+                </div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Client}:"/>
+                        <n:div class="row">
+                            <textbox value="@load(serviceInvoice.client.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+                            <button onClick="@command('searchClient', serviceInvoice=serviceInvoice)"
+                                    visible="@load(not serviceInvoiceFormVm.read)"
+                                    zclass="btn btn-secondary"
+                                    label="${labels.Search}"/>
+                        </n:div>
+                    </n:div>
+
+                    <n:div class="input-label">
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Service}:"/>
+                        <n:div class="row">
+                            <textbox value="@load(serviceInvoice.service.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+                            <button onClick="@command('searchService', serviceInvoice=serviceInvoice)"
+                                    visible="@load(not serviceInvoiceFormVm.read)"
+                                    zclass="btn btn-secondary"
+                                    label="${labels.Search}"/>
+                        </n:div>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Value}:"/>
+                        <doublebox value="@bind(serviceInvoice.total)"
+                                   readonly="@load(serviceInvoiceFormVm.read)"
+                        />
+                    </n:div>
+
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Payment_Period}:"/>
+                        <combobox model="@bind(serviceInvoiceFormVm.periodList)"
+                                  selectedItem="@bind(serviceInvoice.period)"
+                                  readonly="@load(serviceInvoiceFormVm.read)"
+                                  buttonVisible="@load(not serviceInvoiceFormVm.read)"
+                                  sclass="input">
+                            <template name="model" var="period">
+                                <comboitem value="@bind(period)"
+                                           label="@bind(period) @converter(dateToMonthYearConverter)"/>
+                            </template>
+                        </combobox>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Date}:"/>
+                        <datebox valueInLocalDate="@bind(serviceInvoice.date)"
+                                 readonly="@load(serviceInvoiceFormVm.read)"
+                                 buttonVisible="@load(not serviceInvoiceFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <groupbox open="true">
+                    <caption label="Cobranças"/>
+
+                    <n:div class="column">
+                        <div class="row" visible="@load(serviceInvoiceFormVm.createOrUpdate)">
+                            <n:div class="input-label">
+                                <label value="Nome da Entidade:"/>
+                                <textbox value="@bind(serviceInvoiceFormVm.entityName)"
+                                         readonly="@load(serviceInvoiceFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Leitura actual:"/>
+                                <doublebox value="@bind(serviceInvoiceFormVm.currentRead)"
+                                           onChange="@command('calcConsumption')"
+
+                                           readonly="@load(serviceInvoiceFormVm.read)"
+                                           sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Leitura Anterior:"/>
+                                <doublebox value="@bind(serviceInvoiceFormVm.lastRead)"
+                                           onChange="@command('calcConsumption')"
+
+                                           readonly="@load(serviceInvoiceFormVm.read)"
+                                           sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Consumo:"/>
+                                <textbox value="@bind(serviceInvoiceFormVm.consumption)"
+                                         readonly="@load(serviceInvoiceFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Unidade de Medida:"/>
+                                <combobox model="@bind(serviceInvoiceFormVm.metricUnitList)"
+                                          selectedItem="@bind(serviceInvoiceFormVm.metricUnit)"
+                                          readonly="@load(serviceInvoiceFormVm.read)"
+                                          buttonVisible="@load(not serviceInvoiceFormVm.read)"
+                                          sclass="input">
+                                    <template name="model" var="metricUnit">
+                                        <comboitem value="@bind(metricUnit)"
+                                                   label="@bind(metricUnit.name)"/>
+                                    </template>
+                                </combobox>
+                            </n:div>
+                        </div>
+
+                        <n:div class="row">
+                            <button onClick="@command('addBill', serviceInvoice=serviceInvoice)"
+                                    zclass="btn btn-primary"
+                                    visible="@load(serviceInvoiceFormVm.createOrUpdate)"
+                                    label="Adicionar Consumo"/>
+                        </n:div>
+
+                        <listbox model="@bind(serviceInvoice.consumptionRecordList)" multiple="false" checkmark="false">
+                            <listhead sizable="true">
+                                <listheader label="Nome da entidade"/>
+                                <listheader label="Leitura Actual"/>
+                                <listheader label="Leitura Anterior"/>
+                                <listheader label="Consumo"/>
+                                <listheader label="Unidade de medida"/>
+                                <listheader label="${labels.Actions}" hflex="min"
+                                            visible="@load(serviceInvoiceFormVm.createOrUpdate)"/>
+                            </listhead>
+                            <template name="model" var="consumptionRecord">
+                                <listitem value="@load(consumptionRecord)">
+                                    <listcell label="@bind(consumptionRecord.entityName)"/>
+                                    <listcell
+                                            label="@bind(consumptionRecord.currentRead) @converter(doubleToCurrencyConverter)"/>
+                                    <listcell
+                                            label="@bind(consumptionRecord.lastRead) @converter(doubleToCurrencyConverter)"/>
+                                    <listcell
+                                            label="@bind(consumptionRecord.consumption) @converter(doubleToCurrencyConverter)"/>
+                                    <listcell label="@bind(consumptionRecord.metricUnit.name)"/>
+                                    <listcell visible="@load(serviceInvoiceFormVm.createOrUpdate)">
+                                        <n:div style="display: flex; gap: .5rem">
+                                            <button tooltiptext="${labels.Delete}"
+                                                    onClick="@command('removeBill', serviceInvoice=serviceInvoice, consumptionRecord=consumptionRecord)"
+                                                    zclass="btn btn-danger" label="Apagar"/>
+                                        </n:div>
+                                    </listcell>
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </n:div>
+
+                </groupbox>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(serviceInvoice.description)"
+                                 readonly="@load(serviceInvoiceFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <h:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@bind(serviceInvoiceFormVm.create)"
+                            label="Registrar"/>
+
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@bind(serviceInvoiceFormVm.update and serviceInvoice.pending)"
+                            label="Actualizar"/>
+
+                    <button onClick="@command('print', serviceInvoice=serviceInvoice)"
+                            visible="@load(serviceInvoiceFormVm.read)"
+                            zclass="btn btn-warning" label="${labels.Print}"/>
+
+                    <button onClick="@command('viewServiceReceipt', serviceInvoice=serviceInvoice)"
+                            visible="@load(serviceInvoice.paid)"
+                            zclass="btn btn-primary" label="Ver Recibo"/>
+                </div>
+            </h:div>
+        </div>
+    </window>
+</zk>

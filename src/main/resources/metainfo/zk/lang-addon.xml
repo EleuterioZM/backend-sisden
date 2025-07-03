@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<language-addon>
+    <addon-name>configuration</addon-name>
+    <language-name>xul/html</language-name>
+
+    <component>
+        <component-name>listbox</component-name>
+        <extends>listbox</extends>
+
+        <property>
+            <property-name>emptyMessage</property-name>
+            <property-value>Sem registos. (No records)</property-value>
+        </property>
+
+        <property>
+            <property-name>mold</property-name>
+            <property-value>paging</property-value>
+        </property>
+
+        <property>
+            <property-name>pageSize</property-name>
+            <property-value>10</property-value>
+        </property>
+
+        <property>
+            <property-name>checkmark</property-name>
+            <property-value>true</property-value>
+        </property>
+
+        <property>
+            <property-name>multiple</property-name>
+            <property-value>true</property-value>
+        </property>
+
+        <property>
+            <property-name>nonselectableTags</property-name>
+            <property-value>button, input</property-value>
+        </property>
+
+        <property>
+            <property-name>sizedByContent</property-name>
+            <property-value>false</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>listhead</component-name>
+        <extends>listhead</extends>
+
+        <property>
+            <property-name>sizable</property-name>
+            <property-value>true</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>paging</component-name>
+        <extends>paging</extends>
+        <property>
+            <property-name>mold</property-name>
+            <property-value>os</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>decimalbox</component-name>
+        <extends>decimalbox</extends>
+
+        <property>
+            <property-name>format</property-name>
+            <property-value>#,##0.00</property-value>
+        </property>
+
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>doublebox</component-name>
+        <extends>doublebox</extends>
+
+        <property>
+            <property-name>format</property-name>
+            <property-value>#,##0.00</property-value>
+        </property>
+
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>textbox</component-name>
+        <extends>textbox</extends>
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>intbox</component-name>
+        <extends>intbox</extends>
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>longbox</component-name>
+        <extends>longbox</extends>
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>datebox</component-name>
+        <extends>datebox</extends>
+
+        <property>
+            <property-name>format</property-name>
+            <property-value>dd/MM/yyyy</property-value>
+        </property>
+
+        <property>
+            <property-name>showTodayLink</property-name>
+            <property-value>true</property-value>
+        </property>
+
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+
+    <component>
+        <component-name>combobox</component-name>
+        <extends>combobox</extends>
+
+        <property>
+            <property-name>placeholder</property-name>
+            <property-value>Seleccione..</property-value>
+        </property>
+
+        <property>
+            <property-name>sclass</property-name>
+            <property-value>input</property-value>
+        </property>
+    </component>
+</language-addon>
+

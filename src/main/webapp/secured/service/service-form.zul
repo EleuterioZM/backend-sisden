@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window
+            viewModel="@id('serviceFormVm') @init(serviceFormVm)"
+            form="@id('service') @load(serviceFormVm.service) @save(serviceFormVm.service, before = 'saveOrUpdate' )">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" visible="@load(serviceFormVm.create)" value="Criar Serviço"/>
+                <label zclass="title" visible="@load(serviceFormVm.read)" value="Ver Serviço"/>
+                <label zclass="title" visible="@load(serviceFormVm.update)" value="Editar Serviço"/>
+            </n:div>
+            <n:div class="">
+                <tabbox>
+                    <tabs>
+                        <tab label="Dados Gerais"/>
+                        <tab label="${labels.Price_History}"/>
+                    </tabs>
+                    <tabpanels>
+                        <tabpanel>
+                            <n:div class="column">
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                        <label value="${labels.Name}:"/>
+                                        <textbox value="@bind(service.name)"
+                                                 readonly="@load(serviceFormVm.readonly)"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Type}:"/>
+                                        <combobox selectedItem="@bind(service.serviceType)"
+                                                  model="@load(serviceFormVm.serviceTypeList)"
+                                                  readonly="@load(serviceFormVm.readonly)"
+                                                  buttonVisible="@load(serviceFormVm.buttonVisible)"
+                                                  sclass="input">
+                                            <template name="model">
+                                                <comboitem value="${each}" label="${each.name}"/>
+                                            </template>
+                                        </combobox>
+                                    </n:div>
+
+                                    <div zclass="input-label">
+                                        <label value="${labels.Charge_Member}?:"/>
+                                        <checkbox checked="@bind(service.chargeMember)"
+                                                  mold="switch"
+                                                  disabled="@load(serviceFormVm.disabled)"
+                                                  sclass="input"/>
+                                    </div>
+                                </n:div>
+
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                        <label value="${labels.Price}:"/>
+                                        <doublebox value="@bind(service.price)"
+                                                   readonly="@load(serviceFormVm.readonly)"
+                                                   sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Price_for_Members}:"/>
+                                        <doublebox value="@bind(service.memberPrice)"
+                                                   readonly="@load(serviceFormVm.readonly)"
+                                                   sclass="input"/>
+                                    </n:div>
+                                </n:div>
+
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                        <label value="Texto do Relatório (Insira valores com [MES], [ANO] do periódo):"/>
+                                        <textbox value="@bind(service.templateText)"
+                                                 readonly="@load(serviceFormVm.readonly)"
+                                                 sclass="input" rows="4"/>
+                                    </n:div>
+                                </n:div>
+                            </n:div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <n:div class="column">
+                                <listbox model="@load(serviceFormVm.servicePriceHistoryList)">
+                                    <listhead>
+                                        <listheader label="Preço"/>
+                                        <listheader label="Preço de Sócio"/>
+                                        <listheader label="De"/>
+                                        <listheader label="Até"/>
+                                    </listhead>
+                                    <template name="model">
+                                        <listitem>
+                                            <listcell label="@load(each.price) @converter(doubleToCurrencyConverter)"/>
+                                            <listcell
+                                                    label="@load(each.memberPrice) @converter(doubleToCurrencyConverter)"/>
+                                            <listcell
+                                                    label="@load(each.startDateTime) @converter(dateTimeFormatterConverter)"/>
+                                            <listcell
+                                                    label="@load(each.endDateTime) @converter(dateTimeFormatterConverter)"/>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </n:div>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </n:div>
+            <h:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-primary"
+                        visible="@load(serviceFormVm.create)"
+                        label="Registar"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-primary"
+                        visible="@load(serviceFormVm.update)"
+                        label="Actualizar"/>
+            </h:div>
+        </div>
+    </window>
+</zk>

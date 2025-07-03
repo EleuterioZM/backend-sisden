@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('memberCardFormVm') @init(memberCardFormVm)">
+        <div style="width: 100%; display: flex; justify-content: center;">
+            <div style="background: white; width: 400px; padding: 1rem; border-radius: 12px; border: 2px dashed gray;">
+                <n:div class="header">
+                    <label zclass="title" value="Gerar Cartão do Sócio"/>
+                </n:div>
+                <n:div class="body">
+                    <n:div style="flex: 2; display: flex; flex-direction: column; border: solid 1px black; gap: 1rem; border-radius: 16px; max-width: 400px; margin: 0.5rem auto; padding: 0.75rem">
+                        <n:div class="input-label" style="align-items: center">
+                            <image content="@load(memberCardFormVm.cardImage)" zclass="pointer"
+                                   style="width: 6.2cm; height: 8cm; border: 2px solid #212154;"/>
+                        </n:div>
+
+                        <n:div style="margin: 0 1.5rem">
+                            <h:div style="display: flex; justify-content: space-between">
+                                <label value="${labels.Number}:"/>
+                                <div>
+                                    (
+                                    <label value="Número do Sócio?"/>
+                                    <checkbox onCheck="@command('useMemberNumber')"/>
+                                    )
+                                </div>
+                            </h:div>
+                            <textbox value="@load(memberCardFormVm.card.number)"
+                                     readonly="true"
+                                     style="text-align: center; color: #212154; margin-top: .25rem"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div style="margin: 0 1.5rem">
+                            <label value="${labels.Name}:"/>
+                            <textbox value="@bind(memberCardFormVm.card.name)"
+                                     style="text-align: center; color: #212154"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div style="display: flex; justify-content: end">
+                            <image content="@load(memberCardFormVm.qrCodeImage)" zclass="pointer"
+                                   style="width: 3.8cm;"/>
+
+                        </n:div>
+                    </n:div>
+                </n:div>
+                <n:div class="footer">
+                    <button id="buttonBack"
+                            zclass="btn btn-secondary"
+                            label="${labels.Back}"/>
+                    <button onClick="@command('generate')"
+                            zclass="btn btn-primary"
+                            label="Gerar"/>
+                </n:div>
+            </div>
+        </div>
+    </window>
+</zk>

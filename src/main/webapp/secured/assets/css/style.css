@@ -1,0 +1,70 @@
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: linear-gradient(90deg, #f7f7fa 80%, #e9e9f3 100%);
+  border-radius: 14px;
+  padding: 22px 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  flex-wrap: wrap;
+  border: 1px solid #ececf6;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: #2d2d3a;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.filter-input, .filter-combo {
+  min-width: 180px;
+  max-width: 260px;
+  border-radius: 7px;
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  font-size: 16px;
+  background: #fff;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.filter-input:focus, .filter-combo:focus {
+  border: 1.5px solid #7a7ad9;
+  box-shadow: 0 0 0 2px #e0e0fa;
+}
+
+.filter-btn {
+  margin-left: 10px;
+  border-radius: 7px;
+  font-weight: 600;
+  padding: 9px 22px;
+  font-size: 16px;
+  background: linear-gradient(90deg, #7a7ad9 60%, #5a5ab7 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(122,122,217,0.08);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.filter-btn:hover {
+  background: linear-gradient(90deg, #5a5ab7 60%, #7a7ad9 100%);
+  box-shadow: 0 4px 16px rgba(122,122,217,0.13);
+}
+
+@media (max-width: 700px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 8px;
+  }
+  .filter-input, .filter-combo {
+    min-width: 100%;
+    max-width: 100%;
+  }
+  .filter-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+} 

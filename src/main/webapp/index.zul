@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?page title="SisClube" ?>
+<?meta http-equiv="Content-Type" content="text/html; charset=utf-8"?>
+<?meta name="viewport" content="width=device-width, initial-scale=1" ?>
+<?link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico" ?>
+
+<!--STYLES-->
+<?style href="/assets/css/bootstrap.css"?>
+<?style href="/assets/css/zk-reset.css"?>
+<?style href="/assets/css/style.css"?>
+
+<!--TAGLIB auxiliares-->
+<?taglib uri="http://www.zkoss.org/zkspring/security" prefix="sec"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<!--Variable resolvers-->
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver" ?>
+<zk xmlns:h="http://www.w3.org/1999/xhtml">
+    <div viewModel="@id('indexVm') @init(indexVm)" zclass="w-100"
+         style="display: flex; flex-direction: column; background: #E3E8ED; min-height: 100%">
+        <include zclass=" " src="/secured/header.zul"/>
+        <include zclass=" " src="@bind(indexVm.navigator.currZkPage.path)"
+                 style="display: flex; align-self: stretch; justify-self: stretch; margin-top: 6.625rem; background: #E3E8ED; flex-direction: column;"/>
+    </div>
+
+    <h:script type="text/javascript" src="/assets/js/jquery-3.6.3.js"/>
+    <h:script type="text/javascript" src="/assets/js/bootstrap.bundle.js"/>
+    <h:script type="text/javascript" src="/assets/js/script.js"/>
+</zk>

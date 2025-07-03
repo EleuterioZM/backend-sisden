@@ -1,0 +1,368 @@
+/*RESET*/
+@font-face {
+    font-family: "Open Sans";
+    src: url("./../fonts/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+body {
+    font-family: "Open Sans", sans-serif !important;
+}
+
+.form-control {
+    display: inline-block;
+    width: 100%;
+    color: black;
+}
+
+hr {
+    margin: initial;
+    padding: initial;
+    width: 100%;
+}
+
+.main-top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.page_wrapper {
+    margin-top: 3rem;
+}
+
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/*RESET*/
+
+
+.page {
+    background: rgb(255, 255, 255);
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 0.5rem;
+    max-width: 1440px;
+    border: 2px dashed gray;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    padding-top: 1rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: .5rem;
+}
+
+.row-expand {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: .5rem;
+    align-self: stretch;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    gap: .25rem;
+    align-items: center;
+}
+
+.input-column {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.input-label {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    justify-content: start;
+    gap: .25rem;
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+}
+
+.grid-form-3col, .grid-form-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: min-content 1fr;
+    column-gap: 0.5rem;
+    row-gap: .25rem;
+    align-items: baseline;
+}
+
+.grid-form-4col, .grid-form-4 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: min-content 1fr;
+    column-gap: 0.25rem;
+    row-gap: .25rem;
+    align-items: baseline;
+}
+
+
+.simple-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.simple-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-2 {
+    flex: 2;
+}
+
+.flex-3 {
+    flex: 3;
+}
+
+
+/*badges*/
+.message-warning {
+    background: rgba(255, 242, 226, 0.7);
+    color: rgb(204, 137, 36);
+    padding: .25rem .5rem;
+    font-size: .8rem;
+}
+
+.message-danger {
+    background: rgba(255, 231, 230, 0.7);
+    color: #ff5757;
+    padding: .25rem .5rem;
+    font-size: .8rem;
+}
+
+.message-success {
+    background: rgba(228, 248, 240, 0.7);
+    color: rgb(30, 169, 124);
+    padding: .25rem .5rem;
+    font-size: .8rem;
+}
+
+.message-primary {
+    background: rgb(52, 152, 219);
+    color: #d0e1fd;
+    padding: .25rem .5rem;
+    font-size: .8rem;
+}
+
+.message-secondary {
+    background: #adb5bd;
+    color: #f8f9fa;
+    padding: .25rem .5rem;
+    font-size: .8rem;
+}
+
+/*TO DELETE*
+
+/*LIST*/
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+
+.popup {
+    top: 10px !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/**/
+
+.flex-row-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/**/
+
+.gap-05rem {
+    gap: 0.5rem !important;
+}
+
+.gap-1rem {
+    gap: 1rem !important;
+}
+
+.btn {
+    gap: .25rem;
+    white-space: nowrap;
+}
+
+.cell-danger {
+    background: rgb(238, 10, 28);
+    color: white;
+    padding: .1rem .8rem;
+}
+
+.cell-success {
+    background: #007407;
+    color: white;
+    padding: .1rem .8rem;
+}
+
+.footer-between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-space {
+    display: flex;
+    gap: .5rem;
+}
+
+/**/
+.card-area {
+    display: flex;
+    gap: .5rem;
+}
+
+.card {
+    background: #fff;
+    border: .5px solid #000;
+    padding: .5rem;
+    border-radius: 12px;
+}
+
+.card-label {
+    font-weight: 500 !important;
+    color: #6b7280 !important;
+}
+
+.card-label-value {
+    font-size: 1.25rem !important;
+    font-weight: 500 !important;
+    color: #111827 !important;
+}
+
+.card-description {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 6px !important;
+    display: flex !important;
+    padding: .35rem;
+}
+
+.card-label-wrapper {
+    justify-content: center !important;
+    display: flex !important;
+    gap: 2rem;
+    align-items: center;
+}
+
+.bg-blue-100 {
+    background-color: #d0e1fd !important;
+}
+
+.bg-orange-100 {
+    background-color: #feddc7 !important;
+}
+
+
+@keyframes success-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(30, 169, 124, 0.7); /* Sombra inicial pequena */
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); /* Expande a sombra e desvanece */
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); /* Volta ao estado inicial */
+    }
+}
+
+@keyframes warning-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(204, 137, 36, 0.7); /* Sombra inicial pequena */
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); /* Expande a sombra e desvanece */
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); /* Volta ao estado inicial */
+    }
+}
+
+
+@keyframes danger-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(238, 10, 28, 0.7); /* Sombra inicial pequena */
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); /* Expande a sombra e desvanece */
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); /* Volta ao estado inicial */
+    }
+}
+
+@keyframes primary-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7); /* Sombra inicial pequena */
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); /* Expande a sombra e desvanece */
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); /* Volta ao estado inicial */
+    }
+}
+
+

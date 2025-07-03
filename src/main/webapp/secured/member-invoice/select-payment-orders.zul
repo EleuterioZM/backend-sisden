@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('selectPaymentOrdersVm') @init(selectPaymentOrdersVm)">
+        <div class="page">
+            <div zclass="header">
+                <label zclass="title" value="Seleccione as ordens de pagamento"/>
+            </div>
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <div zclass="input-label">
+                            <label style="font-weight: bold;" value="Gerar ordens de pagamento:"/>
+                            <div zclass="row">
+                                <div zclass="row">
+                                    <intbox value="@bind(selectPaymentOrdersVm.paymentOrdersQuantity)"/>
+                                </div>
+                                <div zclass="row">
+                                    <button onClick="@command('createPaymentOrder')"
+                                            visible="false"
+                                            zclass="btn btn-primary"
+                                            label="Criar"/>
+
+                                    <button onClick="@command('generateMembershipFeePaymentOrders')"
+                                            zclass="btn btn-primary"
+                                            label="Quota"/>
+
+                                    <button onClick="@command('generateBoatSpaceRentingPaymentOrders')"
+                                            zclass="btn btn-primary"
+                                            label="Aluguer de espaço"/>
+
+                                    <button onClick="@command('generatePaymentOrdersForAll')"
+                                            zclass="btn btn-primary"
+                                            label="Todos"/>
+                                </div>
+                                <div zclass="row">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <listbox model="@bind(selectPaymentOrdersVm.paymentOrderList)"
+                         selectedItems="@bind(selectPaymentOrdersVm.selectedPaymentOrderList)"
+                         onSelect="@command('onSelectPaymentOrder')">
+                    <listhead sizable="true">
+                        <listheader label="Tipo"/>
+                        <listheader label="Nome da Embarcação"/>
+                        <listheader label="Mês / Ano"/>
+                        <listheader label="Valor" hflex="min"/>
+                        <listheader label="Desconto" hflex="min"/>
+                        <listheader label="Subtotal" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="paymentOrder">
+                        <listitem value="@load(paymentOrder)">
+                            <listcell label="@load(paymentOrder.fee.name)"/>
+                            <listcell label="@load(paymentOrder.boat.numberAndName)"/>
+                            <listcell label="@load(paymentOrder.date) @converter(dateToMonthYearConverter)"/>
+                            <listcell label="@load(paymentOrder.rawValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell label="@load(paymentOrder.discountValue) @converter(doubleToCurrencyConverter)"/>
+                            <listcell label="@load(paymentOrder.value) @converter(doubleToCurrencyConverter)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('select')"
+                            visible="@load(not empty selectPaymentOrdersVm.selectedPaymentOrderList)"
+                            zclass="btn btn-primary"
+                            label="Seleccionar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

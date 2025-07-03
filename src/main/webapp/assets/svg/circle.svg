@@ -1,0 +1,18 @@
+<svg height="64" width="64" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <title>circle</title>
+    <g fill="#212121" stroke="#212121" class="nc-icon-wrapper">
+        <g class="nc-loop-circle-anim-4-icon-o"
+           style="--animation-duration:1.4s;transform-origin:50% 50%;animation:nc-loop-circle-anim-4 var(--animation-duration) infinite linear">
+            <circle cx="16" cy="16" fill="none" r="14" stroke="#212121" stroke-linecap="square" stroke-miterlimit="10"
+                    stroke-width="2" opacity="0.2" style="--animation-duration:1.4s;transform-origin:50% 50%"/>
+            <circle cx="16" cy="16" fill="none" r="14" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"
+                    style="--animation-duration:1.4s;transform-origin:50% 50%;animation:nc-loop-circle-anim-4-fill var(--animation-duration) infinite"
+                    stroke-dashoffset="0" stroke-dasharray="66 88"/>
+        </g>
+        <style>@keyframes nc-loop-circle-anim-4 { to { transform: rotate(360deg); } } @keyframes
+            nc-loop-circle-anim-4-fill { 0%, 20% { stroke-dashoffset: 0; transform: rotate(0); } 50%, 70% {
+            stroke-dashoffset: 60; transform: rotate(270deg); } 100% { stroke-dashoffset: 0; transform: rotate(360deg);
+            } }
+        </style>
+    </g>
+</svg>

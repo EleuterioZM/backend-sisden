@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window
+            viewModel="@id('memberReviewFormVm') @init(memberReviewFormVm)"
+            form="@id('memberReview') @load(memberReviewFormVm.memberReview) @save(memberReviewFormVm.memberReview, before = 'saveOrUpdate' )">
+        <div zclass="page">
+            <div zclass="header">
+                <label zclass="title" value="Dar Parecer"/>
+            </div>
+
+            <div zclass="body">
+                <div zclass="row">
+                    <div zclass="input-label">
+                        <label value="Número de Processo:"/>
+                        <textbox value="@bind(memberReview.member.processNumber)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Número do Sócio:"/>
+                        <textbox value="@bind(memberReview.member.number)"
+                                 readonly="true"
+                                 sclass="input"/>
+
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Nome do Sócio:"/>
+                        <div zclass="row">
+                            <textbox value="@bind(memberReview.member.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+                            <button label="Ver"
+                                    onClick="@command('viewMember', member=memberReview.member)"
+                                    zclass="btn btn-secondary"/>
+                        </div>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Nome do Cônjuge:"/>
+                        <textbox value="@bind(memberReview.member.spouseName)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </div>
+
+                </div>
+
+                <div zclass="row">
+                    <div zclass="input-label">
+                        <label value="Resultado da Revisão:"/>
+                        <combobox model="@bind(memberReviewFormVm.memberReviewStatusList)"
+                                  selectedItem="@bind(memberReview.memberReviewStatus) "
+                                  readonly="@load(not memberReviewFormVm.create)"
+                                  buttonVisible="@load(memberReviewFormVm.buttonVisible)"
+                                  sclass="input">
+                            <template name="model" var="memberReviewStatus">
+                                <comboitem value="@bind(memberReviewStatus)" label="@bind(memberReviewStatus.name)"/>
+                            </template>
+                        </combobox>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Tipo de Sócio:"/>
+                        <combobox model="@bind(memberReviewFormVm.memberTypeList)"
+                                  selectedItem="@bind(memberReview.memberType) "
+                                  onChange="@command('onChangeMemberType', memberReview = memberReview)"
+                                  readonly="@load(not memberReviewFormVm.create)"
+                                  buttonVisible="@load(memberReviewFormVm.buttonVisible)"
+                                  sclass="input">
+                            <template name="model" var="memberType">
+                                <comboitem value="@bind(memberType)" label="@bind(memberType.name)"/>
+                            </template>
+                        </combobox>
+                    </div>
+
+                    <div zclass="input-label">
+
+                    </div>
+
+                    <div zclass="input-label">
+
+                    </div>
+                </div>
+
+                <div zclass="row">
+                    <div zclass="input-label">
+                        <label value="Paga Joia?"/>
+                        <checkbox checked="@bind(memberReview.payGem)"
+                                  mold="switch"
+                                  disabled="@load(memberReviewFormVm.readOrUpdate)"/>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Valor da Joia:"/>
+                        <doublebox value="@bind(memberReview.gemValue) "
+                                   readonly="@load(memberReviewFormVm.readOrUpdate || not memberReview.payGem)"
+                                   sclass="input"/>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Paga Quota?"/>
+                        <checkbox checked="@bind(memberReview.payMembershipFee)"
+                                  mold="switch"
+                                  disabled="@load(memberReviewFormVm.readOrUpdate)"/>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Valor da quota:"/>
+                        <doublebox value="@bind(memberReview.membershipFeeValue)"
+                                   readonly="@load(not memberReviewFormVm.create || not memberReview.payMembershipFee)"
+                                   sclass="input"/>
+                    </div>
+                </div>
+
+                <div zclass="row">
+                    <div zclass="input-label">
+                        <label value="Data de Admissão:"/>
+                        <datebox valueInLocalDate="@bind(memberReview.admissionDate) "
+                                 readonly="@load(memberReviewFormVm.readOrUpdate)"
+                                 buttonVisible="@load(memberReviewFormVm.buttonVisible)"
+                                 sclass="input"/>
+                    </div>
+
+                    <div zclass="input-label">
+                        <label value="Data de inicio de pagamentos:"/>
+                        <datebox valueInLocalDate="@bind(memberReview.startPaymentDate) "
+                                 onChange="@command('onChangeStartPaymentDate', memberReview = memberReview)"
+                                 readonly="@load(memberReviewFormVm.readOrUpdate)"
+                                 buttonVisible="@load(memberReviewFormVm.buttonVisible)"
+                                 sclass="input"/>
+                    </div>
+
+                    <div zclass="input-label">
+
+                    </div>
+
+                    <div zclass="input-label">
+
+                    </div>
+                </div>
+
+                <div zclass="row">
+                    <div zclass="input-label">
+                        <label value="Notas:"/>
+                        <textbox value="@bind(memberReview.commentsAndNotes)"
+                                 readonly="@load(memberReviewFormVm.read)"
+                                 multiline="true"
+                                 rows="4"
+                                 sclass="input"/>
+                    </div>
+
+                </div>
+            </div>
+
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div style="flex-row-end">
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(memberReviewFormVm.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(memberReviewFormVm.update)"
+                            label="Actualizar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

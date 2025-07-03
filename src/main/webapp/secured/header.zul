@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~  Copyright (c) 2025
+  ~  EXI Limitada
+  ~  All rights reserved.
+  ~
+  ~   Created by Eleuterio Zacarias Mabecuane 
+  -->
+
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <div sclass="main-top-header" style="background: #ffffff" apply="${headerController}" id="windowHeader">
+        <n:header class="navbar navbar-expand-md navbar-light d-print-none border-bottom">
+            <n:div class="container-xl">
+                <h:h3 class="pe-0 "
+                      style="margin:0; display: flex; gap: 1rem; justify-content: center; align-items: center">
+                    <h:img src="/assets/images/cmd-logo.png" width="36px" height="36px" alt=""/>
+                    <div style="display: flex; flex-direction: column; gap: .1rem">
+                        <n:span style="font-size: 1.2rem; font-weight: bold">Clube Marítimo de Desportos</n:span>
+                        <h:span style="font-size: .8rem;">SisClube</h:span>
+                    </div>
+                </h:h3>
+
+                <h:div style="display: flex;gap: .5rem; ">
+
+                    <div class="icon-button pointer" id="divNotificationBell">
+                        <h:img src="/assets/svg/bell.svg" width="20px" height="20px" alt=""/>
+                        <div style="display: flex; align-items: center; justify-content: center; font-weight: bold; ">
+                            <label id="labelNotificationNumber"/>
+                        </div>
+                    </div>
+
+
+                    <n:div class="nav-item dropdown">
+                        <n:a class="nav-link d-flex lh-1 text-reset p-0"
+                             data-bs-toggle="dropdown"
+                             style="cursor: pointer; gap: .5rem"
+                             aria-label="Open user menu">
+                            <image id="imageUserPhoto" style="border-radius: 50%" width="32px" height="32px"/>
+                            <n:div class="d-block ps-2">
+                                <html id="htmlUsername"/>
+                                <n:div class="mt-1 small text-muted">
+                                    <html id="htmlUserGroups"/>
+                                </n:div>
+                            </n:div>
+                        </n:a>
+                        <n:div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" style="z-index: 99">
+                            <a zclass="dropdown-item" id="aMyAccount">Minha conta</a>
+                            <n:div class="dropdown-divider"/>
+                            <a zclass="dropdown-item">Dar sugestão</a>
+                            <a href="/logout" zclass="dropdown-item">Sair</a>
+                        </n:div>
+                    </n:div>
+                </h:div>
+            </n:div>
+        </n:header>
+
+        <n:div class="navbar-expand-md border-bottom">
+            <n:div class="navbar navbar-light container-xl navbar-nav justify-content-center" style="padding: 0;">
+                <menubar>
+                    <menuitem label="${labels.Home}" onClick="@command('navigate', page = 'HOME')"/>
+                    <menuitem label="${labels.Denuncias}" onClick="@command('navigate', page = 'REPORT_LIST')"/>
+
+                    <menu label="Gerir">
+                        <menupopup>
+
+                            <menu label="${labels.Members}"
+                                  onClick="@command('navigate', page = 'MEMBER_ACTIVE_LISTING')">
+                                <menupopup>
+                                    <menuitem label="${labels.Invoices}"
+                                              onClick="@command('navigate', page = 'MEMBER_INVOICE_LIST')"/>
+                                    <menuitem label="${labels.Receipts}"
+                                              onClick="@command('navigate', page = 'MEMBER_RECEIPT_LIST')"/>
+                                    <menuseparator/>
+                                    <menuitem label="Todos Sócios"
+                                              onClick="@command('navigate', page = 'MEMBER_WITH_REVIEW_LISTING')"/>
+                                    <menuitem label="Sócios Sem Parecer"
+                                              onClick="@command('navigate', page = 'MEMBER_WITH_NO_REVIEW_LISTING')"/>
+                                    <menuitem label="Sócios Activos"
+                                              onClick="@command('navigate', page = 'MEMBER_ACTIVE_LISTING')"/>
+                                    <menuitem label="Sócios Inactivos"
+                                              onClick="@command('navigate', page = 'MEMBER_INACTIVE_LISTING')"/>
+                                    <menuitem label="Sócios Ausentes"
+                                              onClick="@command('navigate', page = 'MEMBER_ABSENT_LISTING')"/>
+                                    <menuitem label="Sócios Falecidos"
+                                              onClick="@command('navigate', page = 'MEMBER_DECEASED_LISTING')"/>
+                                    <menuseparator/>
+                                    <menuitem label="Sócios vs Agregados"
+                                              onClick="@command('navigate', page = 'MEMBER_VS_HOUSEHOLD_LISTING')"/>
+                                    <menuitem label="Sócios e Renumeração"
+                                              onClick="@command('navigate', page = 'MEMBER_RENUMERATION_LISTING')"/>
+                                </menupopup>
+                            </menu>
+
+                            <menu label="${labels.Boats}" onClick="@command('navigate', page = 'BOAT_LIST')">
+                                <menupopup>
+                                    <menuitem label="Embarcações dos Sócios"
+                                              onClick="@command('navigate', page = 'MEMBER_BOAT_LISTING')"/>
+                                    <menuitem label="Embarcações no Clube"
+                                              onClick="@command('navigate', page = 'BOAT_IN_CMD_YARD_LISTING')"/>
+                                    <menuitem label="Embarcações fora do Clube"
+                                              onClick="@command('navigate', page = 'BOAT_OUT_LISTING')"/>
+                                    <menuitem label="Embarcações do Clube"
+                                              onClick="@command('navigate', page = 'CMD_BOAT_LISTING')"/>
+                                    <menuseparator/>
+                                    <menuitem label="${labels.Boat_Departure_To_Sea}"
+                                              onClick="@command('navigate', page = 'BOAT_DEPARTURE_TO_SEA_LIST')"/>
+
+                                    <menuseparator/>
+                                    <menuitem label="${labels.Boat_Types}"
+                                              onClick="@command('navigate', page = 'BOAT_TYPE_LIST')"/>
+                                    <menuitem label="${labels.Boat_Classes}"
+                                              onClick="@command('navigate', page = 'BOAT_CLASS_LIST')"/>
+                                    <menuseparator/>
+                                    <menuitem label="${labels.Boats_Spaces}"
+                                              onClick="@command('navigate', page = 'BOAT_SPACE_LIST')"/>
+                                    <menuitem label="${labels.Boats_Space_Types}"
+                                              onClick="@command('navigate', page = 'BOAT_SPACE_TYPE_LIST')"/>
+                                    <menuitem label="${labels.Boats_Space_Classes}"
+                                              onClick="@command('navigate', page = 'BOAT_SPACE_CLASS_LIST')"/>
+                                </menupopup>
+                            </menu>
+
+                            <menu label="${labels.Service_Invoicing}">
+                                <menupopup>
+                                    <menuitem label="${labels.Service_Invoices}"
+                                              onClick="@command('navigate', page = 'SERVICE_INVOICE_LIST')"/>
+                                    <menuitem label="${labels.Billing_Notices}"
+                                              onClick="@command('navigate', page = 'BILLING_NOTICE_LIST')"/>
+                                    <menuitem label="${labels.Service_Receipts}"
+                                              onClick="@command('navigate', page = 'SERVICE_RECEIPT_LISTING')"/>
+                                    <menuitem label="${labels.Immediate_Receipts}"
+                                              onClick="@command('navigate', page = 'IMMEDIATE_RECEIPT_LISTING')"/>
+                                    <menuseparator/>
+                                    <menuitem label="${labels.Clients}"
+                                              onClick="@command('navigate', page = 'CLIENT_LISTING')"/>
+                                    <menuitem label="${labels.Services}"
+                                              onClick="@command('navigate', page = 'SERVICE_LISTING')"/>
+                                </menupopup>
+                            </menu>
+
+                            <menuitem label="${labels.Single_Persons}" visible="false"
+                                      onClick="@command('navigate', page = 'SINGLE_PERSON_SEARCH')"/>
+
+                            <menuitem label="${labels.Legal_Persons}" visible="false"
+                                      onClick="@command('navigate', page = 'LEGAL_PERSON_LIST')"/>
+                        </menupopup>
+                    </menu>
+                    <menuitem label="Relátorios" onClick="@command('navigate', page = 'REPORTS')"/>
+                    <menu label="${labels.Configurations}">
+                        <menupopup>
+                            <menu label="${labels.Access_Control}">
+                                <menupopup>
+                                    <menuitem label="${labels.Users}"
+                                              onClick="@command('navigate', page = 'USER_LIST')"/>
+                                    <menuitem label="${labels.User_Groups}"
+                                              onClick="@command('navigate', page = 'USER_GROUP_LIST')"/>
+                                    <menuitem label="${labels.Permissions}"
+                                              onClick="@command('navigate', page = 'PERMISSION_LIST')"/>
+                                </menupopup>
+                            </menu>
+                            <menu label="${labels.Parameters}">
+                                <menupopup>
+                                    <menuitem label="${labels.Instituitions}"
+                                              onClick="@command('navigate', page = 'INSTITUITION_LIST')"/>
+
+                                    <menuitem label="${labels.Teams}"
+                                              onClick="@command('navigate', page = 'TEAM_LIST')"/>
+
+                                    <menuitem label="${labels.Report_Type2}"
+                                              onClick="@command('navigate', page = 'REPORT_TYPE_LIST')"/>
+
+                                    <menuitem label="${labels.Report_Classification}"
+                                              onClick="@command('navigate', page = 'REPORT_CLASSIFICATION_LIST')"/>
+
+                                    <menuitem label="Gestão de Permissões"
+                                              onClick="@command('navigate', page = 'PERMISSION_MANAGEMENT_LIST')"/>
+
+                                    <menuitem label="Gestão de Módulos"
+                                              onClick="@command('navigate', page = 'MODULE_LIST')"/>
+
+                                    <menuseparator/>
+
+                                    <menuitem label="${labels.Countries}"
+                                              onClick="@command('navigate', page = 'COUNTRY_LIST')"/>
+
+                                    <menuseparator/>
+
+                                    <menuitem label="${labels.Allergies}"
+                                              onClick="@command('navigate', page = 'ALLERGY_LIST')"/>
+
+                                    <menuseparator/>
+
+                                    <menuitem label="${labels.Modalities}"
+                                              onClick="@command('navigate', page = 'MODALITY_LIST')"/>
+
+                                    <menuseparator/>
+
+                                    <menuitem label="${labels.Type_of_Identification_Documents}"
+                                              onClick="@command('navigate', page = 'IDENTIFICATION_DOCUMENT_TYPE_LIST')"/>
+
+                                    <menuitem label="Denominação do tipo de documento de identificação"
+                                              onClick="@command('navigate', page = 'IDENTIFICATION_DOCUMENT_TYPE_DENOMINATION_LIST')"/>
+
+                                    <menuseparator/>
+
+                                    <menuitem label="${labels.Professions}"
+                                              onClick="@command('navigate', page = 'PROFESSION_LIST')"/>
+                                </menupopup>
+                            </menu>
+                        </menupopup>
+                    </menu>
+                </menubar>
+            </n:div>
+        </n:div>
+    </div>
+</zk>

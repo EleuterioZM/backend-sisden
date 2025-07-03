@@ -1,0 +1,73 @@
+<zk xmlns:n="native">
+    <window id="windowFineForgivenessForm" viewModel="@id('fineForgivenessFormVm') @init(fineForgivenessFormVm)"
+            form="@id('fineForgiveness') @load(fineForgivenessFormVm.fineForgiveness) @save(fineForgivenessFormVm.fineForgiveness, before='saveOrUpdate')">
+
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(fineForgivenessFormVm.create)" value="Criar Perdão de Multa"/>
+                <label zclass="title" visible="@load(fineForgivenessFormVm.read)" value="Ver Perdão de Multa"/>
+                <label zclass="title" visible="@load(fineForgivenessFormVm.update)" value="Actualizar Perdão de Multa"/>
+            </n:div>
+
+            <n:div class="body">
+                <div class="row">
+
+                    <div class="input-label">
+                        <label value="Tipo de Valor:"/>
+                        <combobox model="@load(fineForgivenessFormVm.valueTypeList)"
+                                  selectedItem="@bind(fineForgiveness.valueType)"
+                                  buttonVisible="@load(fineForgivenessFormVm.buttonVisible)"
+                                  readonly="@load(fineForgivenessFormVm.readonly)">
+                            <template name="model" var="row">
+                                <comboitem label="@load(row.name)"/>
+                            </template>
+                        </combobox>
+                    </div>
+
+                    <n:div class="input-label">
+                        <label value="Valor:"/>
+                        <doublebox readonly="@load(fineForgivenessFormVm.readonly)"
+                                   value="@bind(fineForgiveness.value)"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                    </n:div>
+
+                    <n:div class="input-label">
+                    </n:div>
+                </div>
+
+                <div class="row">
+                    <groupbox closable="false" open="true">
+                        <caption label="Seleccione as multas"/>
+
+                        <div zclass="column">
+                            <listbox model="@load(fineForgivenessFormVm.penaltyPaymentOrderList)"
+                                     selectedItems="@bind(fineForgiveness.paymentOrderList)">
+                                <listhead>
+                                    <listheader label="Embarcação"/>
+                                    <listheader label="Data"/>
+                                    <listheader label="Valor"/>
+                                </listhead>
+                                <template name="model" var="penaltyPaymentOrder">
+                                    <listitem>
+                                        <listcell label="@load(penaltyPaymentOrder.boat.numberAndName)"/>
+                                        <listcell label="@load(penaltyPaymentOrder.date)"/>
+                                        <listcell
+                                                label="@load(penaltyPaymentOrder.value) @converter(doubleToCurrencyConverter)"/>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </div>
+                    </groupbox>
+                </div>
+            </n:div>
+
+            <div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                        visible="@load(fineForgivenessFormVm.create)" label="Registar"/>
+            </div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatSpaceListingVm') @init(boatSpaceListingVm)">
+        <div class="page">
+            <div zclass="header">
+                <div>
+                    <label zclass="title" visible="@load(boatSpaceListingVm.multipleSelection)">Seleccione as Espaço de
+                        Embarcação
+                    </label>
+                    <label zclass="title" visible="@load(boatSpaceListingVm.singleSelection)">Seleccione a Espaço de
+                        Embarcação
+                    </label>
+                    <label zclass="title" visible="@load(not boatSpaceListingVm.selection)">Lista de Espaço de
+                        Embarcação
+                    </label>
+                </div>
+                <button onClick="@global-command('navigate', page = 'BOAT_SPACE_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not boatSpaceListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+            <n:div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         value="@bind(boatSpaceListingVm.searchTerm)"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox model="@bind(boatSpaceListingVm.boatSpaceListModel)"
+                         selectedItems="@bind(boatSpaceListingVm.selectedBoatSpaceList)">
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Code}"/>
+                        <listheader label="${labels.Price}"/>
+                        <listheader label="Dimensão em m²"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row.id)">
+                            <listcell>
+                                <div zclass="row" visible="@load(boatSpaceListingVm.selection)">
+                                    <button tooltiptext="${labels.Select}"
+                                            onClick="@command('select', id=row.id)"
+                                            disabled="@load(boatSpaceListingVm.multipleSelection)"
+                                            zclass="btn btn-primary" label="Seleccionar"/>
+                                </div>
+                                <div zclass="row" visible="@load(not boatSpaceListingVm.selection)">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('view', id=row.id)"
+                                            zclass="btn btn-secondary" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Edit}"
+                                            onClick="@command('edit', id=row.id)"
+                                            zclass="btn btn-primary" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.code)"/>
+                            <listcell label="@load(row.price)"/>
+                            <listcell label="@load(row.dimension_in_m2)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+            </n:div>
+            <div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(boatSpaceListingVm.multipleSelection)"
+                        zclass="btn btn-primary"
+                        label="@load(c:cat3('Seleccionar ', boatSpaceListingVm.selectedBoatSpaceList.size(), ' tipo de embarcação'))"/>
+            </div>
+        </div>
+    </window>
+</zk>

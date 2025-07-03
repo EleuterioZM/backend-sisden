@@ -1,0 +1,283 @@
+<zk xmlns:n="native">
+    <window id="windowHouseholdFormVm"
+            viewModel="@id('householdFormVm') @init(householdFormVm)"
+            form="@id('household') @load(householdFormVm.household) @save(householdFormVm.household, before='saveOrUpdate')">
+
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" visible="@load(householdFormVm.create)">Criar Agregado</label>
+                <label zclass="title" visible="@load(householdFormVm.update)">Editar Agregado</label>
+                <label zclass="title" visible="@load(householdFormVm.read)">Ver Agregado</label>
+            </n:div>
+
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <image id="imageSinglePersonPhotography"
+                               onClick="@command('onClickImagePhotography')"
+                               zclass="pointer"
+                               style="width: 150px; max-height: 150px; border: 1px solid gray; border-radius: 2px; object-position: center; object-fit: contain; "/>
+                        <div zclass="column"
+                             visible="@load(householdFormVm.createOrUpdate)">
+                            <button
+                                    onUpload="@command('onUploadSetPhotography', household=household)"
+                                    upload="true"
+                                    zclass="btn btn-primary"
+                                    label="Definir Foto | Alterar"/>
+                            <button
+                                    onClick="@command('onClickRemovePhotography', household=household)"
+                                    zclass="btn btn-danger"
+                                    label="Remover"/>
+                        </div>
+                    </div>
+
+                    <div zclass="grid-form-4">
+                        <label value="Tipo de Agregado:"/>
+                        <div/>
+                        <div/>
+                        <div/>
+
+                        <combobox
+                                model="@load(householdFormVm.householdTypeList)"
+                                selectedItem="@bind(household.householdType)"
+                                readonly="@load(householdFormVm.readonly)"
+                                buttonVisible="@load(householdFormVm.buttonVisible)"
+                                sclass="input">
+                            <template name="model">
+                                <comboitem label="${each.name}" value="${each}"/>
+                            </template>
+                        </combobox>
+                        <div zclass="row" style="grid-column-start: 2;  grid-column-end: 4;">
+                            <label style="white-space: nowrap;">do Sócio</label>
+                            <textbox value="@load(household.member.numberAndName)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </div>
+                        <div/>
+
+                    </div>
+
+                    <div zclass="row">
+                        <n:div class="input-label">
+                            <label value="Nome:"/>
+                            <textbox id="textboxSinglePersonName"
+                                     value="@bind(household.singlePerson.name) "
+                                     readonly="@load(householdFormVm.readonly)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                            <label value="Data de Nascimento:"/>
+                            <datebox id="dateboxSinglePersonBirthDate"
+                                     valueInLocalDate="@bind(household.singlePerson.birthDate) "
+                                     readonly="@load(householdFormVm.readonly)"
+                                     buttonVisible="@load(householdFormVm.buttonVisible)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                            <label value="Gênero:"/>
+                            <radiogroup id="radiogroupSinglePersonGender"
+                                        model="@load(householdFormVm.genderList)"
+                                        selectedItem="@bind(household.singlePerson.gender)"
+                                        disabled="@load(householdFormVm.readonly)">
+                                <template name="model">
+                                    <radio label="${each.name}" value="${each}"/>
+                                </template>
+                            </radiogroup>
+                        </n:div>
+                    </div>
+
+                    <div zclass="row">
+                        <n:div class="input-label">
+                            <label value="Estado Cívil:"/>
+                            <combobox id="comboboxSinglePersonMaritalStatus"
+                                      model="@load(householdFormVm.maritalStatusList)"
+                                      selectedItem="@bind(household.singlePerson.maritalStatus)"
+                                      readonly="@load(householdFormVm.readonly)"
+                                      buttonVisible="@load(householdFormVm.buttonVisible)"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem label="${each.name}" value="${each}"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+                        <div zclass="input-label">
+                            <label value="Nacionalidade:"/>
+                            <combobox id="comboboxSinglePersonNationality"
+                                      model="@load(householdFormVm.countryList)"
+                                      selectedItem="@bind(household.singlePerson.nationality)"
+                                      readonly="@load(householdFormVm.readonly)"
+                                      buttonVisible="@load(householdFormVm.buttonVisible)"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem label="${each.gentilic}" value="${each}"/>
+                                </template>
+                            </combobox>
+                        </div>
+                        <div zclass="input-label">
+                            <label value="Endereço:"/>
+                            <textbox id="textboxSinglePersonAddress"
+                                     value="@bind(household.singlePerson.address)"
+                                     readonly="@load(householdFormVm.readonly)"
+                                     sclass="input"/>
+                        </div>
+                    </div>
+
+                    <div zclass="row">
+                        <n:div class="input-label">
+                            <label value="Telefone 1:"/>
+                            <textbox id="textboxSinglePersonPhone1"
+                                     value="@bind(household.singlePerson.phone1)"
+                                     readonly="@load(householdFormVm.readonly)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                            <label value="Telefone 2:"/>
+                            <textbox id="textboxSinglePersonPhone2"
+                                     value="@bind(household.singlePerson.phone2)"
+                                     readonly="@load(householdFormVm.readonly)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                            <label value="Email:"/>
+                            <textbox id="textboxSinglePersonEmail"
+                                     value="@bind(household.singlePerson.email)"
+                                     readonly="@load(householdFormVm.readonly)"
+                                     sclass="input"/>
+                        </n:div>
+                        <n:div class="input-label">
+                            <label value="NUIT:"/>
+                            <textbox id="textboxSinglePersonNuit"
+                                     value="@bind(household.singlePerson.nuit)"
+                                     readonly="@load(householdFormVm.readonly)"
+                                     sclass="input"/>
+                        </n:div>
+                    </div>
+
+                    <groupbox open="true" closable="false">
+                        <caption label="Documento de Identificação"/>
+                        <div zclass="row">
+                            <n:div class="input-label">
+                                <label value="Tipo:"/>
+                                <combobox id="comboboxSinglePersonIdentityDocumentType"
+                                          model="@load(householdFormVm.identityDocumentTypeList)"
+                                          selectedItem="@bind(household.singlePerson.identityDocumentType)"
+                                          readonly="@load(householdFormVm.readonly)"
+                                          buttonVisible="@load(householdFormVm.buttonVisible)"
+                                          sclass="input">
+                                    <template name="model">
+                                        <comboitem label="${each.name}" value="${each}"/>
+                                    </template>
+                                </combobox>
+                            </n:div>
+                            <n:div class="input-label">
+                                <label value="Número:"/>
+                                <textbox id="textboxSinglePersonIdentityDocumentNumber"
+                                         value="@bind(household.singlePerson.identityDocumentNumber)"
+                                         readonly="@load(householdFormVm.readonly)"
+                                         sclass="input"/>
+                            </n:div>
+                            <n:div class="input-label">
+                            </n:div>
+                        </div>
+                    </groupbox>
+
+                    <groupbox open="true" closable="false">
+                        <caption label="Informações Profissionais"/>
+                        <div zclass="row">
+                            <n:div class="input-label">
+                                <label value="Profissão:"/>
+                                <combobox id="comboboxSinglePersonProfession"
+                                          model="@load(householdFormVm.professionList)"
+                                          selectedItem="@bind(household.singlePerson.profession)"
+                                          readonly="@load(householdFormVm.readonly)"
+                                          buttonVisible="@load(householdFormVm.buttonVisible)"
+                                          sclass="input">
+                                    <template name="model">
+                                        <comboitem label="${each.name}" value="${each}"/>
+                                    </template>
+                                </combobox>
+                            </n:div>
+                            <n:div class="input-label">
+                                <label value="Nome da Empresa:"/>
+                                <textbox id="textboxSinglePersonCompanyName"
+                                         value="@bind(household.singlePerson.companyName)"
+                                         readonly="@load(householdFormVm.readonly)"
+                                         sclass="input"/>
+                            </n:div>
+                            <n:div class="input-label">
+                                <label value="Endereço da Empresa:"/>
+                                <textbox id="textboxSinglePersonCompanyAddress"
+                                         value="@bind(household.singlePerson.companyAddress)"
+                                         readonly="@load(householdFormVm.readonly)"
+                                         sclass="input"/>
+                            </n:div>
+                        </div>
+                    </groupbox>
+
+                    <groupbox open="true" closable="false">
+                        <caption label="Outras Informaçoes"/>
+
+                        <div zclass="grid-form-3col">
+                            <label value="Grupo Sanguíneo:"/>
+                            <div zclass="row">
+                                <label value="Alergias:"/>
+                                <button id="buttonChangeAllergies"
+                                        onClick="@command('onClickSelectAllergies', household=household)"
+                                        zclass="btn btn-primary"
+                                        visible="@load(householdFormVm.createOrUpdate)"
+                                        label="Definir | Alterar"/>
+                            </div>
+                            <div zclass="row">
+                                <label value="Modalidades Interessadas:"/>
+                                <button id="buttonChangeInterestedModalities"
+                                        onClick="@command('onClickSelectModalities', household=household)"
+                                        visible="@load(householdFormVm.createOrUpdate)"
+                                        zclass="btn btn-primary"
+                                        label="Definir | Alterar"/>
+                            </div>
+
+                            <combobox id="comboboxSinglePersonBloodGroup"
+                                      model="@load(householdFormVm.bloodGroupList)"
+                                      selectedItem="@bind(household.singlePerson.bloodGroup)"
+                                      readonly="@load(householdFormVm.readonly)"
+                                      buttonVisible="@load(householdFormVm.buttonVisible)"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem label="${each.name}" value="${each}"/>
+                                </template>
+                            </combobox>
+
+                            <textbox id="textboxSinglePersonAllergies"
+                                     value="@load(household.singlePerson.allergyList) @converter(commaSeparatedConverter)"
+                                     readonly="true"
+                                     multiline="true"
+                                     rows="3"
+                                     sclass="input"/>
+
+
+                            <textbox id="textboxMemberModalities"
+                                     value="@load(household.modalityList) @converter(commaSeparatedConverter)"
+                                     multiline="true"
+                                     rows="3"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </div>
+                    </groupbox>
+                </div>
+            </div>
+
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')" visible="@load(householdFormVm.create)"
+                            zclass="btn btn-primary"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')" visible="@load(householdFormVm.update)"
+                            zclass="btn btn-primary"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatSpaceFormVm') @init(boatSpaceFormVm)"
+            form="@id('boatSpace') @load(boatSpaceFormVm.boatSpace) @save(boatSpaceFormVm.boatSpace, before = 'saveOrUpdate')">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Criar Espaço de Embarcação" visible="@load(boatSpaceFormVm.create)"/>
+                <label zclass="title" value="Ver Espaço de Embarcação" visible="@load(boatSpaceFormVm.read)"/>
+                <label zclass="title" value="Actualizar Espaço de Embarcação" visible="@load(boatSpaceFormVm.update)"/>
+            </n:div>
+            <n:div class="body">
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Code}:"/>
+                        <textbox value="@bind(boatSpace.code)"
+                                 readonly="@load(boatSpaceFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Dimensão em m²:"/>
+                        <doublebox value="@bind(boatSpace.dimensionInM2)"
+                                   readonly="@load(boatSpaceFormVm.read)"
+                                   sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Price}:"/>
+                        <doublebox value="@bind(boatSpace.price)"
+                                   readonly="@load(boatSpaceFormVm.read)"
+                                   sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(boatSpace.description)"
+                                 readonly="@load(boatSpaceFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(boatSpaceFormVm.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(boatSpaceFormVm.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

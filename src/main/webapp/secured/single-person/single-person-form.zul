@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window apply="${singlePersonFC}" id="windowSinglePersonForm">
+        <div zclass="page form">
+            <n:div class="header">
+                <label zclass="title" value="${$composer.getXLabel()}"/>
+            </n:div>
+            <n:div class="body inputs">
+
+                <n:div class="row " style="margin-bottom: 1rem">
+                    <n:div class="input-label">
+                    </n:div>
+
+                    <n:div class="input-label" style="align-items: center">
+                        <image id="imagePhotography" zclass="pointer"
+                               style="width: 150px; border: 1px solid black; border-radius: 12px; "/>
+                        <h:div style="display: flex; justify-content: space-around; gap: .5rem; margin-top: 1rem">
+                            <button id="buttonAttachPhotography"
+                                    upload="true"
+                                    visible="${$composer.getVisible()}"
+                                    zclass="btn btn-primary button button-img pointer"
+                                    label="Seleccionar fotografia"/>
+                            <div id="divRemovePhotography"
+                                 visible="${$composer.getVisible()}"
+                                 zclass="btn btn-danger button button-img pointer">
+                                <label value="Editar"/>
+                            </div>
+                        </h:div>
+                    </n:div>
+
+                    <n:div class="input-label">
+                    </n:div>
+                </n:div>
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Name}:"/>
+                        <textbox id="textboxFullName"
+                                 readonly="${$composer.getReadonly()}"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Birth_Date}:"/>
+                        <datebox id="dateboxBirthDate"
+                                 format=""
+                                 readonly="${$composer.getReadonly()}"
+                                 buttonVisible="${$composer.getButtonVisible()}"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Gênero *:"/>
+                        <combobox id="comboboxGender"
+                                  readonly="${$composer.getReadonly()}"
+                                  buttonVisible="${$composer.getButtonVisible()}"
+                                  sclass="input">
+                            <template name="model">
+                                <comboitem value="${each}" label="${each.getLabel()}"/>
+                            </template>
+                        </combobox>
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="Estado Civil:"/>
+                        <combobox id="comboboxMaritalStatus"
+                                  readonly="${$composer.getReadonly()}"
+                                  buttonVisible="${$composer.getButtonVisible()}"
+                                  sclass="input">
+                            <template name="model">
+                                <comboitem value="${each}" label="${each.getLabel()}"/>
+                            </template>
+                        </combobox>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Nacionalidade:"/>
+                        <combobox id="comboboxNationality"
+                                  readonly="${$composer.getReadonly()}"
+                                  buttonVisible="${$composer.getButtonVisible()}"
+                                  sclass="input">
+                            <template name="model">
+                                <comboitem value="${each}" label="${each.getGentilic()}"/>
+                            </template>
+                        </combobox>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Endereço:"/>
+                        <textbox id="textboxAddress"
+                                 readonly="${$composer.getReadonly()}"
+                                 rows="4"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="Telefone/Telemovel 1:"/>
+                        <textbox id="textboxPhone1"
+                                 readonly="${$composer.getReadonly()}"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Telefone/Telemovel 2:"/>
+                        <textbox id="textboxPhone2"
+                                 readonly="${$composer.getReadonly()}"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Email:"/>
+                        <textbox id="textboxEmail"
+                                 readonly="${$composer.getReadonly()}"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <groupbox open="true">
+                    <caption label="Documento de Identificação"/>
+
+                    <n:div class="row ">
+                        <n:div class="input-label">
+                            <label value="Tipo de Documento:"/>
+                            <combobox id="comboboxIdentificationDocumentType"
+                                      readonly="${$composer.getReadonly()}"
+                                      buttonVisible="${$composer.getButtonVisible()}"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem value="${each}" label="${each.getName()}"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="Número do Documento:"/>
+                            <textbox id="textboxIdentificationDocumentNumber"
+                                     readonly="${$composer.getReadonly()}"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                        </n:div>
+
+                        <n:div class="input-label">
+                        </n:div>
+
+                        <div class="input-label" visible="false">
+                            <label value="Anexo do documento:"/>
+                            <n:div class="row gap-05rem">
+                                <button id="buttonAttachIdentificationDocumentAttachment"
+                                        label="Anexar documento"
+                                        upload="true"
+                                        visible="${$composer.getVisible()}"
+                                        sclass="input button"/>
+                                <textbox id="textboxIdentificationDocumentAttachment"
+                                         sclass="input"
+                                         rows="2"
+                                         visible="false"
+                                         readonly="true"
+                                         multiline="true"/>
+                                <div id="divRemoveIdentificationDocumentAttachment"
+                                     visible="false || ${$composer.getVisible()}"
+                                     zclass="btn btn-danger button button-img pointer">
+                                    <label value="Editar"/>
+                                </div>
+                                <div id="divViewIdentificationDocumentAttachment"
+                                     visible="false || ${$composer.getVisible()}"
+                                     zclass="btn btn-primary button button-img pointer">
+                                    <label value="Ver"/>
+                                </div>
+                            </n:div>
+                        </div>
+                    </n:div>
+                </groupbox>
+
+                <groupbox open="true">
+                    <caption label="Informações Profissionais"/>
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="Profissão:"/>
+                            <combobox id="comboboxProfession"
+                                      readonly="${$composer.getReadonly()}"
+                                      buttonVisible="${$composer.getButtonVisible()}"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem value="${each}" label="${each.getName()}"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="Empresa:"/>
+                            <textbox id="textboxProfessionalInformationCompanyName"
+                                     readonly="${$composer.getReadonly()}"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="Endereço do teu local de trabalho:"/>
+                            <textbox id="textboxProfessionalInformationWorkAddress"
+                                     readonly="${$composer.getReadonly()}"
+                                     sclass="input"/>
+                        </n:div>
+                    </n:div>
+                </groupbox>
+
+                <groupbox open="true">
+                    <caption label="Outras Informações"/>
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="Grupo Sanguíneo:"/>
+                            <combobox id="comboboxBloodGroup"
+                                      readonly="${$composer.getReadonly()}"
+                                      buttonVisible="${$composer.getButtonVisible()}"
+                                      sclass="input">
+                                <template name="model">
+                                    <comboitem value="${each}" label="${each.getLabel()}"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <h:div style="display: flex; justify-content: space-between; align-items: center">
+                                <label value="Alergia:"/>
+                                <a id="buttonSelectAllergy" label="${labels.Select}"
+                                   visible="${$composer.getVisible()}"/>
+                            </h:div>
+                            <textbox id="textboxAllergyNameList" multiline="true" rows="2" readonly="true"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                        </n:div>
+                    </n:div>
+                </groupbox>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="Comentários e Notas:"/>
+                        <textbox id="textboxCommentariesAndNotes"
+                                 readonly="${$composer.getReadonly()}"
+                                 rows="4"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+            </n:div>
+            <h:div class="footer">
+                <button id="button_voltar"
+                        zclass="btn btn-secondary"
+                        label="${labels.Back}"/>
+                <button id="buttonSaveOrUpdate"
+                        zclass="btn btn-success"
+                        visible="${$composer.getCreateOrUpdate()}"
+                        label="${$composer.getButtonLabel()}"/>
+            </h:div>
+        </div>
+    </window>
+</zk>

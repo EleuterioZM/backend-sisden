@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('countryFVM') @init(countryFVM)"
+            form="@id('country') @load(countryFVM.country) @save(countryFVM.country, before = 'saveOrUpdate' ) @validator(countryFV)">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="@load(countryFVM.title)"/>
+            </n:div>
+            <n:div class="body inputs">
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Name}:"/>
+                        <textbox value="@bind(country.name)"
+                                 readonly="@load(countryFVM.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Código do País (Ex.: +258):"/>
+                        <textbox value="@bind(country.phoneCode)"
+                                 readonly="@load(countryFVM.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Nacionalidade (Gentílico):"/>
+                        <textbox value="@bind(country.gentilic)"
+                                 readonly="@load(countryFVM.read)"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-success"
+                        visible="@load(countryFVM.saveOrUpdateButtonVisibility)"
+                        label="@load(countryFVM.saveOrUpdateButtonLabel)"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

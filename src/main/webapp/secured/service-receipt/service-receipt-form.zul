@@ -1,0 +1,125 @@
+<zk xmlns:n="native">
+    <window viewModel="@id('serviceReceiptFormVm') @init(serviceReceiptFormVm)"
+            form="@id('serviceReceipt') @load(serviceReceiptFormVm.serviceReceipt) @save(serviceReceiptFormVm.serviceReceipt, before = 'saveOrUpdate' )">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="${labels.ServiceRecieptsRegist}"/>
+            </n:div>
+            <n:div class="body">
+                <div zclass="column">
+
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Client}:"/>
+                            <n:div class="row">
+                                <textbox value="@load(serviceReceipt.client.name)"
+                                         readonly="true"
+                                         sclass="input"/>
+                                <button onClick="@command('searchClient', serviceReceipt=serviceReceipt)"
+                                        visible="@load(not serviceReceiptFormVm.read)"
+                                        zclass="btn btn-secondary"
+                                        label="${labels.Search}"/>
+                            </n:div>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Number}:"/>
+                            <textbox readonly="true" value="@bind(serviceReceipt.number)"/>
+                        </n:div>
+                    </n:div>
+
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.PaymentMethod}:"/>
+                            <combobox model="@load(serviceReceiptFormVm.paymentMethodList)"
+                                      selectedItem="@bind(serviceReceipt.paymentMethod)"
+                                      readonly="@load(serviceReceiptFormVm.readonly)"
+                                      buttonVisible="@load(serviceReceiptFormVm.buttonVisible)">
+                                <template name="model">
+                                    <comboitem value="@load(each)" label="@load(each.name)"/>
+                                </template>
+                            </combobox>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.ProofNumber}:"/>
+                            <textbox
+                                    readonly="@load(serviceReceiptFormVm.readonly || not serviceReceipt.paymentMethod.hasProofNumber)"
+                                    value="@bind(serviceReceipt.proofNumber)"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.PaymentDate}:"/>
+                            <datebox valueInLocalDate="@bind(serviceReceipt.date)"
+                                     readonly="@load(serviceReceiptFormVm.readonly)"
+                                     buttonVisible="@load(serviceReceiptFormVm.buttonVisible)"/>
+                        </n:div>
+                    </n:div>
+
+                    <n:div class="row">
+                        <n:hr/>
+                    </n:div>
+
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label style="font-size: 1.2rem; font-weight: bold;"
+                                   value="Selecione as Facturas e Avisos de Cobrança"/>
+                            <listbox model="@load(serviceReceiptFormVm.serviceReceiptItemList)"
+                                     onSelect="@command('onSelectServiceReceiptItemList', serviceReceipt=serviceReceipt)"
+                                     selectedItems="@bind(serviceReceipt.serviceReceiptItemList)"
+                                     checkmark="@bind(serviceReceiptFormVm.create)">
+                                <listhead>
+                                    <listheader hflex="min"/>
+                                    <listheader label="Numero da Factura ou Aviso - F/AC" hflex="min"/>
+                                    <listheader label="${labels.Service}"/>
+                                    <listheader label="${labels.Period}" hflex="min"/>
+                                    <listheader label="${labels.Value}" hflex="min"/>
+                                </listhead>
+                                <template name="model">
+                                    <listitem>
+                                        <listcell label=""/>
+                                        <listcell label="@load(each.number)"/>
+                                        <listcell label="@load(each.serviceName)"/>
+                                        <listcell label="@load(each.period)"/>
+                                        <listcell label="@load(each.value) @converter(doubleToCurrencyConverter)"/>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                            <n:div class="row">
+                                <n:div class="input-label">
+
+                                </n:div>
+                                <n:div class="input-label">
+
+                                </n:div>
+                                <n:div class="input-label">
+
+                                </n:div>
+                                <n:div class="input-label">
+                                    <label value="${labels.Total}:"/>
+                                    <textbox value="@load(serviceReceipt.total) @converter(doubleToCurrencyConverter)"
+                                             readonly="true"/>
+                                </n:div>
+                            </n:div>
+
+                        </n:div>
+                    </n:div>
+
+                </div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('print', serviceReceipt=serviceReceipt)"
+                        visible="@load(serviceReceiptFormVm.read)"
+                        zclass="btn btn-primary" label="${labels.Print}"/>
+
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-primary"
+                        visible="@bind(serviceReceiptFormVm.create)"
+                        label="Registrar"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

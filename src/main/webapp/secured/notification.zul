@@ -1,0 +1,52 @@
+<zk>
+    <window apply="${notificationController}" id="windowNotification">
+        <div zclass="page">
+            <div zclass="header">
+                <label zclass="title" value="Notificações"/>
+            </div>
+
+            <div zclass="body">
+                <div zclass="row">
+                    <div zclass="input-label">
+                        <label value="Termo de pesquisa:"/>
+                        <div zclass="row">
+                            <textbox class="input" instant="true" id="textboxSearchTerm"/>
+                            <button label="Pesquisar" id="buttonSearch" zclass="btn btn-primary"/>
+                        </div>
+                    </div>
+
+                    <div zclass="input-label"></div>
+                </div>
+
+                <listbox id="listboxNotification">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Title}"/>
+                        <listheader label="${labels.Description}"/>
+                        <listheader label="Quando" hflex="min"/>
+                    </listhead>
+                    <template name="model">
+                        <listitem value="${each}">
+                            <listcell>
+                                <div style="display: flex; gap: .5rem">
+                                    <button
+                                            forward="onClick=listboxNotification.onView(${each})"
+                                            zclass="btn button ${each.viewed ? 'btn-primary' : 'btn-warning'}"
+                                            label="Ver"/>
+                                </div>
+                            </listcell>
+                            <listcell label="${each.title}"/>
+                            <listcell label="${each.description}"/>
+                            <listcell>
+                                ${$composer.timeAgo(each.created_at)}
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+            </div>
+            <div zclass="footer">
+                <button id="buttonBack" label="Voltar" zclass="btn btn-secondary"/>
+            </div>
+        </div>
+    </window>
+</zk>

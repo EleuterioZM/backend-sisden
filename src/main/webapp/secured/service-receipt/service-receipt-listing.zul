@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('serviceReceiptListingVm') @init(serviceReceiptListingVm)">
+        <div class="page">
+            <div zclass="header">
+                <label zclass="title" value="Lista de Recibos de Serviço"/>
+                <button onClick="@global-command('navigate', page = 'SERVICE_RECEIPT_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not serviceReceiptListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <div class="input-label">
+                            <label value="${labels.Criteria}:"/>
+                            <div sclass="row">
+                                <textbox sclass="input" value="@bind(serviceReceiptListingVm.searchTerm)"
+                                         onChange="@command('search')" instant="true"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary"
+                                        label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label">
+                        </div>
+                    </div>
+                </div>
+
+                <listbox model="@bind(serviceReceiptListingVm.serviceReceiptListModel)">
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Number}" hflex="min"/>
+                        <listheader label="Cliente"/>
+                        <listheader label="Data" hflex="min"/>
+                        <listheader label="Total" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem>
+                            <listcell>
+                                <div zclass="row">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('view', id=row.id)"
+                                            zclass="btn btn-secondary button button-img pointer" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', customMap=row)"
+                                            visible="@load(row.is_last and sec:isAllGranted('DELETE_RECEIPT'))"
+                                            zclass="btn btn-danger button button-img pointer" label="Apagar"/>
+
+                                    <button tooltiptext="${labels.Print}"
+                                            onClick="@command('print', id=row.id)"
+                                            zclass="btn btn-warning button button-img pointer" label="Imprimir"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.number)"/>
+                            <listcell label="@load(row.client_name)"/>
+                            <listcell label="@load(row.date) @converter(dateFormatterConverter)"/>
+                            <listcell label="@load(row.total) @converter(doubleToCurrencyConverter)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+            </div>
+
+            <div zclass="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+            </div>
+        </div>
+    </window>
+</zk>

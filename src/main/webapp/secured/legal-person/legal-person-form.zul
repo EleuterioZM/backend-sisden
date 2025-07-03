@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('legalPersonFVM') @init(legalPersonFVM)"
+            form="@id('legalPerson') @load(legalPersonFVM.legalPerson) @save(legalPersonFVM.legalPerson, before = 'saveOrUpdate' ) @validator(legalPersonFV)">
+        <div class="page form">
+            <h:div class="header">
+                <label zclass="title">${c:l2('Create_x', {labels.Legal_Person}.toArray())}</label>
+            </h:div>
+            <h:div class="body inputs">
+                <tabbox>
+                    <tabs>
+                        <tab selected="true">Detalhes Principais</tab>
+                        <tab>Responsaveis pela Instituição</tab>
+                    </tabs>
+                    <tabpanels>
+                        <tabpanel>
+                            <h:div class="body inputs">
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                    </n:div>
+
+                                    <n:div class="input-label" style="align-items: center">
+                                        <image content="@bind(legalPersonFVM.imageLogo)" zclass="pointer"
+                                               style="width: 300px; border: 1px solid black; border-radius: 12px; "/>
+                                        <h:div style="display: flex; justify-content: space-around; gap: 0.5rem;margin-top: 1rem">
+                                            <button onUpload="@command('uploadLogo', legalPerson=legalPerson, uploadEvent=zkEvent)"
+                                                    upload="true"
+                                                    visible="@load(legalPersonFVM.createOrUpdate)"
+                                                    zclass="btn btn-primary"
+                                                    label="Seleccionar Logo"/>
+                                            <div onClick="@command('removeLogo', legalPerson=legalPerson)"
+                                                 visible="@load(legalPersonFVM.createOrUpdate)"
+                                                 zclass="btn btn-danger button button-img pointer">
+                                                <label value="Apagar"/>
+                                            </div>
+                                        </h:div>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                    </n:div>
+                                </n:div>
+
+                                <h:div class="row">
+                                    <h:div class="input-label">
+                                        <label value="${labels.Name}:"/>
+                                        <textbox value="@bind(legalPerson.name)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+                                    <h:div class="input-label">
+                                        <label value="Telefone /Telemóvel 1:"/>
+                                        <textbox value="@bind(legalPerson.phone1)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+
+                                    <h:div class="input-label">
+                                        <label value="Telefone /Telemóvel 2:"/>
+                                        <textbox value="@bind(legalPerson.phone2)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+                                </h:div>
+
+                                <h:div class="row">
+                                    <h:div class="input-label">
+                                        <label value="Endereço:"/>
+                                        <textbox value="@bind(legalPerson.address)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input" rows="2"/>
+                                    </h:div>
+                                </h:div>
+
+                                <h:div class="row">
+                                    <h:div class="input-label">
+                                        <label value="${labels.Email}:"/>
+                                        <textbox value="@bind(legalPerson.email)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+                                    <h:div class="input-label">
+                                        <label value="Data de Constituição:"/>
+                                        <datebox valueInLocalDate="@bind(legalPerson.incorporationDate)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 buttonVisible="@load(legalPersonFVM.buttonVisible)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+                                    <h:div class="input-label">
+                                        <label value="NUIT:"/>
+                                        <textbox value="@bind(legalPerson.nuit)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+                                    <h:div class="input-label">
+                                        <label value="Principal objecto social?:"/>
+                                        <textbox value="@bind(legalPerson.mainBusinessActivity)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+                                </h:div>
+
+                                <h:div class="row">
+                                    <h:div class="input-label" style="flex: 1">
+                                        <label value="Tipo de Instituição:"/>
+                                        <combobox model="@bind(legalPersonFVM.institutionTypeList)"
+                                                  selectedItem="@bind(legalPerson.institutionType)"
+                                                  readonly="@load(legalPersonFVM.read)"
+                                                  buttonVisible="@load(not legalPersonFVM.read)"
+                                                  onChange="@command('onChangeInstitutionType', legalPerson=legalPerson)"
+                                                  sclass="input">
+                                            <template name="model" var="institutionType">
+                                                <comboitem value="@bind(institutionType)"
+                                                           label="@bind(institutionType.label)"/>
+                                            </template>
+                                        </combobox>
+                                    </h:div>
+
+                                    <h:div class="input-label" style="flex: 2">
+                                        <label value="Especifique o outro tipo de instituição:"/>
+                                        <textbox value="@bind(legalPerson.otherInstitutionType)"
+                                                 readonly="@load(legalPersonFVM.readonlyOtherInstitutionType)"
+                                                 sclass="input"/>
+                                    </h:div>
+                                </h:div>
+
+                                <h:div class="row">
+                                    <h:div class="input-label">
+                                        <label value="NUEL do Registo Comercial:"/>
+                                        <textbox value="@bind(legalPerson.commercialRegistrationNuel)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+                                    <h:div class="input-label">
+                                        <label value="Numero de Cartões:"/>
+                                        <intbox value="@bind(legalPerson.cards)"
+                                                readonly="@load(legalPersonFVM.read)"
+                                                sclass="input"/>
+                                    </h:div>
+                                </h:div>
+                            </h:div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <n:div class="body inputs">
+                                <div zclass="row" visible="@load(legalPersonFVM.createOrUpdate)">
+                                    <h:div class="input-label">
+                                        <label value="${labels.Name}:"/>
+                                        <textbox value="@bind(legalPersonFVM.representativeName)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+                                    <h:div class="input-label">
+                                        <label value="Função:"/>
+                                        <textbox value="@bind(legalPersonFVM.representativeRole)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+
+
+                                    <h:div class="input-label">
+                                        <label value="Telefone /Telemóvel:"/>
+                                        <textbox value="@bind(legalPersonFVM.representativePhone)"
+                                                 readonly="@load(legalPersonFVM.read)"
+                                                 sclass="input"/>
+                                    </h:div>
+                                </div>
+                                <n:div style="display:flex; gap: .5rem;">
+                                    <button onClick="@command('addRepresentative',legalPerson=legalPerson )"
+                                            zclass="btn btn-primary"
+                                            visible="@load(legalPersonFVM.createOrUpdate)"
+                                            label="Adicionar Representante"/>
+                                </n:div>
+                                <listbox model="@bind(legalPerson.legalPersonRepresentativeSet)"
+                                         sizedByContent="false">
+                                    <listhead sizable="true">
+                                        <listheader label="Nome"/>
+                                        <listheader label="Função"/>
+                                        <listheader label="Telefone"/>
+                                        <listheader label="${labels.Actions}" hflex="min"/>
+                                    </listhead>
+                                    <template name="model" var="legalPersonRepresentative">
+                                        <listitem value="@load(legalPersonRepresentative)">
+                                            <listcell>
+                                                <textbox value="@bind(legalPersonRepresentative.name)"
+                                                         readonly="@load(legalPersonFVM.read)"/>
+                                            </listcell>
+                                            <listcell>
+                                                <textbox value="@bind(legalPersonRepresentative.role)"
+                                                         readonly="@load(legalPersonFVM.read)"/>
+                                            </listcell>
+                                            <listcell>
+                                                <textbox value="@bind(legalPersonRepresentative.phone)"
+                                                         readonly="@load(legalPersonFVM.read)"/>
+                                            </listcell>
+                                            <listcell>
+                                                <n:div style="display: flex; gap: .5rem">
+                                                    <div tooltiptext="${labels.Delete}"
+                                                         visible="@load(legalPersonFVM.createOrUpdate)"
+                                                         onClick="@command('deleteRepresentative', legalPerson=legalPerson, legalPersonRepresentative=legalPersonRepresentative)"
+                                                         zclass="btn btn-danger">
+                                                        <label value="Apagar"/>
+                                                    </div>
+                                                </n:div>
+                                            </listcell>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </n:div>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+
+            </h:div>
+            <h:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-success"
+                        visible="@load(legalPersonFVM.saveOrUpdateButtonVisibility)"
+                        label="@load(legalPersonFVM.saveOrUpdateButtonLabel)"/>
+            </h:div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('reportClassificationListingVM') @init(reportClassificationListingVM)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista das Classificações das Denúncias"
+                       visible="@load(not reportClassificationListingVM.selection)"/>
+                <label zclass="title" value="Seleccione a Classificação" visible="@load(reportClassificationListingVM.selection)"/>
+
+                <button onClick="@global-command('navigate', page = 'REPORT_CLASSIFICATION_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not reportClassificationListingVM.selection)"
+                        label="${labels.Create}"/>
+            </div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true"
+                                         value="@bind(reportClassificationListingVM.searchTerm)"
+                                         onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <listbox id="listboxReportClassification" model="@load(reportClassificationListingVM.reportClassificationListModel)"
+                         checkmark="@load(reportClassificationListingVM.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"
+                                    visible="@load(not reportClassificationListingVM.multipleSelection)"/>
+                        <listheader label="Gravidade"/>
+                        <listheader label="${labels.Date}"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not reportClassificationListingVM.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('edit', id=row.id)"
+                                            visible="@load(not reportClassificationListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+
+                                    <button onClick="@command('select', id=row.id)"
+                                            visible="@load(reportClassificationListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="${labels.Select}"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.gravity)"/>
+                            <listcell label="@load(row.created_at)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

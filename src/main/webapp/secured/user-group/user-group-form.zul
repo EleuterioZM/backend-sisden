@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('userGroupFormVM') @init(userGroupFormVM)"
+            form="@id('userGroup') @load(userGroupFormVM.userGroup) @save(userGroupFormVM.userGroup, before='save')">
+        <div class="page form">
+
+            <n:div class="header">
+                <label zclass="title" value="Criar Grupo de Utilizadores" visible="@load(userGroupFormVM.create)"/>
+                <label zclass="title" value="Ver Grupo de Utilizadores" visible="@load(userGroupFormVM.read)"/>
+                <label zclass="title" value="Actualizar Grupo de Utilizadores" visible="@load(userGroupFormVM.update)"/>
+            </n:div>
+
+            <n:div class="body inputs">
+
+                <n:div class="form-group">
+                    <label value="Código *"/>
+                    <textbox value="@bind(userGroup.code)"
+                             readonly="@load(userGroupFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Nome *"/>
+                    <textbox value="@bind(userGroup.name)"
+                             readonly="@load(userGroupFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Descrição"/>
+                    <textbox value="@bind(userGroup.description)"
+                             readonly="@load(userGroupFormVM.read)"
+                             sclass="input form-control" rows="3"/>
+                </n:div>
+
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                <div>
+                    <button onClick="@command('save')"
+                            zclass="btn btn-primary"
+                            visible="@load(userGroupFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('save')"
+                            zclass="btn btn-primary"
+                            visible="@load(userGroupFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

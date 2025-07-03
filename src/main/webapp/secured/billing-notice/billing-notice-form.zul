@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window
+            viewModel="@id('billingNoticeFormVm') @init(billingNoticeFormVm)"
+            form="@id('billingNotice') @load(billingNoticeFormVm.billingNotice) @save(billingNoticeFormVm.billingNotice, before = 'saveOrUpdate' )">
+        <div zclass="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(billingNoticeFormVm.create)" value="Criar Aviso de Cobrança"/>
+                <label zclass="title" visible="@load(billingNoticeFormVm.read)" value="Ver Aviso de Cobrança"/>
+                <label zclass="title" visible="@load(billingNoticeFormVm.update)" value="Editar Aviso de Cobrança"/>
+            </n:div>
+            <n:div class="body inputs">
+                <div class="row" visible="@load(billingNoticeFormVm.read)">
+                    <n:div class="input-label">
+                        <label value="${labels.Number}:"/>
+                        <textbox value="@bind(billingNotice.number)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.State}:"/>
+                        <textbox value="@bind(billingNotice.paymentStatus.name)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </n:div>
+                </div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Client}:"/>
+                        <n:div class="row">
+                            <textbox value="@load(billingNotice.client.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+                            <button onClick="@command('searchClient', billingNotice=billingNotice)"
+                                    visible="@load(not billingNoticeFormVm.read)"
+                                    zclass="btn btn-secondary"
+                                    label="${labels.Search}"/>
+                        </n:div>
+                    </n:div>
+
+                    <n:div class="input-label">
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Service}:"/>
+                        <n:div class="row">
+                            <textbox value="@load(billingNotice.service.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+                            <button onClick="@command('searchService', billingNotice=billingNotice)"
+                                    visible="@load(not billingNoticeFormVm.read)"
+                                    zclass="btn btn-secondary"
+                                    label="${labels.Search}"/>
+                        </n:div>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Value}:"/>
+                        <doublebox value="@bind(billingNotice.total)"
+                                   readonly="@load(billingNoticeFormVm.read)"
+                        />
+                    </n:div>
+
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Payment_Period}:"/>
+                        <combobox model="@bind(billingNoticeFormVm.periodList)"
+                                  selectedItem="@bind(billingNotice.period)"
+                                  readonly="@load(billingNoticeFormVm.read)"
+                                  buttonVisible="@load(not billingNoticeFormVm.read)"
+                                  sclass="input">
+                            <template name="model" var="period">
+                                <comboitem value="@bind(period)"
+                                           label="@bind(period) @converter(dateToMonthYearConverter)"/>
+                            </template>
+                        </combobox>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Date}:"/>
+                        <datebox valueInLocalDate="@bind(billingNotice.date)"
+                                 readonly="@load(billingNoticeFormVm.read)"
+                                 buttonVisible="@load(not billingNoticeFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <groupbox open="true">
+                    <caption label="Cobranças"/>
+
+                    <n:div class="column">
+                        <div class="row" visible="@load(billingNoticeFormVm.createOrUpdate)">
+                            <n:div class="input-label">
+                                <label value="Nome da Entidade:"/>
+                                <textbox value="@bind(billingNoticeFormVm.entityName)"
+                                         readonly="@load(billingNoticeFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Leitura actual:"/>
+                                <doublebox value="@bind(billingNoticeFormVm.currentRead)"
+                                           onChange="@command('calcConsumption')"
+
+                                           readonly="@load(billingNoticeFormVm.read)"
+                                           sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Leitura Anterior:"/>
+                                <doublebox value="@bind(billingNoticeFormVm.lastRead)"
+                                           onChange="@command('calcConsumption')"
+
+                                           readonly="@load(billingNoticeFormVm.read)"
+                                           sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Consumo:"/>
+                                <textbox value="@bind(billingNoticeFormVm.consumption)"
+                                         readonly="@load(billingNoticeFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="Unidade de Medida:"/>
+                                <combobox model="@bind(billingNoticeFormVm.metricUnitList)"
+                                          selectedItem="@bind(billingNoticeFormVm.metricUnit)"
+                                          readonly="@load(billingNoticeFormVm.read)"
+                                          buttonVisible="@load(not billingNoticeFormVm.read)"
+                                          sclass="input">
+                                    <template name="model" var="metricUnit">
+                                        <comboitem value="@bind(metricUnit)"
+                                                   label="@bind(metricUnit.name)"/>
+                                    </template>
+                                </combobox>
+                            </n:div>
+                        </div>
+
+                        <n:div class="row">
+                            <button onClick="@command('addBill', billingNotice=billingNotice)"
+                                    zclass="btn btn-primary"
+                                    visible="@load(billingNoticeFormVm.createOrUpdate)"
+                                    label="Adicionar Consumo"/>
+                        </n:div>
+
+                        <listbox model="@bind(billingNotice.consumptionRecordList)" multiple="false" checkmark="false">
+                            <listhead sizable="true">
+                                <listheader label="Nome da entidade"/>
+                                <listheader label="Leitura Actual"/>
+                                <listheader label="Leitura Anterior"/>
+                                <listheader label="Consumo"/>
+                                <listheader label="Unidade de Medida"/>
+                                <listheader label="${labels.Actions}" hflex="min"
+                                            visible="@load(billingNoticeFormVm.createOrUpdate)"/>
+                            </listhead>
+                            <template name="model" var="consumptionRecord">
+                                <listitem value="@load(consumptionRecord)">
+                                    <listcell label="@bind(consumptionRecord.entityName)"/>
+                                    <listcell
+                                            label="@bind(consumptionRecord.currentRead) @converter(doubleToCurrencyConverter)"/>
+                                    <listcell
+                                            label="@bind(consumptionRecord.lastRead) @converter(doubleToCurrencyConverter)"/>
+                                    <listcell
+                                            label="@bind(consumptionRecord.consumption) @converter(doubleToCurrencyConverter)"/>
+                                    <listcell label="@bind(consumptionRecord.metricUnit.name)"/>
+                                    <listcell visible="@load(billingNoticeFormVm.createOrUpdate)">
+                                        <n:div style="display: flex; gap: .5rem">
+                                            <button tooltiptext="${labels.Delete}"
+                                                    onClick="@command('removeBill', billingNotice=billingNotice, consumptionRecord=consumptionRecord)"
+                                                    zclass="btn btn-danger" label="Apagar"/>
+                                        </n:div>
+                                    </listcell>
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </n:div>
+
+                </groupbox>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(billingNotice.description)"
+                                 readonly="@load(billingNoticeFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <h:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@bind(billingNoticeFormVm.create)"
+                            label="Registrar"/>
+
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@bind(billingNoticeFormVm.update and billingNotice.pending)"
+                            label="Actualizar"/>
+
+                    <button onClick="@command('print', billingNotice=billingNotice)"
+                            visible="@load(billingNoticeFormVm.read)"
+                            zclass="btn btn-warning" label="${labels.Print}"/>
+
+                    <button onClick="@command('viewServiceReceipt', billingNotice=billingNotice)"
+                            visible="@load(billingNotice.paid)"
+                            zclass="btn btn-primary" label="Ver Recibo"/>
+                </div>
+            </h:div>
+        </div>
+    </window>
+</zk>

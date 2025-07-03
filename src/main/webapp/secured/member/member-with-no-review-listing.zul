@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('memberWithNoReviewListingVm') @init(memberWithNoReviewListingVm)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Sócios sem Parecer"
+                       visible="@load(not memberWithNoReviewListingVm.selection)"/>
+                <label zclass="title" value="Seleccione o sócio"
+                       visible="@load(memberWithNoReviewListingVm.selection)"/>
+            </div>
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox id="listboxMember" model="@load(memberWithNoReviewListingVm.memberWithNoReviewListModel)"
+                         checkmark="@load(memberWithNoReviewListingVm.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"
+                                    visible="@load(not memberWithNoReviewListingVm.multipleSelection)"/>
+                        <listheader label="${labels.Name}"/>
+                        <listheader label="Telefone 1" hflex="min"/>
+                        <listheader label="Telefone 2" hflex="min"/>
+                        <listheader label="Email" hflex="min"/>
+                        <listheader label="${labels.Gender}" hflex="min"/>
+                        <listheader label="${labels.Birth_Date}" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not memberWithNoReviewListingVm.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('viewMember', id=row.id)"
+                                            visible="@load(not memberWithNoReviewListingVm.singleSelection)"
+                                            zclass="btn btn-secondary" label="Ver">
+                                    </button>
+
+                                    <button onClick="@command('editMember', id=row.id)"
+                                            visible="@load(not memberWithNoReviewListingVm.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar">
+                                    </button>
+
+                                    <button onClick="@command('review', id=row.id)"
+                                            zclass="btn btn-primary"
+                                            label="Dar Parecer"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.phone1)"/>
+                            <listcell label="@load(row.phone2)"/>
+                            <listcell label="@load(row.email)"/>
+                            <listcell label="@load(row.gender)"/>
+                            <listcell label="@load(row.birth_date)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

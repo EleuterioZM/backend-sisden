@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('moduleListingVM') @init(moduleListingVM)">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" value="Gestão de Módulos"/>
+                <button onClick="@command('addModule')"
+                        zclass="btn btn-primary"
+                        visible="@load(not moduleListingVM.popup)"
+                        label="Adicionar Módulo"/>
+            </n:div>
+            <n:div class="body">
+                <listbox model="@bind(moduleListingVM.moduleListModel)"
+                         sizedByContent="false">
+                    <listhead sizable="true">
+                        <listheader label="Código"/>
+                        <listheader label="Nome"/>
+                        <listheader label="Descrição"/>
+                        <listheader label="Ações"/>
+                    </listhead>
+                    <template name="model" var="module">
+                        <listitem>
+                            <listcell label="@load(module.code)"/>
+                            <listcell label="@load(module.name)"/>
+                            <listcell label="@load(module.description)"/>
+                            <listcell>
+                                <button onClick="@command('view', id=module.id)"
+                                        zclass="btn btn-sm btn-info"
+                                        label="Ver"/>
+                                <button onClick="@command('edit', id=module.id)"
+                                        zclass="btn btn-sm btn-warning"
+                                        label="Editar"/>
+                                <button onClick="@command('delete', id=module.id)"
+                                        zclass="btn btn-sm btn-danger"
+                                        label="Apagar"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+            </n:div>
+        </div>
+    </window>
+</zk> 

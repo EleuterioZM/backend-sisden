@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatDepartureToSeaFormVm') @init(boatDepartureToSeaFormVm)"
+            form="@id('boatDepartureToSea') @load(boatDepartureToSeaFormVm.boatDepartureToSea) @save(boatDepartureToSeaFormVm.boatDepartureToSea, before = 'saveOrUpdate' )">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" visible="@load(boatDepartureToSeaFormVm.create)"
+                       value="Criar Sáida de Embarcações para o Mar"/>
+                <label zclass="title" visible="@load(boatDepartureToSeaFormVm.update)"
+                       value="Editar Sáida de Embarcações para o Mar"/>
+                <label zclass="title" visible="@load(boatDepartureToSeaFormVm.read)"
+                       value="Ver Sáida de Embarcações para o Mar"/>
+            </n:div>
+            <n:div class="body">
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Boat}:"/>
+                        <div zclass="row">
+                            <combobox model="@bind(boatDepartureToSeaFormVm.boatList)"
+                                      selectedItem="@bind(boatDepartureToSea.boat)"
+                                      readonly="@load(boatDepartureToSeaFormVm.read)"
+                                      buttonVisible="@load(boatDepartureToSeaFormVm.buttonVisible)"
+                                      sclass="input">
+                                <template name="model" var="boat">
+                                    <comboitem value="@bind(boat)" label="@bind(boat.numberAndName)"/>
+                                </template>
+                            </combobox>
+                            <button zclass="btn btn-primary" label="Seleccionar"
+                                    disabled="@load(boatDepartureToSeaFormVm.disabled)"
+                                    onClick="@command('selectBoat', boatDepartureToSea=boatDepartureToSea)"/>
+                        </div>
+                    </n:div>
+                    <n:div class="input-label"/>
+                    <n:div class="input-label"/>
+                </n:div>
+
+                <n:div class="row">
+
+                    <n:div class="input-label">
+                        <label value="${labels.Owner_Name}:"/>
+                        <textbox value="@bind(boatDepartureToSea.boat.id) @converter(boatToOwnerNameConverter)"
+                                 readonly="true"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.WithOwner}:"/>
+                        <checkbox checked="@bind(boatDepartureToSea.withOwner)"
+                                  mold="switch"
+                                  onCheck="@command('onCheckWithOwner', boatDepartureToSea=boatDepartureToSea)"
+                                  disabled="@load(boatDepartureToSeaFormVm.disabled)"
+                                  sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Responsável pela Saída:"/>
+                        <textbox value="@bind(boatDepartureToSea.responsibleName)"
+                                 readonly="@load(boatDepartureToSeaFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="Número de Boletim da Saída:"/>
+                        <textbox value="@bind(boatDepartureToSea.bulletinNumber)"
+                                 readonly="@load(boatDepartureToSeaFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Data saída:"/>
+                        <datebox valueInLocalDateTime="@bind(boatDepartureToSea.departureDateTime)"
+                                 format="dd/MM/yyyy HH:mm:ss"
+                                 readonly="@load(boatDepartureToSeaFormVm.read)"
+                                 buttonVisible="@load(boatDepartureToSeaFormVm.buttonVisible)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Data Regresso:"/>
+                        <datebox valueInLocalDateTime="@bind(boatDepartureToSea.arrivalDateTime)"
+                                 format="dd/MM/yyyy HH:mm:ss"
+                                 readonly="@load(boatDepartureToSeaFormVm.read)"
+                                 buttonVisible="@load(boatDepartureToSeaFormVm.buttonVisible)"
+                                 sclass="input"/>
+                    </n:div>
+                </n:div>
+
+                <groupbox open="false">
+                    <caption label="Outros campos"/>
+
+                    <n:div class="body inputs">
+                        <n:div class="row">
+
+                            <n:div class="input-label">
+                                <label value="${labels.DrivingLicenseNumber}:"/>
+                                <textbox value="@bind(boatDepartureToSea.drivingLicenseNumber)"
+                                         readonly="@load(boatDepartureToSeaFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+                            <n:div class="input-label">
+                                <label value="${labels.Destiny}:"/>
+                                <textbox value="@bind(boatDepartureToSea.destiny)"
+                                         readonly="@load(boatDepartureToSeaFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="${labels.TravelEquipments}:"/>
+                                <textbox value="@bind(boatDepartureToSea.travelEquipments)"
+                                         readonly="@load(boatDepartureToSeaFormVm.read)"
+                                         sclass="input"/>
+                            </n:div>
+                        </n:div>
+
+                        <n:div class="row">
+                            <n:div class="input-label">
+                                <label value="${labels.OcuppantsNames}:"/>
+                                <textbox value="@bind(boatDepartureToSea.occupantsNames)"
+                                         readonly="@load(boatDepartureToSeaFormVm.read)"
+                                         sclass="input" rows="4"/>
+                            </n:div>
+                        </n:div>
+
+                    </n:div>
+
+                    <n:div class="body inputs">
+                        <n:div class="row">
+
+                            <n:div class="input-label">
+                                <label value="${labels.CommunicationChannel}:"/>
+                                <textbox value="@bind(boatDepartureToSea.communicationChannel)"
+                                         readonly="@load(boatDepartureToSeaFormVm.readonly)"
+                                         sclass="input"/>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="${labels.CommunicationType}:"/>
+                                <combobox model="@bind(boatDepartureToSeaFormVm.communicationTypeList)"
+                                          selectedItem="@bind(boatDepartureToSea.communicationType)"
+                                          readonly="@load(boatDepartureToSeaFormVm.readonly)"
+                                          buttonVisible="@load(boatDepartureToSeaFormVm.buttonVisible)"
+                                          sclass="input">
+                                    <template name="model" var="communicationType">
+                                        <comboitem value="@bind(communicationType)"
+                                                   label="@bind(communicationType.label)"/>
+                                    </template>
+                                </combobox>
+                            </n:div>
+
+                            <n:div class="input-label">
+                                <label value="${labels.CommunicationDateTime}:"/>
+                                <datebox valueInLocalDateTime="@bind(boatDepartureToSea.communicationDateTime)"
+                                         format="dd/MM/yyyy HH:mm:ss"
+                                         readonly="@load(boatDepartureToSeaFormVm.read)"
+                                         buttonVisible="@load(boatDepartureToSeaFormVm.buttonVisible)"
+                                         sclass="input"/>
+                            </n:div>
+
+                        </n:div>
+                    </n:div>
+
+                </groupbox>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(boatDepartureToSea.description)"
+                                 readonly="@load(boatDepartureToSeaFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(boatDepartureToSeaFormVm.create)" label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(boatDepartureToSeaFormVm.update)" label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

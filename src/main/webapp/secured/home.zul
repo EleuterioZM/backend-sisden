@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~  Copyright (c) 2022
+  ~  EXI Limitada
+  ~  All rights reserved.
+  ~
+  ~   Created by Edilson Alexandre Cuamba (eacuamba) on 11/8/2022
+  -->
+
+<zk xmlns:h="http://www.w3.org/1999/xhtml" xmlns:n="native">
+    <div class="page h-100 w-100" apply="${homeController}"
+         style="display: flex; flex-direction: column;">
+
+        <h:div>
+            <h:div style="display: flex;;flex-wrap: wrap; justify-content: center; gap: .5rem; padding: .25rem">
+                <div sclass="card cursor-pointer" onClick="@command('navigate', page = 'MEMBER_ACTIVE_LISTING')">
+                    <h:div class="card-label-wrapper">
+                        <h:div class="card-description">
+                            <h:span class="card-label">Sócios Activos:</h:span>
+                            <label id="labelActiveMemberCounter" sclass="card-label-value">0
+                            </label>
+                        </h:div>
+                        <h:span class="card-icon bg-blue-100">
+                            <n:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="50px"
+                                   fill="#3b82f6">
+                                <n:path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780Zm-455-80h311q-10-20-55.5-35T480-370q-55 0-100.5 15T325-320ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-80q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560Zm1 240Zm-1-280Z"/>
+                            </n:svg>
+                        </h:span>
+                    </h:div>
+                </div>
+
+                <div sclass="card cursor-pointer" onClick="@command('navigate', page = 'MEMBER_INACTIVE_LISTING')">
+                    <h:div class="card-label-wrapper">
+                        <h:div class="card-description">
+                            <h:span class="card-label">Sócios Inactivos:</h:span>
+                            <label id="labelInactiveMemberCounter" sclass="card-label-value">0
+                            </label>
+                        </h:div>
+                        <h:span class="card-icon bg-red-100">
+                            <n:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="50px"
+                                   fill="#3b82f6">
+                                <n:path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780Zm-455-80h311q-10-20-55.5-35T480-370q-55 0-100.5 15T325-320ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-80q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560Zm1 240Zm-1-280Z"/>
+                            </n:svg>
+                        </h:span>
+                    </h:div>
+                </div>
+
+                <div sclass="card cursor-pointer" onClick="@command('navigate', page = 'MEMBER_ABSENT_LISTING')">
+                    <h:div class="card-label-wrapper">
+                        <h:div class="card-description">
+                            <h:span class="card-label">Sócios Ausentes:</h:span>
+                            <label id="labelAbsentMemberCounter" sclass="card-label-value">0
+                            </label>
+                        </h:div>
+                        <h:span class="card-icon bg-yellow-100">
+                            <n:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="50px"
+                                   fill="#3b82f6">
+                                <n:path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780Zm-455-80h311q-10-20-55.5-35T480-370q-55 0-100.5 15T325-320ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-80q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560Zm1 240Zm-1-280Z"/>
+                            </n:svg>
+                        </h:span>
+                    </h:div>
+                </div>
+
+                <div sclass="card cursor-pointer"
+                     onClick="@command('navigate', page = 'MEMBER_WITH_NO_REVIEW_LISTING')">
+                    <h:div class="card-label-wrapper">
+                        <h:div class="card-description">
+                            <h:span class="card-label">Sócios Sem Parecer:</h:span>
+                            <label id="labelWithNoReviewMemberCounter" sclass="card-label-value">0
+                            </label>
+                        </h:div>
+                        <h:span class="card-icon bg-yellow-100">
+                            <n:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="50px"
+                                   fill="#3b82f6">
+                                <n:path d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780Zm-455-80h311q-10-20-55.5-35T480-370q-55 0-100.5 15T325-320ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Zm0-80q17 0 28.5-11.5T520-600q0-17-11.5-28.5T480-640q-17 0-28.5 11.5T440-600q0 17 11.5 28.5T480-560Zm1 240Zm-1-280Z"/>
+                            </n:svg>
+                        </h:span>
+                    </h:div>
+                </div>
+
+                <div sclass="card cursor-pointer" onClick="@command('navigate', page = 'BOAT_LIST')">
+                    <h:div class="card-label-wrapper">
+                        <h:div class="card-description">
+                            <h:span class="card-label">Embarcações</h:span>
+                            <label id="labelBoatsCounter" sclass="card-label-value">0
+                            </label>
+                        </h:div>
+                        <h:span class="card-icon bg-blue-100">
+                            <n:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="50px"
+                                   class="fill-blue-500">
+                                <n:path d="M479-418ZM158-200 82-468q-3-12 2.5-28t23.5-22l52-18v-184q0-33 23.5-56.5T240-800h120v-120h240v120h120q33 0 56.5 23.5T800-720v184l52 18q21 8 25 23.5t1 26.5l-76 268q-50 0-91-23.5T640-280q-30 33-71 56.5T480-200q-48 0-89-23.5T320-280q-30 33-71 56.5T158-200ZM80-40v-80h80q42 0 83-13t77-39q36 26 77 38t83 12q42 0 83-12t77-38q36 26 77 39t83 13h80v80h-80q-42 0-82-10t-78-30q-38 20-78.5 30T480-40q-41 0-81.5-10T320-80q-38 20-78 30t-82 10H80Zm160-522 240-78 240 78v-158H240v158Zm240 282q47 0 79.5-33t80.5-89q48 54 65 74t41 34l44-160-310-102-312 102 46 158q24-14 41-32t65-74q50 57 81.5 89.5T480-280Z"/>
+                            </n:svg>
+                        </h:span>
+                    </h:div>
+                </div>
+
+                <div sclass="card cursor-pointer" onClick="@command('navigate', page = 'BOAT_SPACE_LIST')">
+                    <h:div class="card-label-wrapper">
+                        <h:div class="card-description">
+                            <h:span class="card-label">Espaços</h:span>
+                            <label id="labelSpacesCounter" sclass="card-label-value">0
+                            </label>
+                        </h:div>
+                        <h:span class="card-icon bg-gray-100">
+                            <n:svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" width="50px"
+                                   class="fill-gray-500">
+                                <n:path d="M80-200v-80q38 0 56-20t77-20q58 0 78 20t55 20q38 0 56.5-20t77.5-20q59 0 77.5 20t56.5 20q35 0 55-20t78-20q59 0 77 20t56 20v80q-57 0-78-20t-56-20q-36 0-56 20t-77 20q-59 0-77-20t-56-20q-38 0-56 20t-77 20q-57 0-77-20t-56-20q-35 0-56 20t-78 20Zm150-160q-24 0-46-9t-39-26l-55-55 56-56 55 54q6 6 13.5 9t15.5 3h50v-135l-53 39-47-64 300-220 300 220-47 65-53-39v134h50q8 0 15.5-3t13.5-9l55-54 56 56-55 55q-17 17-39 26t-46 9H230Zm130-80h80v-80h80v80h80v-193l-120-88-120 88v193Zm0 0h240-240Z"/>
+                            </n:svg>
+                        </h:span>
+                    </h:div>
+                </div>
+            </h:div>
+
+            <h:div style="display: flex; flex-direction: column;gap: .5rem; align-items: center; margin-top: 3rem">
+                <h:h1 style="font-size: 1.2rem; font-weight: bold">Atalhos Rápidos para Operações sobre os Sócios e
+                    Embarcações
+                </h:h1>
+                <h:div style="display: flex;;flex-wrap: wrap; gap: 1rem; justify-content: space-around; margin-top: 1rem">
+                    <a zclass="btn btn-outline-primary"
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold"
+                       onClick="@command('navigate', page = 'MEMBER_INVOICE_FORM')">
+                        <div>
+                            <h:div>Facturar pagamento</h:div>
+                            <h:div>de</h:div>
+                            <h:div>Joia, Quota e Aluguel</h:div>
+                            <h:div>para</h:div>
+                            <h:div>sócios</h:div>
+                        </div>
+                    </a>
+
+                    <a zclass="btn btn-outline-primary "
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold;"
+                       onClick="@command('navigate', page = 'MEMBER_FORM')">
+                        <h:div>Registar</h:div>
+                        <h:div>Sócio</h:div>
+                    </a>
+
+                    <a zclass="btn btn-outline-primary "
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold;"
+                       onClick="@command('navigate', page = 'BOAT_FORM')">
+                        <h:div>Registar</h:div>
+                        <h:div>Embarcação</h:div>
+                    </a>
+
+                    <a zclass="btn btn-outline-primary "
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold;"
+                       onClick="@command('navigate', page = 'BOAT_DEPARTURE_TO_SEA_FORM')">
+                        <h:div>Registar</h:div>
+                        <h:div>Saída de Embarcação</h:div>
+                        <h:div>para o</h:div>
+                        <h:div>Mar</h:div>
+                    </a>
+                </h:div>
+
+            </h:div>
+
+            <h:div style="display: flex; flex-direction: column;gap: .5rem; align-items: center; margin-top: 3rem; margin-bottom: 2rem">
+                <h:h1 style="font-size: 1.2rem; font-weight: bold">Atalhos Rápidos para Factuação de Serviços</h:h1>
+                <h:div style="display: flex;;flex-wrap: wrap; gap: 1rem; justify-content: space-around; margin-top: 1rem">
+                    <a zclass="btn btn-outline-success"
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold"
+                       onClick="@command('navigate', page = 'SERVICE_INVOICE_FORM')">
+                        <div>
+                            <h:div>Fazer</h:div>
+                            <h:div>Factura</h:div>
+                        </div>
+                    </a>
+
+                    <a zclass="btn btn-outline-success "
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold;"
+                       onClick="@command('navigate', page = 'BILLING_NOTICE_FORM')">
+                        <h:div>Fazer</h:div>
+                        <h:div>Aviso de Cobrança</h:div>
+                    </a>
+
+                    <a zclass="btn btn-outline-success "
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold;"
+                       onClick="@command('navigate', page = 'SERVICE_RECEIPT_FORM')">
+                        <h:div>Fazer</h:div>
+                        <h:div>Recibo</h:div>
+                    </a>
+
+                    <a zclass="btn btn-outline-success "
+                       style="display: flex;flex-direction: column; align-items: center; justify-content: center; min-width: 200px; font-weight: bold;"
+                       onClick="@command('navigate', page = 'IMMEDIATE_RECEIPT_FORM')">
+                        <h:div>Fazer</h:div>
+                        <h:div>Recibo Imediato</h:div>
+                    </a>
+                </h:div>
+
+            </h:div>
+
+        </h:div>
+
+    </div>
+</zk>

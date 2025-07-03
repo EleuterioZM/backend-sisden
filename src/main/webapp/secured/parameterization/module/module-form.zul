@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('moduleFormVM') @init(moduleFormVM)"
+            form="@id('module') @load(moduleFormVM.module) @save(moduleFormVM.module, before='saveOrUpdate')">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Adicionar Módulo" visible="@load(moduleFormVM.create)"/>
+                <label zclass="title" value="Editar Módulo" visible="@load(moduleFormVM.update)"/>
+                <label zclass="title" value="Ver Módulo" visible="@load(moduleFormVM.read)"/>
+            </n:div>
+
+            <n:div class="body inputs">
+                <n:div class="form-group">
+                    <label value="Código"/>
+                    <textbox value="@bind(module.code)"
+                             readonly="@load(moduleFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+                <n:div class="form-group">
+                    <label value="Nome"/>
+                    <textbox value="@bind(module.name)"
+                             readonly="@load(moduleFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+                <n:div class="form-group">
+                    <label value="Descrição"/>
+                    <textbox value="@bind(module.description)"
+                             readonly="@load(moduleFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+            </n:div>
+
+            <n:div class="footer">
+               <button id="buttonBack" zclass="btn btn-secondary" label="Voltar" onClick="@command('back')"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(moduleFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(moduleFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk> 

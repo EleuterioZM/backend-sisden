@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('permissionFormVM') @init(permissionFormVM)">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Adicionar Permissão" visible="@load(permissionFormVM.create)"/>
+                <label zclass="title" value="Editar Permissão" visible="@load(permissionFormVM.update)"/>
+            </n:div>
+
+            <n:div class="body inputs">
+                <n:div class="form-group">
+                    <label value="Instituição"/>
+                    <combobox model="@load(permissionFormVM.instituitionList)"
+                              selectedItem="@bind(permissionFormVM.selectedInstituition)"
+                              readonly="@load(permissionFormVM.read)">
+                        <template name="model" var="inst">
+                            <comboitem label="@load(inst.name)" value="@load(inst)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+                <n:div class="form-group">
+                    <label value="Usuário"/>
+                    <combobox model="@load(permissionFormVM.userList)"
+                              selectedItem="@bind(permissionFormVM.selectedUser)"
+                              readonly="@load(permissionFormVM.read)">
+                        <template name="model" var="user">
+                            <comboitem label="@load(user.username)" value="@load(user)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+                <n:div class="form-group">
+                    <label value="Grupo"/>
+                    <combobox model="@load(permissionFormVM.userGroupList)"
+                              selectedItem="@bind(permissionFormVM.selectedUserGroup)"
+                              readonly="@load(permissionFormVM.read)">
+                        <template name="model" var="group">
+                            <comboitem label="@load(group.name)" value="@load(group)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+                <n:div class="form-group">
+                    <label value="Permissão"/>
+                    <combobox model="@load(permissionFormVM.permissionList)"
+                              selectedItem="@bind(permissionFormVM.selectedPermission)"
+                              readonly="@load(permissionFormVM.read)">
+                        <template name="model" var="perm">
+                            <comboitem label="@load(perm.name)" value="@load(perm)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar" onClick="@command('back')"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(permissionFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(permissionFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk> 

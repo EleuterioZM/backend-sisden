@@ -1,0 +1,3 @@
+http://localhost:8080/reports
+http://localhost:8080/reports/new
+http://localhost:8080/report-success

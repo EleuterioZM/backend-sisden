@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('clientListingVm') @init(clientListingVm)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Clientes" visible="@load(not clientListingVm.selection)"/>
+                <label zclass="title" value="Seleccione o cliente" visible="@load(clientListingVm.selection)"/>
+                <button onClick="@global-command('navigate', page = 'CLIENT_FORM')"
+                        visible="@bind(not clientListingVm.selection)"
+                        zclass="btn btn-primary"
+                        label="${labels.Create}"/>
+            </div>
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         value="@bind(clientListingVm.searchTerm)"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox model="@load(clientListingVm.clientListModel)"
+                         selectedItems="@bind(clientListingVm.selectedClientList)"
+                         checkmark="@load(clientListingVm.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"
+                                    visible="@load(not clientListingVm.multipleSelection)"/>
+                        <listheader label="Nome"/>
+                        <listheader label="Tipo"/>
+                        <listheader label="NUIT" hflex="min"/>
+                        <listheader label="Telefone 1" hflex="min"/>
+                        <listheader label="Telefone 2" hflex="min"/>
+                        <listheader label="Email"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not clientListingVm.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('view', id=row.id)"
+                                            visible="@load(not clientListingVm.singleSelection)"
+                                            zclass="btn btn-secondary" label="Ver">
+                                    </button>
+
+                                    <button onClick="@command('edit', id=row.id)"
+                                            visible="@load(not clientListingVm.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar">
+                                    </button>
+
+                                    <button onClick="@command('delete', id=row)"
+                                            visible="@load(not clientListingVm.singleSelection)"
+                                            zclass="btn btn-danger" label="Apagar">
+                                    </button>
+
+                                    <button onClick="@command('select', row=row)"
+                                            visible="@load(clientListingVm.singleSelection)"
+                                            zclass="btn btn-primary"
+                                            label="${labels.Select}"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.client_type_name)"/>
+                            <listcell label="@load(row.nuit)"/>
+                            <listcell label="@load(row.phone1)"/>
+                            <listcell label="@load(row.phone2)"/>
+                            <listcell label="@load(row.email)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+                    <button onClick="@command('select')"
+                            visible="@load(clientListingVm.selection)"
+                            zclass="btn btn-primary"
+                            label="@load(c:cat3('Seleccionar ', clientListingVm.selectedClientList.size(), ' clientes'))"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

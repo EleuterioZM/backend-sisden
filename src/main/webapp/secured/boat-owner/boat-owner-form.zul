@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('boatOwnerFVM') @init(boatOwnerFVM)"
+            form="@id('boatOwner') @load(boatOwnerFVM.boatOwner) @save(boatOwnerFVM.boatOwner, before = 'saveOrUpdate' ) @validator(boatOwnerFV)">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title">${c:l2('Create_x', {labels.Boat_Owner}.toArray())}</label>
+            </n:div>
+            <n:div class="body inputs">
+                <n:div class="row">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Club_Registration}:"/>
+                            <textbox value="@bind(boatOwner.boat.clubRegistration)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Name}:"/>
+                            <textbox value="@bind(boatOwner.boat.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Last_Owner}:"/>
+                            <textbox value="@bind(boatOwnerFVM.lastOwnerInfo)"
+                                     readonly="true"
+                                     sclass="input"/>
+                        </n:div>
+                    </n:div>
+
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Select_new_owner}:"/>
+                        <h:div style="display: flex; gap: .5rem;">
+                            <textbox value="@bind(boatOwnerFVM.name)"
+                                     readonly="true"
+                                     sclass="input"/>
+
+                            <button onClick="@command('selectMember', boatOwner=boatOwner)"
+                                    id="buttonSelectMember"
+                                    zclass="btn btn-primary"
+                                    visible="@bind(boatOwnerFVM.showButtonSelectMember)"
+                                    label="${labels.Select}"/>
+                        </h:div>
+                    </n:div>
+
+
+                    <n:div class="input-label">
+                        <label value="${labels.Is_Club_Owner}"/>
+                        <checkbox checked="@bind(boatOwner.isClubOwner)"
+                                  mold="switch"
+                                  onCheck="@command('onCheckIsClubOwner', boatOwner=boatOwner)"
+                                  disabled="@load(boatOwnerFVM.read)"
+                                  sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Start_Date}:"/>
+                        <datebox valueInLocalDateTime="@bind(boatOwner.startDateTime)"
+                                 readonly="@load(boatOwnerFVM.read)"
+                                 format="dd/MM/yyyy HH:mm:ss"
+                                 constraint="no past"
+                                 sclass="input"/>
+                    </n:div>
+
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('saveOrUpdate')"
+                        zclass="btn btn-success"
+                        visible="@load(boatOwnerFVM.saveOrUpdateButtonVisibility)"
+                        label="@load(boatOwnerFVM.saveOrUpdateButtonLabel)"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

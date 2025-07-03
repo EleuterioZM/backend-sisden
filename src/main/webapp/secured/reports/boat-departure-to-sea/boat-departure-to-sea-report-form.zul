@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('boatDepartureToSeaReportFormVm') @init(boatDepartureToSeaReportFormVm)">
+        <div class="page form">
+            <h:div class="header">
+                <label zclass="title">${c:l2('Generate_x', {labels.Boat_Departure_To_Sea_Report}.toArray())}</label>
+            </h:div>
+            <h:div class="body">
+                <n:div class="row">
+                    <h:div class="input-label">
+                        <label value="${labels.Report_Type}:"/>
+                        <combobox model="@bind(boatDepartureToSeaReportFormVm.boatDepartureToSeaReportTypeList)"
+                                  selectedItem="@bind(boatDepartureToSeaReportFormVm.boatDepartureToSeaReportType)"
+                                  sclass="input">
+                            <template name="model" var="boatDepartureToSeaReportType">
+                                <comboitem value="@bind(boatDepartureToSeaReportType)"
+                                           label="@bind(boatDepartureToSeaReportType.label)"/>
+                            </template>
+                        </combobox>
+                    </h:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Departure_Date_Time}:"/>
+                        <datebox valueInLocalDateTime="@bind(boatDepartureToSeaReportFormVm.departureDateTime)"
+                                 format="dd/MM/yyyy HH:mm:ss"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Arrival_Date_Time}:"/>
+                        <datebox valueInLocalDateTime="@bind(boatDepartureToSeaReportFormVm.arrivalDateTime)"
+                                 format="dd/MM/yyyy HH:mm:ss"
+                                 sclass="input"/>
+                    </n:div>
+
+
+                </n:div>
+
+                <n:div class="row">
+                    <h:div class="input-label">
+                        <label value="${labels.Club_Boat_Only}"/>
+                        <checkbox checked="@bind(boatDepartureToSeaReportFormVm.clubBoatsOnly)"
+                                  mold="switch"/>
+                    </h:div>
+
+                    <h:div class="input-label">
+                        <label value="${labels.Report_Type}:"/>
+                        <combobox model="@bind(boatDepartureToSeaReportFormVm.reportFormatList)"
+                                  selectedItem="@bind(boatDepartureToSeaReportFormVm.reportFormat)"
+                                  sclass="input">
+                            <template name="model" var="rf">
+                                <comboitem value="@bind(rf)"
+                                           label="@bind(rf.name)"/>
+                            </template>
+                        </combobox>
+                    </h:div>
+                    <h:div class="input-label"/>
+                    <h:div class="input-label"/>
+                </n:div>
+
+            </h:div>
+            <h:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('generate')"
+                        label="${labels.Generate}"
+                        zclass="btn btn-primary"/>
+            </h:div>
+        </div>
+    </window>
+</zk>

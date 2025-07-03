@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml" xmlns="http://www.zkoss.org/2005/zul">
+    <window id="windowMemberFormVm"
+            viewModel="@id('memberFormVm') @init(memberFormVm)"
+            form="@id('member') @load(memberFormVm.member) @save(memberFormVm.member, before='saveOrUpdate')">
+        <div zclass="page form">
+            <n:div class="header">
+                <label zclass="title" value="Criar Sócio" visible="@load(memberFormVm.create)"/>
+                <label zclass="title" value="Actualizar Sócio" visible="@load(memberFormVm.update)"/>
+                <label zclass="title" value="Ver Sócio" visible="@load(memberFormVm.read)"/>
+            </n:div>
+
+            <n:div class="body">
+                <tabbox>
+                    <tabs>
+                        <tab label="Resumo"
+                             visible="@load(memberFormVm.readOrUpdate and not empty member.memberReview)"
+                             selected="@load(memberFormVm.readOrUpdate and not empty member.memberReview))"/>
+                        <tab label="Dados Gerais" selected="@load(memberFormVm.create || empty member.memberReview)"/>
+                        <tab label="Agregado Familiar" id="tabHousehold"/>
+                        <tab label="Embarcações"
+                             visible="@load(memberFormVm.readOrUpdate  and not empty member.memberReview)"/>
+                        <tab label="Pagamentos"
+                             visible="@load(memberFormVm.readOrUpdate  and not empty member.memberReview)"/>
+                        <tab label="Estado e Tipo de Sócio"
+                             visible="@load(memberFormVm.readOrUpdate  and not empty member.memberReview)"/>
+                        <tab label="Cartões"
+                             visible="@load(memberFormVm.readOrUpdate  and not empty member.memberReview)"/>
+                    </tabs>
+
+                    <tabpanels>
+
+                        <tabpanel>
+                            <div zclass="column">
+                                <div zclass="row">
+                                    <button id="buttonViewMemberReview"
+                                            zclass="btn btn-primary"
+                                            label="Ver Parecer"/>
+                                    <html id="htmlReviewer"/>
+                                </div>
+                                <div zclass="row">
+                                    <h:hr/>
+                                </div>
+                                <div zclass="row">
+                                    <n:div class="input-label">
+                                        <label value="Nome do Sócio:"/>
+                                        <textbox value="@load(member.name)"
+                                                 readonly="true"
+                                                 sclass="input"/>
+                                    </n:div>
+                                    <div zclass="input-label">
+                                        <label value="Nome do(a) Cônjuge:" visible="@load(empty(member.legalPerson))"/>
+                                        <textbox
+                                                visible="@load(empty(member.legalPerson))"
+                                                value="@load(member.spouseName)"
+                                                readonly="true"
+                                                sclass="input"/>
+                                    </div>
+                                    <n:div class="input-label">
+                                    </n:div>
+                                    <n:div class="input-label">
+                                    </n:div>
+                                </div>
+                                <div zclass="row">
+                                    <h:hr/>
+                                </div>
+                                <div zclass="row">
+                                    <n:div class="input-label">
+                                        <label value="Número de Processo:"/>
+                                        <textbox value="@load(member.processNumber)"
+                                                 readonly="true"
+                                                 sclass="input"/>
+                                    </n:div>
+                                    <n:div class="input-label">
+                                        <label value="Número do Sócio:"/>
+                                        <textbox value="@load(member.number)"
+                                                 readonly="true"
+                                                 sclass="input"/>
+                                    </n:div>
+                                    <n:div class="input-label">
+                                        <label value="Data de Admissão:"/>
+                                        <datebox valueInLocalDate="@load(member.memberReview.admissionDate)"
+                                                 readonly="true"
+                                                 buttonVisible="false"
+                                                 sclass="input"/>
+                                    </n:div>
+                                    <n:div class="input-label">
+                                        <label value="Data de Ínicio de Pagamento:"/>
+                                        <datebox id="dateboxMemberReviewStartPaymentDate"
+                                                 valueInLocalDate="@load(member.memberReview.startPaymentDate)"
+                                                 readonly="true"
+                                                 buttonVisible="false"
+                                                 sclass="input"/>
+                                    </n:div>
+                                </div>
+                                <div zclass="row">
+                                    <n:div class="input-label">
+                                        <label value="Valor da Joia:" visible="false"/>
+                                        <doublebox id="doubleboxMemberGemValue"
+                                                   readonly="true"
+                                                   visible="false"
+                                                   sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="Tipo de Sócio:"/>
+                                        <textbox value="@load(member.memberType.name)"
+                                                 readonly="true"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="Valor da Quota:"/>
+                                        <doublebox id="doubleboxMemberMembershipFeeValue"
+                                                   value="@bind(member.membershipFeeValue)"
+                                                   readonly="@load(memberFormVm.readonly || empty(member.legalPerson))"
+                                                   sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="Estado do Sócio:"/>
+                                        <textbox value="@load(member.memberStatus.name)"
+                                                 readonly="true"
+                                                 sclass="input"/>
+                                    </n:div>
+                                </div>
+                            </div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <div>
+                                <tabbox>
+                                    <tabs>
+                                        <tab id="tabSinglePerson" label="Pessoa Singular"
+                                             selected="@load(not empty member.singlePerson)"/>
+                                        <tab id="tabLegalPerson" label="Pessoa Colectiva"
+                                             selected="@load(not empty member.legalPerson)"/>
+                                    </tabs>
+
+                                    <tabpanels>
+                                        <tabpanel>
+                                            <div zclass="column">
+                                                <div zclass="row">
+                                                    <image id="imageSinglePersonPhotography"
+                                                           onClick="@command('onClickImagePhotographyOrLogo')"
+                                                           zclass="pointer"
+                                                           style="width: 150px; max-height: 150px; border: 1px solid gray; border-radius: 2px; object-position: center; object-fit: contain; "/>
+                                                    <div zclass="column"
+                                                         visible="@load(memberFormVm.createOrUpdate)">
+                                                        <button
+                                                                onUpload="@command('onUploadSetPhotographyOrLogo', member=member)"
+                                                                upload="true"
+                                                                zclass="btn btn-primary"
+                                                                label="Definir Foto | Alterar"/>
+                                                        <button
+                                                                onClick="@command('onClickRemovePhotographyOrLogo', member=member)"
+                                                                zclass="btn btn-danger"
+                                                                label="Remover"/>
+                                                    </div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <n:div class="input-label">
+                                                        <label value="Nome:"/>
+                                                        <textbox id="textboxSinglePersonName"
+                                                                 value="@bind(member.singlePerson.name) "
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                        <label value="Data de Nascimento:"/>
+                                                        <datebox id="dateboxSinglePersonBirthDate"
+                                                                 valueInLocalDate="@bind(member.singlePerson.birthDate) "
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                        <label value="Gênero:"/>
+                                                        <radiogroup id="radiogroupSinglePersonGender"
+                                                                    model="@load(memberFormVm.genderList)"
+                                                                    selectedItem="@bind(member.singlePerson.gender)"
+                                                                    disabled="@load(memberFormVm.readonly)">
+                                                            <template name="model">
+                                                                <radio label="${each.name}" value="${each}"/>
+                                                            </template>
+                                                        </radiogroup>
+                                                    </n:div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <n:div class="input-label">
+                                                        <label value="Estado Cívil:"/>
+                                                        <combobox id="comboboxSinglePersonMaritalStatus"
+                                                                  model="@load(memberFormVm.maritalStatusList)"
+                                                                  selectedItem="@bind(member.singlePerson.maritalStatus)"
+                                                                  readonly="@load(memberFormVm.readonly)"
+                                                                  buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                  sclass="input">
+                                                            <template name="model">
+                                                                <comboitem label="${each.name}" value="${each}"/>
+                                                            </template>
+                                                        </combobox>
+                                                    </n:div>
+                                                    <div zclass="input-label">
+                                                        <label value="Nacionalidade:"/>
+                                                        <combobox id="comboboxSinglePersonNationality"
+                                                                  model="@load(memberFormVm.countryList)"
+                                                                  selectedItem="@bind(member.singlePerson.nationality)"
+                                                                  readonly="@load(memberFormVm.readonly)"
+                                                                  buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                  sclass="input">
+                                                            <template name="model">
+                                                                <comboitem label="${each.gentilic}" value="${each}"/>
+                                                            </template>
+                                                        </combobox>
+                                                    </div>
+                                                    <div zclass="input-label">
+                                                        <label value="Endereço:"/>
+                                                        <textbox id="textboxSinglePersonAddress"
+                                                                 value="@bind(member.singlePerson.address)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <n:div class="input-label">
+                                                        <label value="Telefone 1:"/>
+                                                        <textbox id="textboxSinglePersonPhone1"
+                                                                 value="@bind(member.singlePerson.phone1)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                        <label value="Telefone 2:"/>
+                                                        <textbox id="textboxSinglePersonPhone2"
+                                                                 value="@bind(member.singlePerson.phone2)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                        <label value="Email:"/>
+                                                        <textbox id="textboxSinglePersonEmail"
+                                                                 value="@bind(member.singlePerson.email)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                        <label value="NUIT:"/>
+                                                        <textbox id="textboxSinglePersonNuit"
+                                                                 value="@bind(member.singlePerson.nuit)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                </div>
+
+                                                <groupbox open="true" closable="false">
+                                                    <caption label="Documento de Identificação"/>
+                                                    <div zclass="row">
+                                                        <n:div class="input-label">
+                                                            <label value="Tipo:"/>
+                                                            <combobox id="comboboxSinglePersonIdentityDocumentType"
+                                                                      model="@load(memberFormVm.identityDocumentTypeList)"
+                                                                      selectedItem="@bind(member.singlePerson.identityDocumentType)"
+                                                                      readonly="@load(memberFormVm.readonly)"
+                                                                      buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                      sclass="input">
+                                                                <template name="model">
+                                                                    <comboitem label="${each.name}" value="${each}"/>
+                                                                </template>
+                                                            </combobox>
+                                                        </n:div>
+                                                        <n:div class="input-label">
+                                                            <label value="Número:"/>
+                                                            <textbox id="textboxSinglePersonIdentityDocumentNumber"
+                                                                     value="@bind(member.singlePerson.identityDocumentNumber)"
+                                                                     readonly="@load(memberFormVm.readonly)"
+                                                                     sclass="input"/>
+                                                        </n:div>
+                                                        <n:div class="input-label">
+                                                        </n:div>
+                                                    </div>
+                                                </groupbox>
+
+                                                <groupbox open="true" closable="false">
+                                                    <caption label="Informações Profissionais"/>
+                                                    <div zclass="row">
+                                                        <n:div class="input-label">
+                                                            <label value="Profissão:"/>
+                                                            <combobox id="comboboxSinglePersonProfession"
+                                                                      model="@load(memberFormVm.professionList)"
+                                                                      selectedItem="@bind(member.singlePerson.profession)"
+                                                                      readonly="@load(memberFormVm.readonly)"
+                                                                      buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                      sclass="input">
+                                                                <template name="model">
+                                                                    <comboitem label="${each.name}" value="${each}"/>
+                                                                </template>
+                                                            </combobox>
+                                                        </n:div>
+                                                        <n:div class="input-label">
+                                                            <label value="Nome da Empresa:"/>
+                                                            <textbox id="textboxSinglePersonCompanyName"
+                                                                     value="@bind(member.singlePerson.companyName)"
+                                                                     readonly="@load(memberFormVm.readonly)"
+                                                                     sclass="input"/>
+                                                        </n:div>
+                                                        <n:div class="input-label">
+                                                            <label value="Endereço da Empresa:"/>
+                                                            <textbox id="textboxSinglePersonCompanyAddress"
+                                                                     value="@bind(member.singlePerson.companyAddress)"
+                                                                     readonly="@load(memberFormVm.readonly)"
+                                                                     sclass="input"/>
+                                                        </n:div>
+                                                    </div>
+                                                </groupbox>
+
+                                                <groupbox open="true" closable="false">
+                                                    <caption label="Outras Informaçoes"/>
+
+                                                    <div zclass="grid-form-3col">
+                                                        <label value="Grupo Sanguíneo:"/>
+                                                        <div zclass="row">
+                                                            <label value="Alergias:"/>
+                                                            <button id="buttonChangeAllergies"
+                                                                    onClick="@command('onClickSelectAllergies', member=member)"
+                                                                    zclass="btn btn-primary"
+                                                                    visible="@load(memberFormVm.createOrUpdate)"
+                                                                    label="Definir | Alterar"/>
+                                                        </div>
+                                                        <div zclass="row">
+                                                            <label value="Modalidades Interessadas:"/>
+                                                            <button id="buttonChangeInterestedModalities"
+                                                                    onClick="@command('onClickSelectModalities', member=member)"
+                                                                    visible="@load(memberFormVm.createOrUpdate)"
+                                                                    zclass="btn btn-primary"
+                                                                    label="Definir | Alterar"/>
+                                                        </div>
+
+                                                        <combobox id="comboboxSinglePersonBloodGroup"
+                                                                  model="@load(memberFormVm.bloodGroupList)"
+                                                                  selectedItem="@bind(member.singlePerson.bloodGroup)"
+                                                                  readonly="@load(memberFormVm.readonly)"
+                                                                  buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                  sclass="input">
+                                                            <template name="model">
+                                                                <comboitem label="${each.name}" value="${each}"/>
+                                                            </template>
+                                                        </combobox>
+
+                                                        <textbox id="textboxSinglePersonAllergies"
+                                                                 value="@load(member.singlePerson.allergyList) @converter(commaSeparatedConverter)"
+                                                                 readonly="true"
+                                                                 multiline="true"
+                                                                 rows="3"
+                                                                 sclass="input"/>
+
+
+                                                        <textbox id="textboxMemberModalities"
+                                                                 value="@load(member.modalityList) @converter(commaSeparatedConverter)"
+                                                                 multiline="true"
+                                                                 rows="3"
+                                                                 readonly="true"
+                                                                 sclass="input"/>
+                                                    </div>
+                                                </groupbox>
+                                            </div>
+                                        </tabpanel>
+                                        <tabpanel>
+                                            <div zclass="column">
+                                                <div zclass="row">
+                                                    <image id="imageLegalPersonLogo"
+                                                           onClick="@command('onClickImagePhotographyOrLogo')"
+                                                           zclass="pointer"
+                                                           style="width: 150px; max-height: 150px; border: 1px solid gray; border-radius: 2px; object-position: center; object-fit: contain; "/>
+                                                    <div zclass="column"
+                                                         visible="@load(memberFormVm.createOrUpdate)">
+                                                        <button
+                                                                onUpload="@command('onUploadSetPhotographyOrLogo', member=member)"
+                                                                upload="true"
+                                                                zclass="btn btn-primary"
+                                                                label="Definir Foto | Alterar"/>
+                                                        <button
+                                                                onClick="@command('onClickRemovePhotographyOrLogo', member=member)"
+                                                                zclass="btn btn-danger"
+                                                                label="Remover"/>
+                                                    </div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <n:div class="input-label">
+                                                        <label value="Designação:"/>
+                                                        <textbox id="textboxLegalPersonName"
+                                                                 value="@bind(member.legalPerson.name)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                    </n:div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <div zclass="input-label">
+                                                        <label value="Endereço:"/>
+                                                        <textbox id="textboxLegalPersonAddress"
+                                                                 value="@bind(member.legalPerson.address)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </div>
+                                                    <n:div class="input-label">
+                                                        <label value="Endereço de Email:"/>
+                                                        <textbox id="textboxLegalPersonEmail"
+                                                                 value="@bind(member.legalPerson.email)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                    </n:div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <n:div class="input-label">
+                                                        <label value="Telefone 1:"/>
+                                                        <textbox id="textboxLegalPersonPhone1"
+                                                                 value="@bind(member.legalPerson.phone1)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                    <n:div class="input-label">
+                                                        <label value="Telefone 2:"/>
+                                                        <textbox id="textboxLegalPersonPhone2"
+                                                                 value="@bind(member.legalPerson.phone2)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+
+                                                    <n:div class="input-label">
+                                                        <label value="NUIT:"/>
+                                                        <textbox id="textboxLegalPersonNuit"
+                                                                 value="@bind(member.legalPerson.nuit)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+
+                                                    <n:div class="input-label">
+                                                        <label value="NUEL:"/>
+                                                        <textbox id="textboxLegalPersonNuel"
+                                                                 value="@bind(member.legalPerson.nuel)"
+                                                                 readonly="@load(memberFormVm.readonly)"
+                                                                 sclass="input"/>
+                                                    </n:div>
+                                                </div>
+
+                                                <div zclass="row">
+                                                    <n:div class="input-label">
+                                                        <label value="Data de Constituição:"/>
+                                                        <datebox
+                                                                valueInLocalDate="@bind(member.legalPerson.incorporationDate)"
+                                                                readonly="@load(memberFormVm.readonly)"
+                                                                buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                sclass="input"/>
+                                                    </n:div>
+
+                                                    <n:div class="input-label">
+                                                        <label value="Principal Objecto Social:"/>
+                                                        <textbox
+                                                                value="@bind(member.legalPerson.mainBusinessActivity)"
+                                                                readonly="@load(memberFormVm.readonly)"
+                                                                sclass="input"/>
+                                                    </n:div>
+
+                                                    <div class="input-label"/>
+                                                    <div class="input-label"/>
+
+                                                </div>
+
+                                                <groupbox open="true" closable="false">
+                                                    <caption label="Pessoa de Contacto"/>
+
+                                                    <div zclass="row">
+                                                        <n:div class="input-label">
+                                                            <label value="Nome:"/>
+                                                            <textbox
+                                                                    value="@bind(member.legalPerson.contactPersonName)"
+                                                                    readonly="@load(memberFormVm.readonly)"
+                                                                    sclass="input"/>
+                                                        </n:div>
+
+                                                        <n:div class="input-label">
+                                                            <label value="Função:"/>
+                                                            <textbox
+                                                                    value="@bind(member.legalPerson.contactPersonRole)"
+                                                                    readonly="@load(memberFormVm.readonly)"
+                                                                    sclass="input"/>
+                                                        </n:div>
+
+                                                        <n:div class="input-label">
+                                                            <label value="Telefone:"/>
+                                                            <textbox
+                                                                    value="@bind(member.legalPerson.contactPersonPhone)"
+                                                                    readonly="@load(memberFormVm.readonly)"
+                                                                    sclass="input"/>
+                                                        </n:div>
+
+                                                        <n:div class="input-label">
+                                                            <label value="Email:"/>
+                                                            <textbox
+                                                                    value="@bind(member.legalPerson.contactPersonEmail)"
+                                                                    readonly="@load(memberFormVm.readonly)"
+                                                                    sclass="input"/>
+                                                        </n:div>
+                                                    </div>
+                                                </groupbox>
+
+                                                <groupbox open="true" closable="false">
+                                                    <caption label="Outras Informaçoes"/>
+
+                                                    <div zclass="row">
+                                                        <n:div class="input-label">
+                                                            <label value="Quantidade de Cartões:"/>
+                                                            <textbox
+                                                                    value="@bind(member.legalPerson.cardsQuantity)"
+                                                                    readonly="@load(memberFormVm.readonly)"
+                                                                    sclass="input"/>
+                                                        </n:div>
+
+                                                        <div class="input-label"/>
+                                                        <div class="input-label"/>
+                                                        <div class="input-label"/>
+                                                    </div>
+                                                </groupbox>
+                                            </div>
+                                        </tabpanel>
+                                    </tabpanels>
+                                </tabbox>
+                            </div>
+
+                            <div zclass="row" style="margin-top: .5rem">
+                                <div class="input-label ">
+                                    <label value="Comentários e Notas:"/>
+                                    <textbox id="textboxMemberCommentsAndNotes"
+                                             value="@bind(member.commentsAndNotes)"
+                                             readonly="@load(memberFormVm.readonly)"
+                                             multiline="true"
+                                             rows="3"
+                                             sclass="input"/>
+                                </div>
+                            </div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <div zclass="column">
+                                <div zclass="row" visible="@load(memberFormVm.update)">
+                                    <button tooltiptext="${labels.Create}"
+                                            onClick="@command('createHousehold', member=member)"
+                                            zclass="btn btn-primary" label="Criar"/>
+                                </div>
+
+                                <listbox model="@load(member.householdList)">
+                                    <listhead sizable="true">
+                                        <listheader label="Acções" hflex="min"/>
+                                        <listheader label="Nome"/>
+                                        <listheader label="Data de Nascimento (Idade)"/>
+                                        <listheader label="Tipo de Agregado"/>
+                                    </listhead>
+                                    <template name="model" var="household">
+                                        <listitem value="@load(household)">
+                                            <listcell>
+                                                <div zclass="row">
+                                                    <button tooltiptext="${labels.View}"
+                                                            onClick="@command('viewHousehold', household=household)"
+                                                            zclass="btn btn-secondary" label="Ver"/>
+
+                                                    <button tooltiptext="${labels.Edit}"
+                                                            visible="@load(memberFormVm.update)"
+                                                            onClick="@command('editHousehold', household=household)"
+                                                            zclass="btn btn-primary" label="Editar"/>
+
+                                                    <button tooltiptext="${labels.Delete}"
+                                                            visible="@load(memberFormVm.update)"
+                                                            onClick="@command('deleteHousehold', member=member, household=household)"
+                                                            zclass="btn btn-danger" label="Apagar"/>
+                                                </div>
+                                            </listcell>
+                                            <listcell label="@load(household.singlePerson.name)"/>
+                                            <listcell
+                                                    label="@load(household.singlePerson.birthDate) @converter(dateWithAgeConverter)"/>
+                                            <listcell label="@load(household.householdType.name)"/>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <div class="column">
+                                <listbox model="@load(member.boatList)">
+                                    <listhead sizable="true">
+                                        <listheader label="${labels.Actions}" hflex="min"/>
+                                        <listheader label="Registo Clube"/>
+                                        <listheader label="Nome"/>
+                                        <listheader label="Espaço"/>
+                                        <listheader label="Tipo"/>
+                                        <listheader label="Classe"/>
+                                        <listheader label="Registo Capitania"/>
+                                    </listhead>
+                                    <template name="model" var="boat">
+                                        <listitem value="@load(boat)">
+                                            <listcell>
+                                                <n:div style="display: flex; gap: .5rem">
+                                                    <button tooltiptext="${labels.View}"
+                                                            onClick="@command('viewBoat', boat=boat)"
+                                                            zclass="btn btn-secondary" label="Ver"/>
+
+                                                    <button tooltiptext="${labels.Edit}"
+                                                            visible="@load(memberFormVm.update)"
+                                                            onClick="@command('editBoat', boat=boat)"
+                                                            zclass="btn btn-primary" label="Editar"/>
+                                                </n:div>
+                                            </listcell>
+                                            <listcell label="@load(boat.clubRegistration)"/>
+                                            <listcell label="@load(boat.name)"/>
+                                            <listcell label="@load(boat.boatSpace.codeAndDimensionAndPrice)"/>
+                                            <listcell label="@load(boat.boatType.name)"/>
+                                            <listcell label="@load(boat.boatClass.name)"/>
+                                            <listcell label="@load(boat.captaincyRegistration)"/>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <tabbox>
+                                <tabs>
+                                    <tab label="Descontos"/>
+                                    <tab label="Perdão de Multa"/>
+                                    <tab label="Ordens de Pagamento"/>
+                                    <tab label="Facturas"/>
+                                    <tab label="Recibos"/>
+                                </tabs>
+
+                                <tabpanels>
+                                    <tabpanel>
+                                        <div zclass="column">
+                                            <div zclass="row" visible="@load(memberFormVm.createOrUpdate)">
+                                                <button zclass="btn btn-primary" label="Criar"
+                                                        onClick="@command('createDiscount', member=member)"/>
+                                            </div>
+
+                                            <listbox model="@load(member.discountList)">
+                                                <listhead>
+                                                    <listheader label="${labels.Actions}" hflex="min"/>
+                                                    <listheader label="${labels.Fee}"/>
+                                                    <listheader label="Tipo de Valor"/>
+                                                    <listheader label="${labels.Value}"/>
+                                                    <listheader label="Embarcação"/>
+                                                    <listheader label="Data inicio"/>
+                                                    <listheader label="Data Fim"/>
+                                                    <listheader label="Activo?"/>
+                                                </listhead>
+                                                <template name="model" var="discount">
+                                                    <listitem>
+                                                        <listcell>
+                                                            <div zclass="row">
+                                                                <button tooltiptext="${labels.View}"
+                                                                        onClick="@command('viewDiscount', discount=discount)"
+                                                                        zclass="btn btn-secondary" label="Ver"/>
+
+                                                                <button tooltiptext="${labels.Edit}"
+                                                                        visible="@load(memberFormVm.update)"
+                                                                        onClick="@command('editDiscount', discount=discount)"
+                                                                        zclass="btn btn-primary" label="Editar"/>
+
+                                                                <button tooltiptext="${labels.Delete}"
+                                                                        visible="@load(memberFormVm.update)"
+                                                                        onClick="@command('deleteDiscount', member=member, discount=discount)"
+                                                                        zclass="btn btn-danger" label="Apagar"/>
+                                                            </div>
+                                                        </listcell>
+                                                        <listcell label="@load(discount.fee.name)"/>
+                                                        <listcell label="@load(discount.valueType.name)"/>
+                                                        <listcell
+                                                                label="@load(discount.value) @converter(doubleToCurrencyConverter)"/>
+                                                        <listcell label="@load(discount.boat.numberAndName)"/>
+                                                        <listcell
+                                                                label="@load(discount.startDate) @converter(dateFormatterConverter)"/>
+                                                        <listcell
+                                                                label="@load(discount.endDate) @converter(dateFormatterConverter)"/>
+                                                        <listcell
+                                                                label="@load(discount.active) @converter(booleanConverter)"/>
+                                                    </listitem>
+                                                </template>
+                                            </listbox>
+                                        </div>
+                                    </tabpanel>
+
+                                    <tabpanel>
+                                        <div zclass="column">
+                                            <div zclass="row" visible="@load(memberFormVm.createOrUpdate)">
+                                                <button zclass="btn btn-primary" label="Criar"
+                                                        onClick="@command('createFineForgiveness', member=member)"/>
+                                            </div>
+
+                                            <listbox model="@load(member.fineForgivenessList)">
+                                                <listhead>
+                                                    <listheader label="${labels.Actions}" hflex="min"/>
+                                                    <listheader label="Tipo de Valor"/>
+                                                    <listheader label="${labels.Value}"/>
+                                                    <listheader label="Intervalo de Multas"/>
+                                                </listhead>
+                                                <template name="model" var="fineForgiveness">
+                                                    <listitem>
+                                                        <listcell>
+                                                            <div zclass="row">
+                                                                <button tooltiptext="${labels.View}"
+                                                                        onClick="@command('viewFineForgiveness', fineForgiveness=fineForgiveness)"
+                                                                        zclass="btn btn-secondary" label="Ver"/>
+
+                                                                <button tooltiptext="${labels.Delete}"
+                                                                        visible="@load(memberFormVm.update)"
+                                                                        onClick="@command('deleteFineForgiveness', member=member, fineForgiveness=fineForgiveness)"
+                                                                        zclass="btn btn-danger" label="Apagar"/>
+                                                            </div>
+                                                        </listcell>
+                                                        <listcell label="@load(fineForgiveness.valueType.name)"/>
+                                                        <listcell
+                                                                label="@load(fineForgiveness.value) @converter(doubleToCurrencyConverter)"/>
+                                                        <listcell label="@load(fineForgiveness.monthsPeriod)"/>
+                                                    </listitem>
+                                                </template>
+                                            </listbox>
+                                        </div>
+                                    </tabpanel>
+
+                                    <tabpanel/>
+
+                                    <tabpanel/>
+
+                                    <tabpanel/>
+                                </tabpanels>
+                            </tabbox>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <tabbox>
+                                <tabs>
+                                    <tab label="Estado"/>
+                                    <tab label="Tipo de Sócio"/>
+                                </tabs>
+
+                                <tabpanels>
+                                    <tabpanel>
+                                        <div zclass="column">
+
+                                            <div zclass="row">
+                                                <groupbox open="true" closable="false" style="width: 100%">
+                                                    <caption label="Mudar Estado do Sócio"/>
+                                                    <div zclass="column">
+                                                        <div zclass="row">
+                                                            <n:div class="input-label">
+                                                                <label value="Estado:"/>
+                                                                <combobox id="comboboxMemberMemberStatus"
+                                                                          model="@load(memberFormVm.memberStatusList)"
+                                                                          selectedItem="@bind(memberFormVm.memberVsMemberStatusHistory.memberStatus)"
+                                                                          readonly="@load(memberFormVm.readonly)"
+                                                                          buttonVisible="@load(memberFormVm.buttonVisible)">
+                                                                    <template name="model" var="item">
+                                                                        <comboitem label="@load(item.name)"
+                                                                                   value="@load(item)"/>
+                                                                    </template>
+                                                                </combobox>
+                                                            </n:div>
+
+                                                            <n:div class="input-label">
+                                                                <label value="${labels.StartDate}:"/>
+                                                                <datebox
+                                                                        valueInLocalDateTime="@bind(memberFormVm.memberVsMemberStatusHistory.startDateTime)"
+                                                                        readonly="@load(memberFormVm.readonly)"
+                                                                        format="dd/MM/yyyy HH:mm:ss"
+                                                                        buttonVisible="@load(memberFormVm.buttonVisible)"/>
+                                                            </n:div>
+
+                                                            <n:div class="input-label">
+                                                                <label value="${labels.EndDate}:"/>
+                                                                <datebox
+                                                                        valueInLocalDateTime="@bind(memberFormVm.memberVsMemberStatusHistory.endDateTime)"
+                                                                        readonly="@load(memberFormVm.readonly)"
+                                                                        format="dd/MM/yyyy HH:mm:ss"
+                                                                        buttonVisible="@load(memberFormVm.buttonVisible)"/>
+                                                            </n:div>
+
+                                                            <n:div class="input-label">
+                                                                <label value="Motivo:"/>
+                                                                <textbox
+                                                                        value="@bind(memberFormVm.memberVsMemberStatusHistory.reason)"
+                                                                        multiline="true"
+                                                                        rows="3"
+                                                                        readonly="@load(memberFormVm.readonly)"
+                                                                        sclass="input"/>
+                                                            </n:div>
+                                                        </div>
+                                                    </div>
+                                                    <div zclass="row">
+                                                        <button onClick="@command('changeMemberStatus', member=member, memberVsMemberStatusHistory=memberFormVm.memberVsMemberStatusHistory)"
+                                                                zclass="btn btn-primary"
+                                                                visible="@load(memberFormVm.createOrUpdate and empty memberFormVm.memberVsMemberStatusHistory.id )"
+                                                                label="Alterar"/>
+
+                                                        <button onClick="@command('cleanMemberStatusAndTypeFields', member=member, memberVsMemberStatusHistory=memberFormVm.memberVsMemberStatusHistory)"
+                                                                zclass="btn btn-danger"
+                                                                visible="@load(memberFormVm.createOrUpdate and not empty memberFormVm.memberVsMemberStatusHistory.id)"
+                                                                label="Limpar"/>
+                                                    </div>
+                                                </groupbox>
+                                            </div>
+
+                                            <div zclass="row">
+                                                <listbox model="@load(member.memberVsMemberStatusHistoryList)">
+                                                    <listhead>
+                                                        <listheader label="Acções" hflex="min"/>
+                                                        <listheader label="Nome"/>
+                                                        <listheader label="De"/>
+                                                        <listheader label="Até"/>
+                                                        <listheader label="Razão"/>
+                                                    </listhead>
+                                                    <template name="model" var="memberVsMemberStatusHistory">
+                                                        <listitem>
+                                                            <listcell>
+                                                                <div zclass="row">
+                                                                    <button tooltiptext="${labels.View}"
+                                                                            onClick="@command('viewMemberVsMemberStatusHistory', memberVsMemberStatusHistory=memberVsMemberStatusHistory)"
+                                                                            zclass="btn btn-secondary" label="Ver"/>
+                                                                </div>
+                                                            </listcell>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberStatusHistory.memberStatus.name)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberStatusHistory.startDateTime) @converter(dateTimeFormatterConverter)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberStatusHistory.endDateTime) @converter(dateTimeFormatterConverter)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberStatusHistory.reason)"/>
+                                                        </listitem>
+                                                    </template>
+                                                </listbox>
+                                            </div>
+                                        </div>
+                                    </tabpanel>
+                                    <tabpanel>
+                                        <div zclass="column">
+
+                                            <div zclass="row">
+                                                <groupbox open="true" closable="false" style="width: 100%">
+                                                    <caption label="Mudar Tipo do Sócio"/>
+                                                    <div zclass="column">
+                                                        <div zclass="row">
+                                                            <n:div class="input-label">
+                                                                <label value="Estado:"/>
+                                                                <combobox id="comboboxMemberMemberType"
+                                                                          model="@load(memberFormVm.memberTypeList)"
+                                                                          selectedItem="@bind(memberFormVm.memberVsMemberTypeHistory.memberType)"
+                                                                          readonly="@load(memberFormVm.readonly)"
+                                                                          buttonVisible="@load(memberFormVm.buttonVisible)"
+                                                                          sclass="input">
+                                                                    <template name="model" var="item">
+                                                                        <comboitem label="@load(item.name)"
+                                                                                   value="@load(item)"/>
+                                                                    </template>
+                                                                </combobox>
+                                                            </n:div>
+
+                                                            <n:div class="input-label">
+                                                                <label value="${labels.StartDate}:"/>
+                                                                <datebox
+                                                                        valueInLocalDateTime="@bind(memberFormVm.memberVsMemberTypeHistory.startDateTime)"
+                                                                        readonly="@load(memberFormVm.readonly)"
+                                                                        format="dd/MM/yyyy HH:mm:ss"
+                                                                        buttonVisible="@load(memberFormVm.buttonVisible)"/>
+                                                            </n:div>
+
+                                                            <n:div class="input-label">
+                                                                <label value="${labels.EndDate}:"/>
+                                                                <datebox
+                                                                        valueInLocalDateTime="@bind(memberFormVm.memberVsMemberTypeHistory.endDateTime)"
+                                                                        readonly="@load(memberFormVm.readonly)"
+                                                                        format="dd/MM/yyyy HH:mm:ss"
+                                                                        buttonVisible="@load(memberFormVm.buttonVisible)"/>
+                                                            </n:div>
+
+                                                            <n:div class="input-label">
+                                                                <label value="Motivo:"/>
+                                                                <textbox
+                                                                        value="@bind(memberFormVm.memberVsMemberTypeHistory.reason)"
+                                                                        multiline="true"
+                                                                        rows="3"
+                                                                        readonly="@load(memberFormVm.readonly)"
+                                                                        sclass="input"/>
+                                                            </n:div>
+                                                        </div>
+                                                    </div>
+                                                    <div zclass="row">
+                                                        <button onClick="@command('changeMemberType', member=member, memberVsMemberTypeHistory=memberFormVm.memberVsMemberTypeHistory)"
+                                                                zclass="btn btn-primary"
+                                                                visible="@load(memberFormVm.createOrUpdate and empty memberFormVm.memberVsMemberTypeHistory.id )"
+                                                                label="Alterar"/>
+
+                                                        <button onClick="@command('cleanMemberStatusAndTypeFields', member=member, memberVsMemberTypeHistory=memberFormVm.memberVsMemberTypeHistory)"
+                                                                zclass="btn btn-danger"
+                                                                visible="@load(memberFormVm.createOrUpdate and not empty memberFormVm.memberVsMemberTypeHistory.id)"
+                                                                label="Limpar"/>
+                                                    </div>
+                                                </groupbox>
+                                            </div>
+
+                                            <div zclass="row">
+                                                <listbox model="@load(member.memberVsMemberTypeHistoryList)">
+                                                    <listhead>
+                                                        <listheader label="Acções" hflex="min"/>
+                                                        <listheader label="Nome"/>
+                                                        <listheader label="Valor"/>
+                                                        <listheader label="De"/>
+                                                        <listheader label="Até"/>
+                                                        <listheader label="Razão"/>
+                                                    </listhead>
+                                                    <template name="model" var="memberVsMemberTypeHistory">
+                                                        <listitem>
+                                                            <listcell>
+                                                                <div zclass="row">
+                                                                    <button tooltiptext="${labels.View}"
+                                                                            onClick="@command('viewMemberVsMemberTypeHistory', memberVsMemberTypeHistory=memberVsMemberTypeHistory)"
+                                                                            zclass="btn btn-secondary" label="Ver"/>
+                                                                </div>
+                                                            </listcell>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberTypeHistory.memberType.name)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberTypeHistory.membershipFeeValue)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberTypeHistory.startDateTime) @converter(dateTimeFormatterConverter)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberTypeHistory.endDateTime) @converter(dateTimeFormatterConverter)"/>
+                                                            <listcell
+                                                                    label="@load(memberVsMemberTypeHistory.reason)"/>
+                                                        </listitem>
+                                                    </template>
+                                                </listbox>
+                                            </div>
+                                        </div>
+                                    </tabpanel>
+                                </tabpanels>
+                            </tabbox>
+                        </tabpanel>
+                        <tabpanel>
+                            <listbox model="@load(member.cardList)">
+                                <listhead>
+                                    <listheader label="Acções" hflex="min"/>
+                                    <listheader label="Número"/>
+                                    <listheader label="Nome"/>
+                                    <listheader label="Url (página)" hflex="min"/>
+                                    <listheader label="Já tem cartão?"/>
+                                    <listheader label="Data e Hora da Geração"/>
+                                    <listheader label="Quem gerou?"/>
+                                </listhead>
+                                <template name="model">
+                                    <listitem>
+                                        <listcell>
+                                            <button onClick="@command('printCard', card=each)"
+                                                    zclass="btn btn-primary"
+                                                    label="Gerar"/>
+                                        </listcell>
+                                        <listcell label="@load(each.number)"/>
+                                        <listcell label="@load(each.name)"/>
+                                        <listcell>
+                                            <a href="@load(each.url)"
+                                               target="_blanket"
+                                               zclass="button btn btn-primary"
+                                               label="Abrir página"/>
+                                        </listcell>
+                                        <listcell label="@load(each.printed) @converter(booleanConverter)"/>
+                                        <listcell label="@load(each.dateTime) @converter(dateTimeFormatterConverter)"/>
+                                        <listcell label="@load(each.user.name)"/>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </n:div>
+
+
+            <div class="footer">
+                <div style="display: flex; flex: 1">
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div style="display: flex; flex: 1">
+                </div>
+                <div zclass="row">
+                    <button onClick="@command('generateCard', member=member)" zclass="btn btn-primary"
+                            visible="false"
+                            label="${labels.Generate_Card}"/>
+                    <div>
+                        <button zclass="btn btn-primary" visible="@load(memberFormVm.create)" label="Registar"
+                                onClick="@command('saveOrUpdate')"/>
+                        <button zclass="btn btn-primary" visible="@load(memberFormVm.update)" label="Actualizar"
+                                onClick="@command('saveOrUpdate')"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </window>
+</zk>

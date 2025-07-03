@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('memberTypeFormVm') @init(memberTypeFormVm)"
+            form="@id('memberType') @load(memberTypeFormVm.memberType) @save(memberTypeFormVm.memberType, before = 'saveOrUpdate')">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Criar Tipo de Sócio" visible="@load(memberTypeFormVm.create)"/>
+                <label zclass="title" value="Ver Tipo de Sócio" visible="@load(memberTypeFormVm.read)"/>
+                <label zclass="title" value="Actualizar Tipo de Sócio" visible="@load(memberTypeFormVm.update)"/>
+            </n:div>
+            <n:div class="body">
+                <tabbox>
+                    <tabs>
+                        <tab label="Formulario"/>
+                        <tab label="Historico"/>
+                    </tabs>
+                    <tabpanels>
+                        <tabpanel>
+                            <n:div class="row">
+                                <div zclass="row-expand">
+                                    <n:div class="input-label">
+                                        <label value="${labels.Name}:"/>
+                                        <textbox value="@bind(memberType.name)"
+                                                 readonly="@load(memberTypeFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="Sufixo:"/>
+                                        <textbox value="@bind(memberType.suffix)"
+                                                 readonly="@load(memberTypeFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+                                </div>
+
+                                <div zclass="row-expand">
+                                </div>
+                            </n:div>
+
+                            <div zclass="row">
+                                <div zclass="input-label">
+                                    <label value="Paga Joia?"/>
+                                    <checkbox checked="@bind(memberType.payGem)"
+                                              mold="switch"
+                                              onCheck="@command('onCheckPayGem', memberType=memberType)"
+                                              disabled="@load(memberTypeFormVm.read)"/>
+                                </div>
+
+                                <div zclass="input-label">
+                                    <label value="Valor da Joia:"/>
+                                    <doublebox value="@bind(memberType.gemValue)"
+                                               readonly="@load(memberTypeFormVm.read || not memberType.payGem)"
+                                               sclass="input"/>
+                                </div>
+
+                                <div zclass="input-label">
+                                    <label value="Paga Quota?"/>
+                                    <checkbox checked="@bind(memberType.payMembershipFee)"
+                                              mold="switch"
+                                              onCheck="@command('onCheckPayMembershipFee', memberType=memberType)"
+                                              disabled="@load(memberTypeFormVm.read)"/>
+                                </div>
+
+                                <div zclass="input-label">
+                                    <label value="Valor da quota:"/>
+                                    <doublebox value="@bind(memberType.membershipFeeValue)"
+                                               readonly="@load(memberTypeFormVm.read || not memberType.payMembershipFee)"
+                                               sclass="input"/>
+                                </div>
+                            </div>
+
+                            <n:div class="row">
+                                <n:div class="input-label">
+                                    <label value="${labels.Description}:"/>
+                                    <textbox value="@bind(memberType.description)"
+                                             readonly="@load(memberTypeFormVm.read)"
+                                             sclass="input" rows="4"/>
+                                </n:div>
+                            </n:div>
+                        </tabpanel>
+
+                        <tabpanel>
+                            <listbox model="@load(memberType.memberTypeHistoryList)">
+                                <listhead>
+                                    <listheader label="Inicio"/>
+                                    <listheader label="Fim"/>
+                                    <listheader label="Nome"/>
+                                    <listheader label="Sufixo"/>
+                                    <listheader label="Paga Joia"/>
+                                    <listheader label="Valor da Joia"/>
+                                    <listheader label="Paga Quota"/>
+                                    <listheader label="Valor da Quota"/>
+                                </listhead>
+                                <template name="model" var="row">
+                                    <listitem value="@load(row)">
+                                        <listcell
+                                                label="@load(row.startDateTime) @converter(dateTimeFormatterConverter)"/>
+                                        <listcell
+                                                label="@load(row.endDateTime) @converter(dateTimeFormatterConverter)"/>
+                                        <listcell label="@load(row.memberType.name)"/>
+                                        <listcell label="@load(row.memberType.suffix)"/>
+                                        <listcell label="@load(row.payGem) @converter(booleanConverter)"/>
+                                        <listcell label="@load(row.gemValue) @converter(doubleToCurrencyConverter)"/>
+                                        <listcell label="@load(row.payMembershipFee) @converter(booleanConverter)"/>
+                                        <listcell
+                                                label="@load(row.membershipFeeValue) @converter(doubleToCurrencyConverter)"/>
+                                    </listitem>
+                                </template>
+                            </listbox>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(memberTypeFormVm.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(memberTypeFormVm.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

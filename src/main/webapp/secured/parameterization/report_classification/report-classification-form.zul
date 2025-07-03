@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('reportClassificationFormVM') @init(reportClassificationFormVM)"
+            form="@id('reportClassification') @load(reportClassificationFormVM.reportClassification) @save(reportClassificationFormVM.reportClassification, before='saveOrUpdate')">
+        <div class="page form">
+
+            <n:div class="header">
+                <label zclass="title" value="Criar Classificação de Denúncia" visible="@load(reportClassificationFormVM.create)"/>
+                <label zclass="title" value="Ver Classificação de Denúncia" visible="@load(reportClassificationFormVM.read)"/>
+                <label zclass="title" value="Actualizar Classificação de Denúncia" visible="@load(reportClassificationFormVM.update)"/>
+            </n:div>
+
+            <n:div class="body inputs">
+                <n:div class="form-group">
+                    <label value="Gravidade"/>
+                    <textbox value="@bind(reportClassification.gravity)"
+                             readonly="@load(reportClassificationFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(reportClassificationFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(reportClassificationFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('reportListingVM') @init(reportListingVM)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Denúncias"
+                       visible="@load(not reportListingVM.selection)"/>
+                <label zclass="title" value="Seleccione a Denúncia"
+                       visible="@load(reportListingVM.selection)"/>
+            </div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="filter-bar" style="margin-bottom: 18px;">
+                        <label class="filter-label" style="font-size:17px; margin-bottom: 8px; width:100%; display:block;">Filtros de Pesquisa</label>
+                        <textbox sclass="input filter-input" instant="true"
+                                 value="@bind(reportListingVM.searchTerm)"
+                                 onChange="@command('search')"
+                                 id="textboxSearchTerm"
+                                 placeholder="Digite o nome para pesquisar..."/>
+                        <combobox id="statusFilter" sclass="input filter-combo" width="180px"
+                                  value="@bind(reportListingVM.selectedStatus)"
+                                  onChange="@command('search')"
+                                  placeholder="Selecione o status">
+                            <comboitem label="Todos" value=""/>
+                            <comboitem label="Abertos" value="OPEN"/>
+                            <comboitem label="Em andamento" value="IN_PROGRESS"/>
+                            <comboitem label="Finalizados" value="RESOLVED"/>
+                        </combobox>
+                        <button onClick="@command('search')" zclass="btn btn-primary filter-btn" label="Pesquisar"/>
+                    </div>
+                </div>
+
+                <listbox id="listboxReport" model="@load(reportListingVM.reportListModel)"
+                         checkmark="@load(reportListingVM.multipleSelection)" mold="paging" pageSize="10">
+                    <listhead>
+                        <listheader label="Ações" hflex="min"
+                                    visible="@load(not reportListingVM.multipleSelection)"/>
+                        <listheader label="Nome"/>
+                        <listheader label="Tipo"/>
+                        <listheader label="Status"/>
+                        <listheader label="Telefones"/>
+                        <listheader label="Equipe"/>
+                        <listheader label="Data de Criação"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not reportListingVM.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('view', id=row.id)"
+                                            visible="@load(not reportListingVM.singleSelection)"
+                                            zclass="btn btn-info" label="Visualizar"/>
+                                    <button onClick="@command('select', id=row.id)"
+                                            visible="@load(reportListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="Selecionar"/>
+                                </div>
+
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.report_type_name)"/>
+                            <listcell label="@load(row.status)"/>
+                            <listcell label="@load(row.phone_number)"/>
+                            <listcell label="@load(row.team_name)"/>
+                            <listcell label="@load(row.created_at)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+            </div>
+
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

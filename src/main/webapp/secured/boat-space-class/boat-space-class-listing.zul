@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatSpaceClassLVM') @init(boatSpaceClassLVM)">
+        <div class="page"
+        >
+            <n:div class="header">
+                <label zclass="title">${c:l2('List_of_x', {labels.Boats_Space_Classes}.toArray())}</label>
+                <button onClick="@command('navigate', page = 'BOAT_SPACE_CLASS_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not boatSpaceClassLVM.popup)"
+                        label="${labels.Create}"/>
+            </n:div>
+            <n:div class="body">
+                <n:div class="inputs">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Criteria}:"/>
+                            <textbox sclass="input" value="@bind(boatSpaceClassLVM.criteria)"/>
+                        </n:div>
+                    </n:div>
+                    <n:div class="footer">
+                        <button onClick="@command('searchBoatSpaceClass')" zclass="btn btn-primary"
+                                label="${labels.Search}"/>
+                    </n:div>
+                </n:div>
+                <n:div class="body">
+                    <listbox model="@bind(boatSpaceClassLVM.boatSpaceClassList)"
+                             selectedItem="@bind(boatSpaceClassLVM.selectedBoatSpaceClass)"
+                             selectedItems="@bind(boatSpaceClassLVM.selectedBoatSpaceClassList)"
+                             sizedByContent="false"
+                             multiple="true"
+                             checkmark="true">
+                        <listhead sizable="true">
+                            <listheader label="${labels.Actions}" hflex="min"/>
+                            <listheader label="${labels.Code}"/>
+                            <listheader label="${labels.Size}"/>
+                        </listhead>
+                        <template name="model" var="boatSpaceClass">
+                            <listitem value="@load(boatSpaceClass)">
+                                <listcell>
+                                    <n:div style="display: flex; gap: .5rem">
+                                        <div tooltiptext="${labels.View}"
+                                             onClick="@command('viewBoatSpaceClass', boatSpaceClass=boatSpaceClass)"
+                                             zclass="btn btn-secondary button button-img pointer">
+                                            <label value="Ver"/>
+                                        </div>
+
+                                        <div tooltiptext="${labels.Edit}"
+                                             onClick="@command('editBoatSpaceClass', boatSpaceClass=boatSpaceClass)"
+                                             zclass="btn btn-primary button button-img pointer">
+                                            <label value="Editar"/>
+                                        </div>
+
+                                        <div tooltiptext="${labels.Delete}"
+                                             onClick="@command('deleteBoatSpaceClass', boatSpaceClass=boatSpaceClass)"
+                                             zclass="btn btn-danger button button-img pointer">
+                                            <label value="Apagar"/>
+                                        </div>
+                                    </n:div>
+                                </listcell>
+                                <listcell label="@load(boatSpaceClass.code)"/>
+                                <listcell label="@load(boatSpaceClass.size)"/>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(not empty boatSpaceClassLVM.selectedBoatSpaceClass)"
+                        zclass="btn btn-primary"
+                        label="${labels.Select}"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

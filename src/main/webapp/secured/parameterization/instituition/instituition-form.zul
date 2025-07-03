@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('instituitionFormVM') @init(instituitionFormVM)"
+            form="@id('instituition') @load(instituitionFormVM.instituition) @save(instituitionFormVM.instituition, before='saveOrUpdate')">
+        <div class="page form">
+
+            <n:div class="header">
+                <label zclass="title" value="Criar Instituição" visible="@load(instituitionFormVM.create)"/>
+                <label zclass="title" value="Ver Instituição" visible="@load(instituitionFormVM.read)"/>
+                <label zclass="title" value="Actualizar Instituição" visible="@load(instituitionFormVM.update)"/>
+            </n:div>
+
+
+            <n:div class="body inputs">
+
+                <n:div class="form-group">
+                    <label value="Nome da Instituição"/>
+                    <textbox value="@bind(instituition.name)"
+                             readonly="@load(instituitionFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Selecionar Usuários"/>
+
+                    <listbox id="userListbox"
+                             model="@load(instituitionFormVM.userList)"
+                             multiple="true"
+                             checkmark="true"
+                             selectedItems="@bind(instituitionFormVM.selectedUsers)"
+                             disabled="@load(instituitionFormVM.read)">
+                        <listhead>
+                            <listheader label="Usuário"/>
+                        </listhead>
+                        <template name="model" var="user">
+                            <listitem value="@load(user)">
+                                <listcell label="@load(user.username)"/>
+                            </listitem>
+                        </template>
+                    </listbox>
+
+                </n:div>
+
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(instituitionFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(instituitionFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('instituitionListingVM') @init(instituitionListingVM)">
+        <div class="page">
+            <div class="header">
+
+                <label zclass="title" value="${labels.List_of_instituitions}"
+                       visible="@load(not instituitionListingVM.selection)"/>
+                <label zclass="title" value="Seleccione a Instituição" visible="@load(instituitionListingVM.selection)"/>
+
+                <button onClick="@global-command('navigate', page = 'INSTITUITION_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not instituitionListingVM.selection)"
+                        label="${labels.Create}"/>
+            </div>
+
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true"
+                                         value="@bind(instituitionListingVM.searchTerm)"
+                                         onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <listbox id="listboxInstituition" model="@load(instituitionListingVM.instituitionListModel)"
+                         checkmark="@load(instituitionListingVM.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"
+                                    visible="@load(not instituitionListingVM.multipleSelection)"/>
+                        <listheader label="Nome"/>
+                        <listheader label="${labels.Registration_Date}"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not instituitionListingVM.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('edit', id=row.id)"
+                                            visible="@load(not instituitionListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+
+                                    <button onClick="@command('view', id=row.id)"
+                                            visible="@load(not instituitionListingVM.singleSelection)"
+                                            zclass="btn btn-info" label="Visualizar"/>
+
+                                    <button onClick="@command('select', id=row.id)"
+                                            visible="@load(instituitionListingVM.singleSelection)"
+                                            zclass="btn btn-primary" label="${labels.Select}"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.created_at)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

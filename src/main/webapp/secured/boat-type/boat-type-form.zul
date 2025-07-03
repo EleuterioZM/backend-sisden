@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatTypeFormVm') @init(boatTypeFormVm)"
+            form="@id('boatType') @load(boatTypeFormVm.boatType) @save(boatTypeFormVm.boatType, before = 'saveOrUpdate')">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" visible="@load(boatTypeFormVm.create)">Criar Tipo de Embarcação</label>
+                <label zclass="title" visible="@load(boatTypeFormVm.update)">Editar Tipo de Embarcação</label>
+                <label zclass="title" visible="@load(boatTypeFormVm.read)">Ver Tipo de Embarcação</label>
+            </n:div>
+            <n:div class="body">
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Code}:"/>
+                        <textbox value="@bind(boatType.code)"
+                                 readonly="@load(boatTypeFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Name}:"/>
+                        <textbox value="@bind(boatType.name)"
+                                 readonly="@load(boatTypeFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="Prefixo do Registo Clube (Ex.: CMD/V/):"/>
+                        <textbox value="@bind(boatType.clubRegistrationPrefix)"
+                                 readonly="@load(boatTypeFormVm.read)"
+                                 sclass="input"/>
+                    </n:div>
+
+                    <n:div class="input-label">
+                        <label value="${labels.Has_Engines}"/>
+                        <checkbox checked="@bind(boatType.hasEngines)"
+                                  mold="switch"
+                                  disabled="@load(boatTypeFormVm.read)"
+                                  sclass="input"/>
+                    </n:div>
+
+                </n:div>
+
+                <n:div class="row">
+                    <n:div class="input-label">
+                        <label value="${labels.Description}:"/>
+                        <textbox value="@bind(boatType.description)"
+                                 readonly="@load(boatTypeFormVm.read)"
+                                 sclass="input" rows="4"/>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <div zclass="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(boatTypeFormVm.create)" label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(boatTypeFormVm.update)" label="Actualizar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

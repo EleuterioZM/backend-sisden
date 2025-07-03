@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('professionListingVm') @init(professionListingVm)">
+        <div class="page">
+            <div zclass="header">
+                <div>
+                    <label zclass="title" visible="@load(professionListingVm.multipleSelection)">Seleccione as
+                        Profissões
+                    </label>
+                    <label zclass="title" visible="@load(professionListingVm.singleSelection)">Seleccione a Profissões
+                    </label>
+                    <label zclass="title" visible="@load(not professionListingVm.selection)">Lista de Profissões</label>
+                </div>
+                <button onClick="@global-command('navigate', page = 'PROFESSION_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not professionListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+            <n:div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         value="@bind(professionListingVm.searchTerm)"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox model="@bind(professionListingVm.professionListModel)"
+                         selectedItems="@bind(professionListingVm.selectedProfessionList)">
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Name}"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row.id)">
+                            <listcell>
+                                <div zclass="row" visible="@load(professionListingVm.selection)">
+                                    <button tooltiptext="${labels.Select}"
+                                            onClick="@command('select', id=row.id)"
+                                            disabled="@load(professionListingVm.multipleSelection)"
+                                            zclass="btn btn-primary" label="Seleccionar"/>
+                                </div>
+                                <div zclass="row" visible="@load(not professionListingVm.selection)">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('view', id=row.id)"
+                                            zclass="btn btn-secondary" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Edit}"
+                                            onClick="@command('edit', id=row.id)"
+                                            zclass="btn btn-primary" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+            </n:div>
+            <div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(professionListingVm.multipleSelection)"
+                        zclass="btn btn-primary"
+                        label="@load(c:cat3('Seleccionar ', professionListingVm.selectedProfessionList.size(), ' profissões'))"/>
+            </div>
+        </div>
+    </window>
+</zk>

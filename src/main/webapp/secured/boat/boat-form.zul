@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native" xmlns:h="http://www.w3.org/1999/xhtml">
+    <window viewModel="@id('boatFormVm') @init(boatFormVm)"
+            form="@id('boat') @load(boatFormVm.boat) @save(boatFormVm.boat, before = 'saveOrUpdate' )">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" visible="@load(boatFormVm.create)" value="Criar Embarcação"/>
+                <label zclass="title" visible="@load(boatFormVm.read)" value="Ver Embarcação"/>
+                <label zclass="title" visible="@load(boatFormVm.update)" value="Editar Embarcação"/>
+            </n:div>
+            <n:div class="body">
+                <tabbox>
+                    <tabs>
+                        <tab selected="true">${labels.Boat}</tab>
+                        <tab visible="@load(boatFormVm.readOrUpdate)">${labels.Spaces}</tab>
+                    </tabs>
+                    <tabpanels>
+                        <tabpanel>
+                            <div zclass="column">
+                                <div zclass="row">
+                                    <n:div class="input-label">
+                                        <label value="Registo Clube:"/>
+                                        <h:div class="row">
+                                            <textbox value="@bind(boat.clubRegistration)"
+                                                     readonly="@load(boatFormVm.readOrUpdate)"
+                                                     sclass="input"/>
+                                        </h:div>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Name}:"/>
+                                        <textbox value="@bind(boat.name)"
+                                                 readonly="@load(boatFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Captaincy_Registration}:"/>
+                                        <textbox value="@bind(boat.captaincyRegistration)"
+                                                 readonly="@load(boatFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+
+                                    </n:div>
+                                </div>
+
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                        <label value="${labels.Boat_Type}:"/>
+                                        <combobox model="@bind(boatFormVm.boatTypeList)"
+                                                  selectedItem="@bind(boat.boatType)"
+                                                  onSelect="@command('onSelectBoatType', boat=boat)"
+                                                  readonly="@load(boatFormVm.read)"
+                                                  buttonVisible="@load(not boatFormVm.read)"
+                                                  sclass="input">
+                                            <template name="model" var="boatType">
+                                                <comboitem value="@bind(boatType)" label="@bind(boatType.name)"/>
+                                            </template>
+                                        </combobox>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Boat_Class}:"/>
+                                        <combobox model="@bind(boatFormVm.boatClassList)"
+                                                  selectedItem="@bind(boat.boatClass)"
+                                                  readonly="@load(boatFormVm.read)"
+                                                  buttonVisible="@load(not boatFormVm.read)"
+                                                  sclass="input">
+                                            <template name="model" var="boatClass">
+                                                <comboitem value="@bind(boatClass)" label="@bind(boatClass.name)"/>
+                                            </template>
+                                        </combobox>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Construction_Date}:"/>
+                                        <datebox valueInLocalDate="@bind(boat.constructionDate)"
+                                                 readonly="@load(boatFormVm.read)"
+                                                 buttonVisible="@load(not boatFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+
+                                    </n:div>
+                                </n:div>
+
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                        <label value="${labels.Max_Capacity}:"/>
+                                        <intbox value="@bind(boat.maxCapacity)"
+                                                readonly="@load(boatFormVm.read)"
+                                                sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Crew_Capacity}:"/>
+                                        <intbox value="@bind(boat.crewCapacity)"
+                                                readonly="@load(boatFormVm.read)"
+                                                sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Good_Weather_Passenger_Capacity}:"/>
+                                        <intbox value="@bind(boat.goodWeatherPassengerCapacity)"
+                                                readonly="@load(boatFormVm.read)"
+                                                sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <label value="${labels.Bad_Weather_Passenger_Capacity}:"/>
+                                        <intbox value="@bind(boat.badWeatherPassengerCapacity)"
+                                                readonly="@load(boatFormVm.read)"
+                                                sclass="input"/>
+                                    </n:div>
+                                </n:div>
+
+                                <n:div class="grid-form-4">
+                                    <label value="${labels.Construction_Material}:"/>
+                                    <label value="${labels.Entry_Date}:"/>
+                                    <label value="${labels.Boat_Space}:"/>
+                                    <div></div>
+
+                                    <n:div class="input-label">
+                                        <textbox value="@bind(boat.constructionMaterial)"
+                                                 readonly="@load(boatFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+                                    <n:div class="input-label">
+                                        <datebox valueInLocalDate="@bind(boat.entryDate)"
+                                                 readonly="@load(boatFormVm.read)"
+                                                 buttonVisible="@load(not boatFormVm.read)"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                    <n:div class="input-label">
+                                        <combobox model="@bind(boatFormVm.boatSpaceList)"
+                                                  selectedItem="@bind(boat.boatSpace)"
+                                                  readonly="@load(boatFormVm.read)"
+                                                  buttonVisible="@load(not boatFormVm.read)"
+                                                  sclass="input">
+                                            <template name="model" var="boatSpace">
+                                                <comboitem value="@bind(boatSpace)"
+                                                           label="@bind(boatSpace.codeAndDimensionAndPrice)"/>
+                                            </template>
+                                        </combobox>
+                                    </n:div>
+
+                                    <n:div class="row">
+                                    </n:div>
+                                </n:div>
+
+                                <n:div class="grid-form-3">
+                                    <label value="Seleccione o proprietário:"/>
+                                    <div></div>
+                                    <div></div>
+
+                                    <n:div class="row">
+                                        <textbox value="@bind(boat.member.numberAndName)"
+                                                 readonly="true"
+                                                 sclass="input"/>
+                                        <button zclass="btn btn-primary"
+                                                onClick="@command('onClickSelectMemberOwner', boat= boat)"
+                                                disabled="@load(boatFormVm.read)"
+                                                label="Seleccionar"/>
+                                    </n:div>
+                                    <div></div>
+                                    <div></div>
+                                </n:div>
+
+                                <groupbox open="false" visible="@bind(boat.boatType.hasEngines)">
+                                    <caption label="Motores"/>
+
+                                    <div zclass="column">
+
+                                        <div class="grid-form-4" visible="@load(boatFormVm.createOrUpdate)">
+                                            <label value="Marca:"/>
+                                            <label value="Número da Serial:"/>
+                                            <label value="Ano de Construção:"/>
+                                            <div/>
+
+                                            <n:div class="input-label">
+                                                <textbox value="@bind(boatFormVm.brand)"
+                                                         readonly="@load(boatFormVm.read)"
+                                                         sclass="input"/>
+                                            </n:div>
+
+                                            <n:div class="input-label">
+                                                <textbox value="@bind(boatFormVm.serialNumber)"
+                                                         readonly="@load(boatFormVm.read)"
+                                                         sclass="input"/>
+                                            </n:div>
+
+                                            <n:div class="input-label">
+                                                <intbox value="@bind(boatFormVm.constructionYear)"
+                                                        readonly="@load(boatFormVm.read)"
+                                                        sclass="input"/>
+                                            </n:div>
+
+                                            <n:div class="row">
+                                                <button zclass="btn btn-primary"
+                                                        onClick="@command('onClickAddBoatEngine', boat= boat)"
+                                                        label="Adicionar"/>
+                                            </n:div>
+                                        </div>
+
+
+                                        <listbox model="@bind(boat.boatEngineList)">
+                                            <listhead sizable="true">
+                                                <listheader label="Marca"/>
+                                                <listheader label="Número do Serial"/>
+                                                <listheader label="Ano de Construção"/>
+                                                <listheader label="${labels.Actions}" hflex="min"
+                                                            visible="@load(boatFormVm.createOrUpdate)"/>
+                                            </listhead>
+                                            <template name="model" var="boatEngine" status="s">
+                                                <listitem value="@load(boatEngine)">
+                                                    <listcell label="@bind(boatEngine.brand)"/>
+                                                    <listcell label="@bind(boatEngine.serialNumber)"/>
+                                                    <listcell label="@bind(boatEngine.constructionYear)"/>
+                                                    <listcell visible="@load(boatFormVm.createOrUpdate)">
+                                                        <n:div style="display: flex; gap: .5rem">
+                                                            <button tooltiptext="${labels.Delete}"
+                                                                    onClick="@command('onClickRemoveBoatEngine', boat=boat, boatEngine=boatEngine)"
+                                                                    zclass="btn btn-danger" label="Apagar"/>
+                                                        </n:div>
+                                                    </listcell>
+                                                </listitem>
+                                            </template>
+                                        </listbox>
+                                    </div>
+                                </groupbox>
+
+                                <n:div class="row">
+                                    <n:div class="input-label">
+                                        <label value="${labels.Description}:"/>
+                                        <textbox value="@bind(boat.description)"
+                                                 readonly="@load(boatFormVm.read)"
+                                                 multiline="true"
+                                                 rows="4"
+                                                 sclass="input"/>
+                                    </n:div>
+
+                                </n:div>
+                            </div>
+
+                        </tabpanel>
+                        <tabpanel>
+                            <div zclass="column">
+                                <div zclass="row">
+                                    <button onClick="@command('removeBoat', boat=boat)"
+                                            zclass="btn btn-danger"
+                                            visible="@load(boatFormVm.update and not empty boat.boatSpace)"
+                                            label="${labels.Remove_Boat}"/>
+                                </div>
+
+                                <listbox model="@load(boat.boatVsBoatSpaceHistoryList)">
+                                    <listhead>
+                                        <listheader label="Nome"/>
+                                        <listheader label="Valor"/>
+                                        <listheader label="De"/>
+                                        <listheader label="Até"/>
+                                    </listhead>
+                                    <template name="model" var="row">
+                                        <listitem>
+                                            <listcell label="@load(row.name)"/>
+                                            <listcell
+                                                    label="@load(row.price) @converter(doubleToCurrencyConverter)"/>
+                                            <listcell
+                                                    label="@load(row.startDateTime) @converter(dateTimeFormatterConverter)"/>
+                                            <listcell
+                                                    label="@load(row.endDateTime) @converter(dateTimeFormatterConverter)"/>
+                                        </listitem>
+                                    </template>
+                                </listbox>
+                            </div>
+                        </tabpanel>
+                    </tabpanels>
+                </tabbox>
+            </n:div>
+            <div zclass="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <div zclass="row">
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(boatFormVm.create)" label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')" zclass="btn btn-primary"
+                            visible="@load(boatFormVm.update)" label="Actualizar"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>

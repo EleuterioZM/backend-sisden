@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatClassLVM') @init(boatClassLVM)">
+        <div class="page"
+        >
+            <n:div class="header">
+                <label zclass="title">${c:l2('List_of_x', {labels.Boat_Types}.toArray())}</label>
+                <button onClick="@command('navigate', page = 'BOAT_CLASS_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not boatClassLVM.popup)"
+                        label="${labels.Create}"/>
+            </n:div>
+            <n:div class="body">
+                <n:div class="inputs">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Criteria}:"/>
+                            <textbox sclass="input"/>
+                        </n:div>
+
+                    </n:div>
+                    <n:div class="footer">
+                        <button onClick="@command('searchBoatClass')" zclass="btn btn-primary"
+                                label="${labels.Search}"/>
+                    </n:div>
+                </n:div>
+                <n:div class="body">
+                    <listbox model="@bind(boatClassLVM.boatClassList)"
+                             selectedItem="@bind(boatClassLVM.selectedBoatClass)"
+                             selectedItems="@bind(boatClassLVM.selectedBoatClassList)"
+                             sizedByContent="false"
+                             multiple="true"
+                             checkmark="true">
+                        <listhead sizable="true">
+                            <listheader label="${labels.Actions}" hflex="min"/>
+                            <listheader label="${labels.Name}"/>
+                            <listheader label="${labels.Boat_Type}"/>
+                        </listhead>
+                        <template name="model" var="boatClass">
+                            <listitem value="@load(boatClass)">
+                                <listcell>
+                                    <n:div style="display: flex; gap: .5rem">
+                                        <div tooltiptext="${labels.View}"
+                                             onClick="@command('view', boatClass=boatClass)"
+                                             zclass="btn btn-secondary button button-img pointer">
+                                            <label value="Ver"/>
+                                        </div>
+
+                                        <div tooltiptext="${labels.Edit}"
+                                             onClick="@command('edit', boatClass=boatClass)"
+                                             zclass="btn btn-primary button button-img pointer">
+                                            <label value="Editar"/>
+                                        </div>
+
+                                        <div tooltiptext="${labels.Delete}"
+                                             onClick="@command('delete', boatClass=boatClass)"
+                                             zclass="btn btn-danger button button-img pointer">
+                                            <label value="Apagar"/>
+                                        </div>
+                                    </n:div>
+                                </listcell>
+                                <listcell label="@load(boatClass.name)"/>
+                                <listcell label="@load(boatClass.boatType.name)"/>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(not empty boatClassLVM.selectedBoatClass)"
+                        zclass="btn btn-primary"
+                        label="${labels.Select}"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('boatListingVm') @init(boatListingVm)">
+        <div class="page"
+        >
+            <n:div class="header">
+                <label zclass="title" visible="@load(not boatListingVm.selection)">Lista de Embarcações</label>
+                <label zclass="title" visible="@load(boatListingVm.singleSelection)">Seleccione a Embarcação</label>
+                <label zclass="title" visible="@load(boatListingVm.multipleSelection)">Seleccione as Embarcações</label>
+                <button onClick="@global-command('navigate', page = 'BOAT_FORM')"
+                        visible="@load(boatListingVm.create)"
+                        zclass="btn btn-primary"
+                        label="${labels.Create}"/>
+            </n:div>
+            <div zclass="body">
+                <div zclass="inputs">
+                    <div zclass="row">
+                        <div zclass="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" value="@bind(boatListingVm.searchTerm)"
+                                         onChange="@command('search')"
+                                         instant="true"/>
+                                <button zclass="btn btn-primary" label="${labels.Search}" onClick="@command('search')"/>
+                            </div>
+                        </div>
+
+                        <div zclass="input">
+                        </div>
+                    </div>
+                </div>
+
+                <listbox model="@bind(boatListingVm.boatListModel)"
+                         selectedItems="@bind(boatListingVm.selectedBoatList)"
+                >
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="Registo Clube" hflex="min"/>
+                        <listheader label="Nome"/>
+                        <listheader label="Proprietário"/>
+                        <listheader label="Espaço"/>
+                        <listheader label="Tipo" hflex="min"/>
+                        <listheader label="Classe" hflex="min"/>
+                        <listheader label="Estado do Aluguer"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell>
+                                <div zclass="row" visible="@load(not boatListingVm.selection)">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('view', id=row.id)"
+                                            zclass="btn btn-secondary button" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Edit}"
+                                            onClick="@command('edit', id=row.id)"
+                                            zclass="btn btn-primary button" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger button"
+                                            label="Apagar"/>
+                                </div>
+                                <button tooltiptext="Seleccionar"
+                                        onClick="@command('select', id=row.id)"
+                                        zclass="btn btn-primary button"
+                                        visible="@load(boatListingVm.selection)"
+                                        disabled="@load(boatListingVm.multipleSelection)"
+                                        label="Seleccionar"/>
+                            </listcell>
+                            <listcell label="@load(row.club_registration)"/>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row) @converter(boatIdToOwnerNameConverter)"/>
+                            <listcell label="@load(row) @converter(boatToSpaceConverter)"/>
+                            <listcell label="@load(row.boat_type_name)"/>
+                            <listcell label="@load(row.boat_class_name)"/>
+                            <listcell>
+                                <html content="@load(row) @converter(boatIdToRentStatusConverter)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(boatListingVm.selection)"
+                        zclass="btn btn-primary"
+                        label="@load(c:cat3('Seleccionar ', boatListingVm.selectedBoatList.size(), ' embarcações'))"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

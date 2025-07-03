@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('identityDocumentTypeDenominationListingVm') @init(identityDocumentTypeDenominationListingVm)">
+        <div class="page">
+            <div zclass="header">
+                <div>
+                    <label zclass="title" visible="@load(identityDocumentTypeDenominationListingVm.selection)">
+                        Seleccione as Denominação de Tipo de Documento de Identificação
+                    </label>
+                    <label zclass="title" visible="@load(not identityDocumentTypeDenominationListingVm.selection)">Lista
+                        de Denominação de Tipo Documento de Identificação
+                    </label>
+                </div>
+                <button onClick="@global-command('navigate', page = 'IDENTITY_DOCUMENT_TYPE_DENOMINATION_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not identityDocumentTypeDenominationListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+            <n:div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         value="@bind(identityDocumentTypeDenominationListingVm.searchTerm)"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox
+                        model="@bind(identityDocumentTypeDenominationListingVm.identityDocumentTypeDenominationListModel)"
+                        selectedItems="@bind(identityDocumentTypeDenominationListingVm.selectedIdentityDocumentTypeDenominationList)">
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Name}"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell>
+                                <n:div class="row">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('view', id=row.id)"
+                                            zclass="btn btn-secondary" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Edit}"
+                                            onClick="@command('edit', id=row.id)"
+                                            zclass="btn btn-primary" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            onClick="@command('delete', id=row.id)"
+                                            zclass="btn btn-danger" label="Apagar"/>
+                                </n:div>
+                            </listcell>
+                            <listcell label="@load(row.name)"/>
+                        </listitem>
+                    </template>
+                </listbox>
+            </n:div>
+            <div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(not empty identityDocumentTypeDenominationListingVm.selectedIdentityDocumentTypeDenominationList and identityDocumentTypeDenominationListingVm.multipleSelection)"
+                        zclass="btn btn-primary"
+                        label="${labels.Select}"/>
+            </div>
+        </div>
+    </window>
+</zk>

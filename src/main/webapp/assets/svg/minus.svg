@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <title>minus</title>
+    <g fill="#FFFFFF">
+        <line x1="3.25" y1="9" x2="14.75" y2="9" fill="none" stroke="#FFFFFF" stroke-linecap="round"
+              stroke-linejoin="round" stroke-width="1.5"></line>
+    </g>
+</svg>

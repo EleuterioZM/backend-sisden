@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+    <title>magnifier</title>
+    <g fill="#FFFFFF">
+        <line x1="15.25" y1="15.25" x2="11.285" y2="11.285" fill="none" stroke="#FFFFFF" stroke-linecap="round"
+              stroke-linejoin="round" stroke-width="1.5"></line>
+        <circle cx="7.75" cy="7.75" r="5" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="1.5"></circle>
+    </g>
+</svg>

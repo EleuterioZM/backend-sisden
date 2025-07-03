@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('userFormVM') @init(userFormVM)"
+            form="@id('user') @load(userFormVM.user) @save(userFormVM.user, before='saveOrUpdate')">
+        <div class="page form">
+            <n:div class="header">
+                <label zclass="title" value="Criar Utilizador" visible="@load(userFormVM.create)"/>
+                <label zclass="title" value="Ver Utilizador" visible="@load(userFormVM.read)"/>
+                <label zclass="title" value="Actualizar Utilizador" visible="@load(userFormVM.update)"/>
+            </n:div>
+            <n:div class="body inputs">
+                <n:div class="form-group">
+                    <label value="Nome de Utilizador"/>
+                    <textbox value="@bind(user.username)"
+                             readonly="@load(userFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Password"/>
+                    <textbox value="@bind(user.password)"
+                             type="password"
+                             readonly="@load(userFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(userFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(userFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

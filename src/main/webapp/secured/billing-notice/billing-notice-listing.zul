@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('billingNoticeListingVm') @init(billingNoticeListingVm)">
+        <div class="page">
+            <div zclass="header">
+                <label zclass="title" value="Lista de Avisos de Cobranças"/>
+                <button onClick="@global-command('navigate', page = 'BILLING_NOTICE_FORM')"
+                        zclass="btn btn-primary"
+                        visible="@load(not billingNoticeListingVm.selection)"
+                        label="${labels.Create}"/>
+            </div>
+            <div zclass="body">
+                <div zclass="column">
+                    <div zclass="row">
+                        <div class="input-label">
+                            <label value="${labels.Criteria}:"/>
+                            <div sclass="row">
+                                <textbox sclass="input" value="@bind(billingNoticeListingVm.searchTerm)"
+                                         onChange="@command('search')" instant="true"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary"
+                                        label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label">
+                        </div>
+                    </div>
+                </div>
+
+                <listbox model="@bind(billingNoticeListingVm.billingNoticeListModel)">
+                    <listhead sizable="true">
+                        <listheader label="${labels.Actions}" hflex="min"/>
+                        <listheader label="${labels.Number}" hflex="min"/>
+                        <listheader label="Cliente"/>
+                        <listheader label="Serviço"/>
+                        <listheader label="Periodo" hflex="min"/>
+                        <listheader label="Data" hflex="min"/>
+                        <listheader label="Total" hflex="min"/>
+                        <listheader label="${labels.State}" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell>
+                                <div zclass="row">
+                                    <button tooltiptext="${labels.View}"
+                                            onClick="@command('view', id=row.id)"
+                                            zclass="btn btn-secondary button button-img pointer" label="Ver"/>
+
+                                    <button tooltiptext="${labels.Edit}"
+                                            visible="@bind(row.pending)"
+                                            onClick="@command('edit', id=row.id)"
+                                            zclass="btn btn-primary button button-img pointer" label="Editar"/>
+
+                                    <button tooltiptext="${labels.Delete}"
+                                            visible="@bind(row.pending)"
+                                            onClick="@command('delete', row=row)"
+                                            zclass="btn btn-danger button button-img pointer" label="Apagar"/>
+
+                                    <button tooltiptext="${labels.Print}"
+                                            onClick="@command('print', id=row.id)"
+                                            zclass="btn btn-warning button button-img pointer" label="Imprimir"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.number)"/>
+                            <listcell label="@load(row.client_name)"/>
+                            <listcell label="@load(row.service_name)"/>
+                            <listcell label="@load(row.period) @converter(dateToMonthYearConverter)"/>
+                            <listcell label="@load(row.date) @converter(dateFormatterConverter)"/>
+                            <listcell label="@load(row.total) @converter(doubleToCurrencyConverter)"/>
+                            <listcell>
+                                <html content="@load(row.payment_status_id) @converter(paymentStatusConverter)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+            </div>
+
+            <div zclass="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+            </div>
+        </div>
+    </window>
+</zk>

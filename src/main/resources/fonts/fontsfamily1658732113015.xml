@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+    <fontFamily name="Nyala">
+        <normal><![CDATA[fonts/Nyala/nyala.ttf]]></normal>
+        <bold><![CDATA[fonts/Nyala/nyala.ttf]]></bold>
+        <italic><![CDATA[fonts/Nyala/nyala.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/Nyala/nyala.ttf]]></boldItalic>
+        <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+        <exportFonts/>
+    </fontFamily>
+
+    <fontFamily name="Open Sans">
+        <normal><![CDATA[fonts/OpenSans/OpenSans-Regular.ttf]]></normal>
+        <bold><![CDATA[fonts/OpenSans/OpenSans-Bold.ttf]]></bold>
+        <italic><![CDATA[fonts/OpenSans/OpenSans-Italic.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/OpenSans/OpenSans-BoldItalic.ttf]]></boldItalic>
+        <pdfEncoding><![CDATA[Identity-H]]></pdfEncoding>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+        <exportFonts/>
+    </fontFamily>
+</fontFamilies>

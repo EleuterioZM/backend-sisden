@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('reportTypeFormVM') @init(reportTypeFormVM)"
+            form="@id('reportType') @load(reportTypeFormVM.reportType) @save(reportTypeFormVM.reportType, before='saveOrUpdate')">
+        <div class="page form">
+
+            <n:div class="header">
+                <label zclass="title" value="Criar Tipo de Denúncia" visible="@load(reportTypeFormVM.create)"/>
+                <label zclass="title" value="Ver Tipo de Denúncia" visible="@load(reportTypeFormVM.read)"/>
+                <label zclass="title" value="Actualizar Tipo de Denúncia" visible="@load(reportTypeFormVM.update)"/>
+            </n:div>
+
+            <n:div class="body inputs">
+                <n:div class="form-group">
+                    <label value="Nome"/>
+                    <textbox value="@bind(reportType.name)"
+                             readonly="@load(reportTypeFormVM.read)"
+                             sclass="input form-control"/>
+                </n:div>
+
+                <n:div class="form-group">
+                    <label value="Instituição"/>
+                    <combobox
+                            model="@load(reportTypeFormVM.instituitionListModel)"
+                            selectedItem="@bind(reportTypeFormVM.selectedInstituition)"
+                            disabled="@load(reportTypeFormVM.read)"
+                            constraint="no empty"
+                            placeholder="Selecione a instituição"
+                            onSelect="@command('selectInstituition')">
+
+                        <template name="model" var="item">
+                            <comboitem label="@load(item.name)" value="@load(item)"/>
+                        </template>
+                    </combobox>
+                </n:div>
+            </n:div>
+
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="Voltar"/>
+                <div>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(reportTypeFormVM.create)"
+                            label="Registar"/>
+                    <button onClick="@command('saveOrUpdate')"
+                            zclass="btn btn-primary"
+                            visible="@load(reportTypeFormVM.update)"
+                            label="Actualizar"/>
+                </div>
+            </n:div>
+        </div>
+    </window>
+</zk>

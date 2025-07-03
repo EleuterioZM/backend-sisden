@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('reportsVm') @init(reportsVm)">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title">Lista de Relatórios</label>
+            </n:div>
+            <n:div class="body">
+                <n:div class="column">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Report}:"/>
+                            <div zclass="row">
+                                <textbox sclass="input" value="@load(reportsVm.report)"
+                                         onChanging="@command('onChangeReport')"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </n:div>
+
+                        <div zclass="input-label">
+
+                        </div>
+                    </n:div>
+
+                    <n:div class="row">
+                        <listbox model="@bind(reportsVm.reportList)">
+                            <listhead>
+                                <listheader label="${labels.Actions}" hflex="min"/>
+                                <listheader label="Formato" hflex="min" visible="false"/>
+                                <listheader label="Nome do Relatório"/>
+                            </listhead>
+                            <template name="model" var="report">
+                                <listitem value="@load(report)">
+                                    <listcell>
+                                        <n:div style="display: flex; gap: .5rem">
+                                            <button
+                                                    onClick="@command('generate', report=report)"
+                                                    zclass="btn btn-primary"
+                                                    label="${labels.Generate}"/>
+                                        </n:div>
+                                    </listcell>
+                                    <listcell>
+                                        <combobox visible="@load(not report.hasModal)">
+                                            <template name="model">
+                                                <comboitem label="@load(each.name)" value="@load(each)"/>
+                                            </template>
+                                        </combobox>
+                                    </listcell>
+                                    <listcell label="@load(report.name)"/>
+                                </listitem>
+                            </template>
+                        </listbox>
+                    </n:div>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

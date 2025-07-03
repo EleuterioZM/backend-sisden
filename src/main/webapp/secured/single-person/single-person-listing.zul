@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window apply="${singlePersonLC}" id="windowSinglePersonListing">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title" value="${$composer.getXLabel()}"/>
+                <button onClick="@command('navigate', page = 'SINGLE_PERSON_FORM')"
+                        visible="${$composer.getCanCreate()}"
+                        zclass="btn btn-primary"
+                        label="${labels.Create}"/>
+            </n:div>
+            <n:div class="body">
+                <n:div class="inputs">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="Pesquisar:"/>
+                            <textbox id="textboxSearch" sclass="input"/>
+                        </n:div>
+                    </n:div>
+                    <n:div class="footer">
+                        <button id="buttonSearch" zclass="btn btn-primary" label="${labels.Search}"/>
+                    </n:div>
+                </n:div>
+                <n:div class="body">
+                    <listbox id="listboxSinglePerson" checkmark="true" multiple="true">
+                        <listhead>
+                            <listheader label="${labels.Actions}" hflex="min"/>
+                            <listheader label="Nome Completo"/>
+                            <listheader label="Data de Nascimento"/>
+                            <listheader label="Género"/>
+                        </listhead>
+                        <template name="model">
+                            <listitem value="${each}">
+                                <listcell>
+                                    <n:div style="display: flex; gap: .5rem">
+                                        <div forward="onClick = listboxSinglePerson.onView(${each})"
+                                             zclass="btn btn-secondary button button-img pointer">
+                                            <label value="Ver"/>
+                                        </div>
+
+                                        <div forward="onClick = listboxSinglePerson.onEdit(${each})"
+                                             zclass="btn btn-primary button button-img pointer">
+                                            <label value="Editar"/>
+                                        </div>
+
+                                        <div forward="onClick = listboxSinglePerson.onDelete(${each})"
+                                             zclass="btn btn-danger button button-img pointer">
+                                            <label value="Apagar"/>
+                                        </div>
+                                    </n:div>
+                                </listcell>
+                                <listcell label="${each.getFullName()}"/>
+                                <listcell label="${each.getBirthDate()}"/>
+                                <listcell label="${each.getGender().getLabel()}"/>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="button_voltar" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button id="buttonSelect"
+                        visible="false"
+                        zclass="btn btn-primary"
+                        label="${labels.Select}"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

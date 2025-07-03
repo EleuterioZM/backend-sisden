@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk xmlns:n="native">
+    <window viewModel="@id('permissionLVM') @init(permissionLVM)">
+        <div class="page">
+            <n:div class="header">
+                <label zclass="title">${c:l2('List_of_x', {labels.Permissions}.toArray())}</label>
+            </n:div>
+            <n:div class="body">
+                <n:div class="inputs">
+                    <n:div class="row">
+                        <n:div class="input-label">
+                            <label value="${labels.Code}:"/>
+                            <textbox sclass="input"/>
+                        </n:div>
+
+                        <n:div class="input-label">
+                            <label value="${labels.Description}:"/>
+                            <textbox sclass="input"/>
+                        </n:div>
+                    </n:div>
+                    <n:div class="footer">
+                        <button id="buttonBack" zclass="btn btn-primary" label="${labels.Search}"/>
+                    </n:div>
+                </n:div>
+                <n:div class="body">
+                    <listbox model="@bind(permissionLVM.permissionList)"
+                             selectedItem="@bind(permissionLVM.selectedPermission)"
+                             selectedItems="@bind(permissionLVM.selectedPermissionList)"
+                             sizedByContent="false"
+                             multiple="true"
+                             checkmark="true">
+                        <listhead sizable="true">
+                            <listheader label="${labels.Code}"/>
+                            <listheader label="${labels.Description}"/>
+                        </listhead>
+                        <template name="model" var="permission">
+                            <listitem value="@load(permission)">
+                                <listcell label="@load(permission.name())"/>
+                                <listcell label="@load(permission.label)"/>
+                            </listitem>
+                        </template>
+                    </listbox>
+                </n:div>
+            </n:div>
+            <n:div class="footer">
+                <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                <button onClick="@command('select')"
+                        visible="@load(not empty permissionLVM.selectedPermission)"
+                        zclass="btn btn-primary"
+                        label="${labels.Select}"/>
+            </n:div>
+        </div>
+    </window>
+</zk>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <config-name>zkspringboot-demo</config-name>
+
+    <library-property>
+        <name>org.zkoss.web.preferred.locale</name>
+        <value>pt_MZ</value>
+    </library-property>
+
+    <language-config>
+        <addon-uri>/metainfo/zk/lang-addon.xml</addon-uri>
+    </language-config>
+
+    <listener>
+        <listener-class>mz.sisden.sisden.zkoss.variable_resolver.SisClubeVariableResolver</listener-class>
+    </listener>
+
+    <system-config>
+        <max-upload-size>10485760</max-upload-size> <!-- 10 MB em bytes -->
+        <max-process-time>600000</max-process-time>  <!-- 10 minutos em milissegundos -->
+    </system-config>
+
+    <session-config>
+        <session-timeout>14400000</session-timeout>
+        <timer-keep-alive>false</timer-keep-alive>
+        <max-desktops-per-session>14400000</max-desktops-per-session>
+        <max-requests-per-session>14400000</max-requests-per-session>
+        <max-pushes-per-session>14400000</max-pushes-per-session>
+    </session-config>
+</zk>

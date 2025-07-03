@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zk>
+    <window viewModel="@id('memberInactiveListingVm') @init(memberInactiveListingVm)">
+        <div class="page">
+            <div class="header">
+                <label zclass="title" value="Lista de Sócios Inactivos"
+                       visible="@load(not memberInactiveListingVm.selection)"/>
+                <label zclass="title" value="Seleccione o sócio" visible="@load(memberInactiveListingVm.selection)"/>
+            </div>
+            <div class="body">
+                <div class="column">
+                    <div class="row">
+                        <div class="input-label">
+                            <label value="Termo de Pesquisa:"/>
+                            <div zclass="row">
+
+                                <textbox sclass="input" instant="true" onChange="@command('search')"
+                                         id="textboxSearchTerm"/>
+                                <button onClick="@command('search')" zclass="btn btn-primary" label="${labels.Search}"/>
+                            </div>
+                        </div>
+                        <div class="input-label"/>
+                    </div>
+                </div>
+
+                <listbox id="listboxMember" model="@load(memberInactiveListingVm.memberInactiveListModel)"
+                         checkmark="@load(memberInactiveListingVm.multipleSelection)">
+                    <listhead>
+                        <listheader label="${labels.Actions}" hflex="min"
+                                    visible="@load(not memberInactiveListingVm.multipleSelection)"/>
+                        <listheader label="N&#186; de Processo" hflex="min"/>
+                        <listheader label="N&#186; do Sócio" hflex="min"/>
+                        <listheader label="${labels.Name}"/>
+                        <listheader label="${labels.Gender}" hflex="min"/>
+                        <listheader label="${labels.Birth_Date}" hflex="min"/>
+                        <listheader label="${labels.Type}" hflex="min"/>
+                        <listheader label="${labels.State}" hflex="min"/>
+                        <listheader label="Últ. Quota Paga" hflex="min"/>
+                    </listhead>
+                    <template name="model" var="row">
+                        <listitem value="@load(row)">
+                            <listcell visible="@load(not memberInactiveListingVm.multipleSelection)">
+                                <div zclass="row">
+                                    <button onClick="@command('viewMember', id=row.id)"
+                                            visible="@load(not memberInactiveListingVm.singleSelection)"
+                                            zclass="btn btn-secondary" label="Ver">
+                                    </button>
+
+                                    <button onClick="@command('editMember', id=row.id)"
+                                            visible="@load(not memberInactiveListingVm.singleSelection)"
+                                            zclass="btn btn-primary" label="Editar">
+                                    </button>
+
+                                    <button onClick="@command('select', id=row.id)"
+                                            visible="@load(memberInactiveListingVm.singleSelection)"
+                                            zclass="btn btn-primary"
+                                            label="${labels.Select}"/>
+                                </div>
+                            </listcell>
+                            <listcell label="@load(row.process_number)"/>
+                            <listcell label="@load(row.number)"/>
+                            <listcell label="@load(row.name)"/>
+                            <listcell label="@load(row.gender)"/>
+                            <listcell label="@load(row.birth_date)"/>
+                            <listcell label="@load(row.member_type)"/>
+                            <listcell label="@load(row.member_status)"/>
+                            <listcell>
+                                <html content="@load(row) @converter(memberIdTotStatusConverter)"/>
+                            </listcell>
+                        </listitem>
+                    </template>
+                </listbox>
+
+            </div>
+            <div zclass="footer">
+                <div>
+                    <button id="buttonBack" zclass="btn btn-secondary" label="${labels.Back}"/>
+                </div>
+                <div>
+                    <button onClick="@command('select')"
+                            visible="@load(memberInactiveListingVm.selection)"
+                            zclass="btn btn-primary"
+                            label="@load(c:cat3('Seleccionar ', boatListingVm.selectedBoatList.size(), ' sócios'))"/>
+                </div>
+            </div>
+        </div>
+    </window>
+</zk>
